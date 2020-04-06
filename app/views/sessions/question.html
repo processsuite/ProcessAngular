@@ -1,0 +1,38 @@
+<div class="container-fluid">
+
+	<div class="row content width2">
+
+	<!-- END LOGO -->
+
+	<div class="col-lg-12">
+		<form class="form-vertical login-form" name="secquestForm" action="" method="post">
+			<h3 class="form-title" translate>Security Questions</h3>
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls">
+					<div class="input-icon left">
+						<label>Pregunta 1</label>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls">
+					<div class="input-icon left">
+						<i class="fa fa-user"></i>
+						<input class="m-wrap placeholder-no-fix" type="text" autocomplete="off" name="respuesta-1"  ng-model="vm.user.resp1" required/>
+					</div>
+				</div>
+			</div>
+			<div class="form-actions">
+				<button type="button" ng-click="vm.security_questions()" ng-disabled="secquestForm.$invalid" class="btn blue center-block">
+					{{ 'Ok' | translate }} <i class="fa fa-sign-in"></i>
+				</button>
+			</div>
+		</form>
+	</div>
+	</div>
+	<div class="alert alert1 alert-danger" ng-show="vm.showError">
+         {{ vm.messageError | translate }}
+	</div>
+</div>

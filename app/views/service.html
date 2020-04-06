@@ -1,0 +1,54 @@
+<div id="wrapper">
+	<div id="page-wrapper">
+		<div class="container-fluid">
+
+		    <div class="row">
+                 <div class="col-lg-12">
+                     <ol class="breadcrumb">
+                         <li>
+                             {{ 'ServicesInit' | translate }}
+                         </li>
+                     </ol>
+                 </div>
+            </div>
+
+		<div ng-if="ticketService.isShowError()">
+			<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" >
+		         {{ msg | translate }}
+			</div>
+		</div>
+
+     <div ng-repeat="service in vm.services" class="row">
+
+         <div class="col-lg-12">
+             <h3 class="procesoheading">
+                 {{service.nombre}}
+								 <i class="far fa-question-circle" style="font-size: 18px;" data-toggle="tooltip" data-placement="top" data-original-title="{{service.info}}" tooltips></i>
+             </h3>
+         </div>
+
+         <div class="row">
+             <div ng-repeat="child in service.childrens" class="col-lg-3 col-md-6" style="padding: 10px;">
+				 <a href="javascript:;" ng-click="vm.openModal(child.wf,child.nombre,child.frmn);">
+                 <div class="actividadficha">
+                     <div class="actividadfichanombre">
+                         <div class="row">
+                             <div class="col-xs-12 text-center">
+                                 <div>{{child.nombre}}</div>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="actividadfichadesc">
+                         {{child.info}}
+                         <!--<span class="pull-right"><img alt="" src="app/images/startDoc.png" width="20px"/></i></span>-->
+                         <div class="clearfix"></div>
+                     </div>
+                 </div>
+                 </a>
+             </div>
+          </div>
+     </div>
+
+	    </div>
+	</div>
+</div>

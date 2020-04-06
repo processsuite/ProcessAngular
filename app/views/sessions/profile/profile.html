@@ -1,0 +1,75 @@
+<div id="wrapper">
+	<div id="page-wrapper">
+		<div class="container-fluid">
+	<div class="row">
+
+           	<div class="alert alert1 alert-info" ng-show="vm.showInfo">
+		         {{ vm.messageInfo | translate }}
+			</div>
+			<div ng-if="ticketService.isShowError()">
+				<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" >
+			         {{ msg | translate }}
+				</div>
+			</div>
+
+			<h1>{{ 'PerfilUsuario' | translate }}</h1>
+
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-2 col-lg-2 " align="center"> <img alt="User Pic" src="app/images/user_default.png" class=" img-responsive"/> </div>
+
+                <div class=" col-md-10 col-lg-10 ">
+	                 <div class="row">
+		                <div class=" col-md-6 col-lg-6 ">
+											<table class="table table-user-information">
+			                    <tbody>
+			                        <tr>
+			                        	<td>{{ 'NombreApellido' | translate }}</td>
+			                        	<td>{{vm.profile.nombre}}</td>
+			                      	</tr>
+			                        <tr>
+			                        	<td>{{ 'Email' | translate }}</td>
+			                        	<td>{{vm.profile.email}}</td>
+			                      	</tr>
+			                    	<tr>
+			                        	<td>{{ 'PreguntaPerfil' | translate }}</td>
+			                        	<td>{{vm.profile.pregunta}}</td>
+			                      	</tr>
+			                      	<tr>
+			                        	<td>{{ 'PreguntaVencida' | translate }}</td>
+			                        	<td>{{vm.profile.preguntaVencida | translate}}</td>
+			                      	</tr>
+			                    </tbody>
+			                 </table>
+		                </div>
+
+	                 </div>
+                </div>
+              </div>
+              <div class="row">
+                <div  class="col-lg-2 col-md-2">
+                </div>
+
+                 <div  class="col-lg-10 col-md-10">
+	                  <button type="button" ng-click="vm.load_change_info()" class="btn blue col-lg-2 col-md-2">
+											{{ 'ChangeInfo' | translate }} <i class="fa fa-sign-in"></i>
+									  </button>
+	                  <button type="button" ng-click="vm.load_change_pass()" class="btn blue col-lg-2 col-md-2">
+												{{ 'ChangePassword' | translate }} <i class="fa fa-sign-in"></i>
+					  				</button>
+					  			  <button type="button" ng-click="vm.load_change_sec_questions()" class="btn blue col-lg-2 col-md-2">
+											{{ 'ChangeQuestions' | translate }} <i class="fa fa-sign-in"></i>
+					  				</button>
+					  				<button type="button" ng-click="vm.load_change_pass_apro()" class="btn blue col-lg-2 col-md-2">
+											{{ 'ChangeApproval' | translate }} <i class="fa fa-sign-in"></i>
+					  				</button>
+										
+                 </div>
+              </div>
+            </div>
+
+	</div>
+
+	    </div>
+	</div>
+</div>

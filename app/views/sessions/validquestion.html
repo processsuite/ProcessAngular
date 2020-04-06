@@ -1,0 +1,82 @@
+<div class="container-fluid">
+
+	<div class="row content">
+
+
+<div>
+	<form class="form-vertical login-form" name="loginForm" action="" method="post">
+		<div class="control-group">
+			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+			<div class="controls">
+				<div style="text-align: center;">
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+			<div class="controls">
+				<div style="text-align: center;">
+					 <img class="img-thumbnail" src="app/images/banner/logo-Login.png" alt="" style="border: 0px none;background-color: transparent;">
+				</div>
+			</div>
+		</div>
+		<div class="control-group">
+			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+			<div class="controls">
+				<div style="text-align: center;">
+					 <h3 style="font-family:'PT Sans Bold';font-weight:normal;font-size:14px;text-transform: UPPERCASE;" translate>Security confirmation</h3>
+				</div>
+			</div>
+		</div>
+		<!--<div class="control-group">
+			<div class="controls"  style="text-align: center;">
+				<p>{{ 'For security reasons, you must specify a new password' | translate }}</p>
+			</div>
+		</div>-->
+		<div class="control-group">
+			<div ng-if="ticketService.isShowError()">
+				<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" >
+							 {{ msg | translate }}
+				</div>
+			</div>
+			<div ng-if="vm.showError" class="alert alert1 alert-danger" >
+						 {{ vm.messageError | translate }}
+			</div>
+	</div>
+    <div class="control-group">
+      <div class="controls">
+        <div class="input-icon left">
+          <i class="fas fa-info"></i>
+          <input class="m-wrap placeholder-no-fix" type="text" autocomplete="off" placeholder="{{ 'mail' | translate }}" ng-model="vm.user.email" required/>
+        </div>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <div class="input-icon left">
+          <i class="fa fa-question"></i>
+          <input class="m-wrap placeholder-no-fix" type="text" placeholder="{{ vm.user.question | translate }}" ng-model="vm.user.question" disabled/>
+        </div>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <div class="input-icon left">
+          <i class="fa fa-lock"></i>
+          <input class="m-wrap placeholder-no-fix" type="password" autocomplete="off" placeholder="{{ 'Answer' | translate }}" ng-model="vm.user.answer" required/>
+        </div>
+      </div>
+    </div>
+		<div class="form-actions" style="text-align: center;">
+			<button type="button" ng-click="vm.validateQuestion()" ng-disabled="loginForm.$invalid" class="btn blue">
+				{{ 'Guardar' | translate }} <i class="fa fa-sign-in"></i>
+			</button>
+			<button type="button" ng-click="vm.back()" class="btn blue">
+				{{ 'Back' | translate }} <i class="fa fa-sign-in"></i>
+			</button>
+		</div>
+	</form>
+</div>
+
+</div>
+</div>

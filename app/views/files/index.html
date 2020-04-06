@@ -1,0 +1,188 @@
+<div id="wrapper">
+	<div id="page-wrapper">
+		<div class="container-fluid">
+
+
+<div class="row-fluid">
+
+		    <div class="row">
+                 <div class="col-lg-12">
+                     <ol class="breadcrumb">
+                         <li>
+                             {{ 'Files' | translate }}
+                         </li>
+                         <li class="active">{{vm.name}}</li>
+                     </ol>
+                 </div>
+            </div>
+
+			<div ng-if="ticketService.isShowError()">
+				<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" >
+			         {{ msg | translate }}
+				</div>
+			</div>
+
+<form name="reportForm" action="" method="post" style="height: 88%;width:100%">
+						<table id="resultsHead" st-table="vm.displayedCollection" st-pipe="vm.getDataServerSideHead" class="table table-hover" style="margin-bottom: 0px;">
+						    <thead>
+								<tr>
+								   <th class="headPagination" colspan="{{vm.displayedCollection[0].camposMostrar.length}}">
+							            <div class="row" style="background-color: rgb(245, 245, 245);">
+								            <div class="col-lg-9" style="display: flex;">
+												<div class="dropdown" style="display: flex;width: 100%">
+													<div style="background-color: white; border: 1px solid rgb(204, 204, 204); display: flex; padding-left: 10px;" ng-if="vm.params.length>0">
+														<div style="padding-right: 10px;">
+															<label style="padding-top: 5px;"><span ng-show="vm.params[0].obligatorio" style="color:red">*</span> {{vm.params[0].descripcion}}</label>
+														</div>
+														<div>
+											                        <input ng-if="vm.params[0].tipo == 'T'" type="text" name="T0" class="m-wrap placeholder-no-fix" style="height: 30px !important;" placeholder="{{vm.params[0].descripcion}}" ng-model="vm.params[0].value" ng-required="vm.params[0].obligatorio"/>
+
+												                    <input ng-if="vm.params[0].tipo == 'H'" type="time" name="H0" class="m-wrap placeholder-no-fix" style="height: 30px !important;" placeholder="{{vm.params[0].descripcion}}" ng-model="vm.params[0].value" ng-required="vm.params[0].obligatorio"/>
+												                    <span style="color:red" ng-if="vm.params[0].tipo == 'H'" ng-show="reportForm.H0.$invalid">Error formato hora</span>
+
+											   	                    <input ng-if="vm.params[0].tipo == 'N'" type="number" name="N0" class="m-wrap placeholder-no-fix" style="height: 30px !important;" placeholder="{{vm.params[0].descripcion}}" ng-model="vm.params[0].value" ng-required="vm.params[0].obligatorio"/>
+											   	                    <span style="color:red" ng-if="vm.params[0].tipo == 'N'" ng-show="reportForm.N0.$invalid">Error formato numerico</span>
+
+																	<select ng-if="vm.params[0].tipo == 'L'" name="L0" class="m-wrap placeholder-no-fix" style="height: 30px !important;width: 100%;" ng-model="vm.params[0].value"  ng-options="item.value for item in vm.params[0].opciones track by item.value" ng-required="vm.params[0].obligatorio">
+																	 	<option value=""></option>
+																	</select>
+																	<script ng-if="vm.params[0].tipo == 'L'">
+																		$('select.lista').on('click', function(event) {
+																			var target = event.target;
+																		    event.stopPropagation();
+																		});
+																	</script>
+
+																	<div class="input-group" ng-if="vm.params[0].tipo == 'F'">
+																	    <input type="text" name="F0" class="m-wrap placeholder-no-fix date-input" style="height: 30px !important;" id="F0" ng-model="vm.params[0].value" maxlength="10" ng-required="vm.params[0].obligatorio"/>
+																	    <label class="input-group-btn" for="F0">
+																	        <span class="btn btn-default" style="height: 30px;">
+																	            <span class="glyphicon glyphicon-calendar" style="top: 0px;"></span>
+																	        </span>
+																	    </label>
+																	</div>
+															        <script type="text/javascript" ng-if="vm.params[0].tipo == 'F'">
+																    	$(".date-input").each(function() {
+																    		$(this).datepicker({format: formatDate}).on("changeDate", function (e) {
+																    			$(this).change();
+																    			$(this).datepicker('hide');
+																    		});
+																    		$(".input-group-btn").on("click", function (e) {
+																    			e.stopPropagation();
+																    		});
+																    		$(this).blur(function(){
+																    		    val = $(this).val();
+																    		    val1 = Date.parse(val);
+																    		    if (isNaN(val1)==true && val!==''){
+																    		    	$(this).val("");
+																    		    	$(this).change();
+																    		    }
+																    		});
+																    	});
+															        </script>
+												             </div>
+													</div>
+												  <a class="dropdown-toggle form-controlSearch" style="border-style: solid solid solid none;" type="button" data-toggle="dropdown"><div style="cursor: pointer; height: 29px;"><i class="fa fa-chevron-down" style="font-size: 12px; top: 5px; position: relative;"></i></div></a>
+												  <a href="javascript:;" ng-disabled="reportForm.$invalid" ng-click="vm.exeReport(vm.tableState);"><img alt="" src="app/images/lupa-gde.png" width="30px" class="searchboxbutton"/></a>
+												  <ul class="dropdown-menu" style="padding: 20px; width: 100%;">
+												    <li>
+ 												      <div class="col-lg-12">
+											             <div ng-repeat="field in vm.params" class="col-lg-4 col-md-6" style="padding: 5px;">
+															<div class="form-group">
+											                        <label><span ng-show="field.obligatorio" style="color:red">*</span> {{field.descripcion}}</label>
+											                        <input ng-if="field.tipo == 'T'" type="text" name="T{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
+
+												                    <input ng-if="field.tipo == 'H'" type="time" name="H{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
+												                    <span style="color:red" ng-if="field.tipo == 'H'" ng-show="reportForm.H{{$index}}.$invalid">Error formato hora</span>
+
+											   	                    <input ng-if="field.tipo == 'N'" type="number" name="N{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
+											   	                    <span style="color:red" ng-if="field.tipo == 'N'" ng-show="reportForm.N{{$index}}.$invalid">Error formato numerico</span>
+
+																	<select ng-if="field.tipo == 'L'" name="L{{$index}}" class="form-control formularioControl lista" style="width: 100%;" ng-model="field.value"  ng-options="item.value for item in field.opciones track by item.value" ng-required="field.obligatorio">
+																	 	<option value=""></option>
+																	</select>
+																	<script ng-if="field.tipo == 'L'">
+																		$('select.lista').on('click', function(event) {
+																			var target = event.target;
+																		    event.stopPropagation();
+																		});
+																	</script>
+
+																	<div class="input-group" ng-if="field.tipo == 'F'">
+																	    <input type="text" name="F{{$index}}" class="form-control formularioControl date-input" id="F{{$index}}" ng-model="field.value" maxlength="10" ng-required="field.obligatorio"/>
+																	    <label class="input-group-btn" for="F{{$index}}">
+																	        <span class="btn btn-default" style="height: 21px;">
+																	            <span class="glyphicon glyphicon-calendar" style="top: -6px;"></span>
+																	        </span>
+																	    </label>
+																	</div>
+															        <script type="text/javascript" ng-if="field.tipo == 'F'">
+																    	$(".date-input").each(function() {
+																    		$(this).datepicker({format: formatDate}).on("changeDate", function (e) {
+																    			$(this).change();
+																    			$(this).datepicker('hide');
+																    		});
+																    		$(".input-group-btn").on("click", function (e) {
+																    			e.stopPropagation();
+																    		});
+																    		$(this).blur(function(){
+																    		    val = $(this).val();
+																    		    val1 = Date.parse(val);
+																    		    if (isNaN(val1)==true && val!==''){
+																    		    	$(this).val("");
+																    		    	$(this).change();
+																    		    }
+																    		});
+																    	});
+															        </script>
+												               </div>
+											             </div>
+											           </div>
+													</li>
+												    <li>
+														<div>
+															<a href="javascript:;" ng-disabled="reportForm.$invalid" ng-click="vm.exeReport(vm.tableState);"><img alt="" src="app/images/lupa-gde.png" width="29px" class="searchboxbutton"/></a>
+											            </div>
+												    </li>
+												  </ul>
+												</div>
+								            </div>
+								            <div class="col-lg-3">
+									            <div class="text-right">
+													<a ng-show="vm.displayedCollection.length>0" href="javascript:;" style="float: left; padding: 5px;" ng-click="vm.imprimirPlantilla()"><img alt="" src="app/images/print.png" width="20px"/></a>
+										            <div st-items-by-page="20" st-pagination="" st-template="paginationcustom.html"></div>
+									            </div>
+								            </div>
+								        </div>
+								   </th>
+								</tr>
+						    </thead>
+						</table>
+
+        <div class="row" style="overflow: auto; height: 100%;width:100%">
+						<table id="results" st-table="vm.displayedCollection" st-pipe="vm.getDataServerSide" class="table table-hover" style="margin-bottom: 0px;">
+						    <thead>
+								<tr>
+								   <th style="cursor: pointer;" st-sort="{{col.campoBd}}" ng-repeat="col in vm.displayedCollection[0].camposMostrar">{{col.descripcion}}</th>
+								</tr>
+						    </thead>
+						    <tbody ng-show="!vm.isLoading">
+						        <tr st-select-row="inst" ng-repeat="inst in vm.displayedCollection" style="cursor: pointer;">
+							        <td ng-repeat="col in inst.camposMostrar" ng-bind-html="vm.getHtml(col.valor)"></td>
+						        </tr>
+						    </tbody>
+							<tbody ng-show="vm.isLoading">
+							<tr>
+								<td colspan="{{vm.displayedCollection[0].camposMostrar.length}}" class="text-center">Loading ... </td>
+							</tr>
+							</tbody>
+						</table>
+        </div>
+
+</form>
+
+</div>
+
+	    </div>
+	</div>
+</div>

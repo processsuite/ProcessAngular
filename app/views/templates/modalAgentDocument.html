@@ -1,0 +1,34 @@
+<!-- Modal -->
+<div class="modal-body">
+		<table st-table="display" st-safe-src="items" class="table" style="margin-bottom: 0px;">
+		    <thead>
+				<tr>
+				   <th></th>
+				   <th ng-repeat="col in items.cabeceras">{{col}}</th>
+				</tr>
+		    </thead>
+		    <tbody>
+		        <tr ng-repeat="item in items.filas">
+			        <td>
+									<input ng-if="eventOpcionesM != 'S'" type="radio" name="selListEvent" value="{{item.numero}}" ng-click="ejecEvent(item.numero)"/>
+									<input ng-if="eventOpcionesM == 'S'" type="checkbox" name="selListEvent"  ng-model="item.selChk" />
+							</td>
+			        <td ng-repeat="val in item.valores track by $index" ng-if="val!=item.valores[0]">
+									<span ng-bind-html="val"></span>
+							</td>
+		        </tr>
+		    </tbody>
+			<!-- <tfoot>
+				<tr>
+					<td colspan="{{((items.cabeceras.length) + 1)}}" class="text-center">
+						 <div st-items-by-page="3" st-pagination="" st-template="paginationcustom.html"></div>
+					</td>
+				</tr>
+			</tfoot>-->
+		</table>
+</div>
+<div class="modal-footer">
+        <button ng-if="eventOpcionesM != 'S'" type="button" class="btn btn-primary" ng-click="cancel()">{{ 'AcceptModalUploadForm' | translate }}</button>
+				<button ng-if="eventOpcionesM == 'S'" type="button" class="btn btn-primary" ng-click="cancel()">{{ 'BackModalUploadForm' | translate }}</button>
+				<button ng-if="eventOpcionesM == 'S'" type="button" class="btn btn-primary" ng-click="ejecEventM(items)">{{ 'AcceptModalUploadForm' | translate }}</button>
+</div>

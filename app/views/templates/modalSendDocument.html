@@ -1,0 +1,106 @@
+<!-- Modal -->
+<form name="sendForm" novalidate>
+<div class="modal-body">
+	    <div class="row" ng-if="!sendObj.allSelected && !sendBoolMsg">
+			<table ng-repeat="dest in sendObj.destinos" ng-if="!dest.anySelected" st-table="display" st-safe-src="dest.puestos" class="table" style="margin-bottom: 0px;">
+			    <thead>
+					<tr>
+					   <th colspan="3">{{ 'SelectUSerModalSendForm' | translate }} {{dest.nbWf}}</th>
+					</tr>
+					<tr>
+					   <th></th>
+					   <th>{{ 'UserModalSendForm' | translate }}</th>
+					   <th>{{ 'PlaceModalSendForm' | translate }}</th>
+					</tr>
+			    </thead>
+			    <tbody>
+			        <tr ng-repeat="place in dest.puestos">
+				        <td><input type="radio" name="selListPlace{{dest.wfa}}" value="{{place.value}}" ng-model="dest.valueSelected" required/></td>
+					    <td ng-if="place.nbUsrReemp!=''">{{ 'ReplaceUSerModalSendForm' | translate }} {{place.nbUsrReemp}}</td>
+					    <td ng-if="place.nbUsrReemp==''">{{place.nbUsrAct}}</td>
+					    <td>{{place.nbPuesto}}</td>
+			        </tr>
+			    </tbody>
+			</table>
+		</div>
+	    <div class="row" ng-if="!sendBoolMsg">
+         	<div class="col-lg-6" ng-if="sendObj.evalua">
+	         	<h3>{{ 'EvaluationModalSendForm' | translate }}</h3>
+				<div class="form-group">
+					<label>{{ 'OpinionModalSendForm' | translate }}</label>
+					<input type="radio" name="wl_satisfacion" value="1" ng-model="opinion"/><span>{{ 'OpinionOp1ModalSendForm' | translate }}</span>
+					<input type="radio" name="wl_satisfacion" value="2" ng-model="opinion"/><span>{{ 'OpinionOp2ModalSendForm' | translate }}</span>
+					<input type="radio" name="wl_satisfacion" value="3" ng-model="opinion"/><span>{{ 'OpinionOp3ModalSendForm' | translate }}</span>
+					<input type="radio" name="wl_satisfacion" value="4" ng-model="opinion"/><span>{{ 'OpinionOp4ModalSendForm' | translate }}</span>
+					<input type="radio" name="wl_satisfacion" value="5" ng-model="opinion"/><span>{{ 'OpinionOp5ModalSendForm' | translate }}</span>
+	            </div>
+				<div class="form-group">
+					<label>{{ 'CommentModalSendForm' | translate }}</label>
+					<input class="form-control" type="text" placeholder="{{ 'CommentModalSendForm' | translate }}" name="wl_observaciones" id="wl_observaciones" ng-model="comment" />
+	            </div>
+			</div>
+         	<div class="col-lg-6" ng-if="sendObj.firma">
+	         	<h3>{{ 'SignModalSendForm' | translate }}</h3>
+				<div class="form-group">
+					<label>{{ 'QuestionModalSendForm' | translate }}: {{ question }}</label>
+	            </div>
+
+				<div class="form-group">
+					<label>{{ 'AnswerModalSendForm' | translate }}</label>
+					<input class="form-control" type="password" placeholder="{{ 'AnswerModalSendForm' | translate }}" name="wl_respuesta" id="wl_respuesta"  ng-model="answer" required/>
+	            </div>
+
+				<div class="form-group">
+					<label>{{ 'SignModalSendForm' | translate }}</label>
+					<input class="form-control" type="password" placeholder="{{ 'SignModalSendForm' | translate }}" name="wl_firma"  id="wl_firma" ng-model="sign" required/>
+	            </div>
+			</div>
+		</div>
+		<div class="row" ng-if="sendBoolMsg">
+         	<div class="col-lg-12">
+			    <div class="row" ng-if="sendMsg.destinos.length>0">
+			    	<h3>{{ 'SendMgsSendForm' | translate }}</h3>
+					<table st-table="display" st-safe-src="sendMsg.destinos" class="table" style="margin-bottom: 0px;">
+					    <thead>
+							<tr>
+							   <th>{{ 'SendMgsColActivitySendForm' | translate }}</th>
+							   <th>{{ 'SendMgsColPlaceSendForm' | translate }}</th>
+							   <th>{{ 'SendMgsColEmailSendForm' | translate }}</th>
+							</tr>
+					    </thead>
+					    <tbody>
+					        <tr ng-repeat="dest in sendMsg.destinos">
+						        <td>{{dest.nbWf}}</td>
+							    <td ng-if="dest.puestos[0].nbUsrReemp!=''">{{dest.puestos[0].nbUsrAct}} {{ 'ReplaceUSerModalSendForm' | translate }} {{dest.puestos[0].nbUsrReemp}}</td>
+							    <td ng-if="dest.puestos[0].nbUsrReemp==''">{{dest.puestos[0].nbUsrAct}}</td>
+							    <td>{{dest.puestos[0].mail}}</td>
+					        </tr>
+					    </tbody>
+					</table>
+				</div>
+				<div class="row" ng-if="!sendMsg.sendError && sendMsg.destinos.length==0">
+					<h3>{{ 'SendMgsEndSendForm' | translate }}</h3>
+				</div>
+				<div class="row" ng-if="sendMsg.messages.length>0">
+					<h3>{{ 'SendMgsDetailSendForm' | translate }}</h3>
+				    <div class="row">
+						<table st-table="display" st-safe-src="sendMsg.messages" class="table" style="margin-bottom: 0px;">
+						    <tbody>
+						        <tr ng-repeat="msg in sendMsg.messages">
+							        <td ng-if="sendMsg.sendError"><i class="fa fa-times-circle"></i> {{msg}}</td>
+							        <td ng-if="!sendMsg.sendError"><i class="fa fa-check-circle"></i> {{msg}}</td>
+						        </tr>
+						    </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</div>
+<div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-if="!sendBoolMsg  && sendAcc=='A'" ng-click="send()" ng-disabled="sendForm.$invalid">{{ 'SendModalSendForm' | translate }}</button>
+        <button type="button" class="btn btn-primary" ng-if="sendBoolMsg && !sendMsg.sendError" ng-click="goTask()" ng-disabled="sendForm.$invalid">{{ 'SendModalSendForm' | translate }}</button>
+        <button type="button" class="btn btn-primary" ng-if="(!sendBoolMsg || (sendBoolMsg && sendMsg.sendError)) && sendAcc=='A'" ng-click="cancel()">{{ 'BackModalSendForm' | translate }}</button>
+</div>
+</form>

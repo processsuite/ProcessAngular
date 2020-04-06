@@ -1,0 +1,70 @@
+	<!-- END LOGO -->
+	<div class="content">
+		<div ng-if="ticketService.isShowError()">
+			<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" >
+		         {{ msg | translate }}
+			</div>
+		</div>
+
+		<form class="form-vertical login-form" name="loginForm" action="" method="post">
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<!--<div class="controls">
+					<div style="text-align: center;">
+						 <h3 class="form-title" style="font-family: LatoWebBlack;" translate>BPM PROCESS</h3>
+					</div>
+				</div>-->
+			</div>
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls">
+					<div style="text-align: center;">
+						 <img class="img-thumbnail" src="app/images/banner/logo-Login.png" alt="" style="border: 0px none;">
+					</div>
+				</div>
+			</div>
+			<div class="controls">
+					<div style="text-align: center;">
+						 <h3 style="font-family:'PT Sans Bold';font-weight:normal;font-size:14px" translate>RESTORE PASSWORD</h3>
+					</div>
+				</div>
+
+			<div class="control-group" ng-show="vm.showInfo">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls" style="text-align: center;">
+					<p>{{ 'SendPasswordEmail' | translate }}</p>
+				</div>
+			</div>
+
+			<div class="form-group" ng-show="!vm.showInfo">
+				<label>{{ 'Environment' | translate }}: <span>{{ vm.user.envi }}</span></label>
+            </div>
+
+			<div class="form-group" ng-show="!vm.showInfo">
+				<label>{{ 'Username' | translate }}: {{ vm.user.name }}</label>
+            </div>
+
+			<div class="form-group" ng-show="!vm.showInfo">
+				<label>{{ 'Email' | translate }}:</label>
+				<input class="m-wrap placeholder-no-fix" type="text" placeholder="{{ 'Email' | translate }}" name="email"  ng-model="vm.user.email" required/>
+      </div>
+
+			<div class="form-group" ng-show="!vm.showInfo">
+				<label>{{ 'PreguntaPerfil' | translate }}: {{ vm.user.question }}</label>
+      </div>
+
+			<div class="form-group" ng-show="!vm.showInfo">
+				<label>{{ 'Answer' | translate }}</label>
+				<input class="form-control" type="password" placeholder="{{ 'Answer' | translate }}" name="answer"  ng-model="vm.user.answer" required/>
+            </div>
+
+			<div class="form-actions text-center">
+				<button ng-show="!vm.showInfo" type="button" ng-disabled="loginForm.$invalid" ng-click="vm.forgot_send()" class="btn blue">
+					{{ 'Restore' | translate }} <i class="fa fa-sign-in"></i>
+				</button>
+				<button type="button" ng-click="vm.back()" class="btn blue">
+					{{ 'Back' | translate }} <i class="fa fa-sign-in"></i>
+				</button>
+			</div>
+		</form>
+	</div>

@@ -1,0 +1,490 @@
+<div id="wrapper">
+	<div id="page-wrapper">
+		<div class="container-fluid">
+
+<div class="row-fluid">
+	    <div class="row">
+            <div class="col-lg-12">
+                <ol class="breadcrumb">
+                    <li>
+                        {{ 'Work' | translate }}
+                    </li>
+                    <li class="active">{{vm.name | translate}}</li>
+                </ol>
+            </div>
+		</div>
+
+<div id="colTask" class="span1 shift-right" style="height: 94%; flex-direction: column;">
+<div id="rowTask" class="shift-bottom" style="height: 100%; display: flex;flex-direction: column;">
+		<div ng-if="ticketService.isShowError()">
+			<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" style="margin-bottom: 0px;" >
+		         {{ msg | translate }}
+			</div>
+		</div>
+		<div ng-if="ticketService.getCodeWarning()">
+			<div class="alert  alert1 alert-warning" style="margin-bottom: 0px;">
+		         {{ ticketService.getMessageWarning() | translate }}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close" style="margin-right: 10px;">
+							<i class="fa fa-times"></i>
+					  </button>
+			</div>
+		</div>
+<table ng-if="!vm.serverSide" st-set-filter="customFilter" st-table="vm.displayedCollection" st-safe-src="vm.tasks" class="table table-hover" style="margin-bottom: 0px;" >
+    <thead>
+        <tr>
+	        <th class="headPagination">
+            <div class="row">
+	            <div class="col-lg-6">
+	                <st-select-distinct collection="vm.tasks" predicate="nbWf"></st-select-distinct>
+					<div class="dropdown" style="display: flex;">
+					  <input st-search="detalle" placeholder="{{ 'Related task' | translate }}" class="form-controlSearch" ng-model="vm.detailSearch" style="border-style: solid none solid solid;"/><a class="dropdown-toggle form-controlSearch" style="border-style: solid solid solid none;" type="button" data-toggle="dropdown"><div style="cursor: pointer; height: 29px;"><i class="fa fa-caret-down" style="font-size: 12px; top: 5px; position: relative;"></i></div></a>
+					  <a href="javascript:;"><img alt="" src="app/images/lupaGrande.png" width="29px" class="searchboxbutton"/></a>
+					  <ul class="dropdown-menu" style="padding: 20px; width: 286px;">
+					    <li>
+							<div class="form-group">
+								<label>{{ 'NumDoc task' | translate }}</label>
+								<input st-search="nuDoc" class="form-control" type="text" placeholder="{{ 'NumDoc task' | translate }}" style="font-size: 12px;"/>
+				            </div>
+						</li>
+					    <li>
+							<div class="form-group">
+								<label>{{ 'Sent by task' | translate }}</label>
+								<input st-search="nbPersona" class="form-control" type="text" placeholder="{{ 'Sent by task' | translate }}" style="font-size: 12px;"/>
+				            </div>
+						</li>
+					    <li>
+							<div class="form-group">
+								<label>{{ 'Related task' | translate }}</label>
+								<input st-search="detalle" class="form-control" type="text" placeholder="{{ 'Related task' | translate }}" ng-model="vm.detailSearch" style="font-size: 12px;"/>
+				            </div>
+					    </li>
+					    <li>
+							<st-date-range predicate="feIni" before="query.before" after="query.after"></st-date-range>
+					    </li>
+					  </ul>
+					</div>
+	            </div>
+	            <div class="col-lg-6 text-right">
+		            <div st-items-by-page="vm.numberItems" st-pagination="" st-template="paginationcustom.html"></div>
+	            </div>
+	        </div>
+	        </th>
+        </tr>
+    </thead>
+</table>
+<div ng-if="!vm.serverSide" class="row" style="overflow: auto; height: 100%;width:100%">
+<table st-set-filter="customFilter" st-table="vm.displayedCollection" st-safe-src="vm.tasks" class="table table-hover " style="margin-bottom: 0px;">
+    <thead>
+        <tr>
+            <th style="cursor: pointer;" st-sort="nuDoc">{{ 'NumDoc task' | translate }}</th>
+            <th style="cursor: pointer;" st-sort="nbPersona">{{ 'Sent by task' | translate }}</th>
+            <th style="cursor: pointer;" colspan="3" st-sort="nbWf">{{ 'Name activity task' | translate }}</th>
+            <th style="cursor: pointer;" st-sort="detalle">{{ 'Related task' | translate }}</th>
+            <th style="cursor: pointer;" st-sort="getters.feIni">{{ 'Date task' | translate }}</th>
+            <th style="cursor: pointer;" st-sort="tiempo">{{ 'Time task' | translate }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="task in vm.displayedCollection">
+            <td style="display: flex;">
+            	<a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 0" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
+	            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 1" class="label label-semaforoYellow">{{task.nuDoc}}</span></a>
+	            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 2" class="label label-semaforoRed">{{task.nuDoc}}</span></a>
+	            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == null" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
+	            <span style="padding-left: 3px;" ng-if="task.inEspera" ><img alt="" src="app/images/docWait.png" /></span>
+   	            <span style="padding-left: 3px;" ng-if="task.e =='R'" ><img alt="" src="app/images/docRejected.png" /></span>
+   	            <span style="padding-left: 3px;" ng-if="task.inUrgente" ><img alt="" src="app/images/urgente.png" /></span>
+   	            <span style="padding-left: 3px;" ng-if="task.nuDocOpened" ><img alt="" src="app/images/docOpen.png" /></span>
+   	            <span style="padding-left: 3px;" ng-if="task.fever == ''" ><img alt="" src="app/images/docNoRead.png" /></span>
+            </td>
+            <td>{{task.nbPersona}}</td>
+			<td><a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);"><img alt="" src="app/images/docPreview.png" width="20px"/></a></td>
+			<td><a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,task.semaforo);"><img alt="" src="app/images/eye.png" width="20px"/></a></td>
+            <td>{{task.nbWf}}</td>
+            <td><a  ng-if="task.txObserva != ''" href="javascript:;" tooltip-placement="top" tooltip="{{task.txObserva}}"><i class="fa fa-fw fa-comment"></i></a> {{task.detalle}}</td>
+            <td>{{ task.feIni }}</td>
+            <td>{{task.tiempo}}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<table ng-if="vm.serverSide" id="resultsHead" st-table="vm.displayedCollection" st-pipe="vm.getDataServerSideHead" class="table table-hover" style="margin-bottom: 0px;">
+    <thead>
+        <tr>
+            <th class="headPagination">
+            <div class="row">
+	            <div class="col-lg-6">
+					<div class="dropdown" style="display: flex;float:left;">
+					  <label ng-if="vm.nbFilterActivity==''" class="form-controlSearch" style="font-size: 18px;margin-bottom: 0px;border-style: solid none solid solid;">{{ 'FilterActivity' | translate }}</label>
+					  <label ng-if="vm.nbFilterActivity!=''" class="form-controlSearch" style="font-size: 18px;margin-bottom: 0px;border-style: solid none solid solid;">{{ vm.nbFilterActivity }}</label>
+					  <a class="dropdown-toggle form-controlSearch process" style="border-style: solid solid solid none;" type="button" data-toggle="dropdown"><div style="cursor: pointer; height: 29px;"><i class="fa fa-caret-down" style="font-size: 12px; top: 5px; position: relative;"></i></div></a>
+					  <ul class="dropdown-menu process" style="padding: 5px;background-color: rgb(228, 228, 228);">
+					    <li>
+						    <a href="javascript:;" class="vnavbaritemlabelCategory" ng-click="vm.getTaskProcess(0,0,'');">{{ 'AllActivades' | translate }}</a>
+					    </li>
+					    <li ng-repeat="pro in vm.process">
+							<a href="javascript:;" class="vnavbaritemlabelCategory yt-toggle collapsed" data-toggle="collapse" data-target="#pro-{{pro.wfp}}" value="{{pro.wfp}}"><i class="fa fa-caret-right"></i><i class="fa fa-caret-down"></i> <span ng-click="vm.getTaskProcess(pro.wfp,0,pro.nbWf);">{{pro.nbWf}}</span></a>
+					        <ul id="pro-{{pro.wfp}}" class="collapse" style="padding: 0px;">
+					            <li ng-repeat="subpro in pro.conversaciones" style="list-style: outside none none;">
+					                <a ng-if="vm.wfpSearch!=subpro.wfp || vm.wfaSearch!=subpro.wfa" href="javascript:;" ng-click="vm.getTaskProcess(subpro.wfp,subpro.wfa,subpro.nbWf);">{{subpro.nbWf}}</a>
+									<a ng-if="vm.wfpSearch==subpro.wfp && vm.wfaSearch==subpro.wfa" style="color: rgb(6, 115, 255);" href="javascript:;" ng-click="vm.getTaskProcess(subpro.wfp,subpro.wfa,subpro.nbWf);">{{subpro.nbWf}}</a>
+					            </li>
+					        </ul>
+					    </li>
+					  </ul>
+						<script ng-if="vm.serverSide">
+							$('ul.dropdown-menu.process').on('click', function(event) {
+								var tagName = event.target.tagName;
+								var target = event.target;
+								if (tagName == "A"){
+								}else if (tagName == "I"){
+									$($(target).parent().attr('data-target')).collapse('toggle');
+								}
+							    event.stopPropagation();
+							});
+
+						</script>
+					</div>
+					<div class="dropdown" style="display: flex;">
+					  <input placeholder="{{ 'Related task' | translate }}" class="form-controlSearch" ng-model="vm.detailSearch" style="border-style: solid none solid solid;"/><a class="dropdown-toggle form-controlSearch" style="border-style: solid solid solid none;" type="button" data-toggle="dropdown"><div style="cursor: pointer; height: 29px;"><i class="fa fa-caret-down" style="font-size: 12px; top: 5px; position: relative;"></i></div></a>
+					  <a href="javascript:;" ng-click="vm.searchServerSide(vm.tableState);"><img alt="" src="app/images/lupaGrande.png" width="29px" class="searchboxbutton"/></a>
+					  <ul class="dropdown-menu" style="padding: 20px; width: 286px;">
+					    <li>
+							<div class="form-group">
+								<label>{{ 'NumDoc task' | translate }}</label>
+								<input class="form-control" type="text" placeholder="{{ 'NumDoc task' | translate }}" name="answer"  ng-model="vm.nuDocSearch" style="font-size: 12px;"/>
+				            </div>
+						</li>
+					    <li>
+							<div class="form-group">
+								<label>{{ 'Related task' | translate }}</label>
+								<input class="form-control" type="text" placeholder="{{ 'Related task' | translate }}" name="answer" ng-model="vm.detailSearch" style="font-size: 12px;"/>
+				            </div>
+					    </li>
+					    <li>
+							<div class="form-group">
+								<label>{{ 'Date task' | translate }}</label>
+								<div class="input-group" >
+								    <input type="text" name="F1" placeholder="{{ 'DateFrom' | translate }}" class="form-control date-input" id="F1" ng-model="vm.dateIniSearch" maxlength="10" style="font-size: 12px;width: 45%;"/>
+									<input type="text" name="F2" placeholder="{{ 'DateTo' | translate }}" class="form-control date-input" id="F2" ng-model="vm.dateFinSearch" maxlength="10" style="font-size: 12px;width: 45%;margin-left: 10px;"/>
+								</div>
+						        <script type="text/javascript">
+							    	$(".date-input").each(function() {
+							    		$(this).datepicker({format: formatDate}).on("changeDate", function (e) {
+							    			$(this).change();
+							    			$(this).datepicker('hide');
+							    		});
+							    		$(this).blur(function(){
+							    		    val = $(this).val();
+							    		    val1 = Date.parse(val);
+							    		    if (isNaN(val1)==true && val!==''){
+							    		    	$(this).val("");
+							    		    	$(this).change();
+							    		    }
+							    		});
+							    	});
+						        </script>
+				            </div>
+					    </li>
+					    <li>
+							<div class="text-right">
+								<a href="javascript:;" ng-click="vm.searchServerSide(vm.tableState);"><img alt="" src="app/images/lupaGrande.png" width="29px" class="searchboxbutton"/></a>
+				            </div>
+					    </li>
+					  </ul>
+					</div>
+	            </div>
+	            <div class="col-lg-6 text-right">
+		            <div st-items-by-page="vm.numberItems" st-pagination="1" st-template="paginationcustom.html"></div>
+	            </div>
+	        </div>
+            </th>
+        </tr>
+    </thead>
+</table>
+<div ng-if="vm.serverSide" class="row" style="overflow: auto; height: 100%;width:100%">
+	<table id="results" st-table="vm.displayedCollection" st-pipe="vm.getDataServerSide1" class="table table-hover" style="margin-bottom: 0px;">
+	    <thead>
+	        <tr>
+	            <th style="cursor: pointer;" st-sort="nuDoc">{{ 'NumDoc task' | translate }}</th>
+	            <th style="cursor: pointer;" st-sort="nbPersona">{{ 'Sent by task' | translate }}</th>
+	            <th style="cursor: pointer;" colspan="3" st-sort="nbWf">{{ 'Name activity task' | translate }}</th>
+	            <th style="cursor: pointer;" st-sort="detalle">{{ 'Related task' | translate }}</th>
+	            <th style="cursor: pointer;" st-sort="feIni">{{ 'Date task' | translate }}</th>
+	            <th style="cursor: pointer;" st-sort="tiempo">{{ 'Time task' | translate }}</th>
+	        </tr>
+	    </thead>
+	    <tbody ng-show="!vm.isLoading">
+	        <tr ng-repeat="task in vm.displayedCollection">
+	            <td>
+	            	<a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 0" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
+		            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 1" class="label label-semaforoYellow">{{task.nuDoc}}</span></a>
+		            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 2" class="label label-semaforoRed">{{task.nuDoc}}</span></a>
+		            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == null" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
+	            </td>
+	            <td>{{task.nbPersona}}</td>
+  	            <td><a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);"><img alt="" src="app/images/docPreview.png" width="20px"/></a></td>
+  	            <td><a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,null);"><img alt="" src="app/images/eye.png" width="20px"/></a></td>
+	            <td>{{task.nbWf}}</td>
+	            <td><a  ng-if="task.txObserva != ''" href="javascript:;" tooltip-placement="top" tooltip="{{task.txObserva}}"><i class="fa fa-fw fa-comment"></i></a> {{task.detalle}}</td>
+	            <td>{{task.feIni}}</td>
+	            <td>{{task.tiempo}}</td>
+	        </tr>
+	    </tbody>
+		<tbody ng-show="vm.isLoading">
+		<tr>
+			<td colspan="8" class="text-center">Loading ... </td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</div>
+<div id="rowSeg" class="row0">
+			<div class="container" style="height: 100%; display: flex; flex-direction: column; padding-left: 0px; padding-right: 0px;">
+			    <!-- Nav tabs -->
+			    <ul class="nav nav-tabs" role="tablist" style="flex: 0 0 auto;">
+			      <li>
+    	      		<a href="javascript:;" ng-click="vm.getSegTask('x','x');"><i class="fa fa-times"></i>
+						<span ng-if="vm.semaforoTask == 0" class="label label-semaforoGreen">{{vm.taskId}}</span>
+			            <span ng-if="vm.semaforoTask == 1" class="label label-semaforoYellow">{{vm.taskId}}</span>
+			            <span ng-if="vm.semaforoTask == 2" class="label label-semaforoRed">{{vm.taskId}}</span>
+			            <span ng-if="vm.semaforoTask == null" class="label label-semaforoGreen">{{vm.taskId}}</span>
+		            </a>
+			      </li>
+			      <li class="active">
+			          <a href="#seg1" ng-click="$event.preventDefault()" role="tab" data-toggle="tab">
+			            <img alt="" src="app/images/tracking.png" width="16px"/>  {{ 'Tracing' | translate }}
+			          </a>
+			      </li>
+			      <li class="gantt"><a href="#seg2" ng-click="vm.tabGanttActive();$event.preventDefault();" role="tab" data-toggle="tab">
+			          <img alt="" src="app/images/gantt.png" width="20px"/>  {{ 'Tracing2' | translate }}
+			          </a>
+			      </li>
+			      <li>
+			          <a href="#anexos" ng-click="$event.preventDefault()" role="tab" data-toggle="tab">
+			              <i class="fa fa-newspaper-o"></i> {{ 'Attached' | translate }}
+			          </a>
+			      </li>
+			      <li>
+			          <a href="#messages" ng-click="$event.preventDefault()" role="tab" data-toggle="tab">
+			              <i class="fa fa-envelope"></i> {{ 'Emails' | translate }}
+			          </a>
+			      </li>
+			      <li>
+			          <a href="#related" ng-click="$event.preventDefault()" role="tab" data-toggle="tab">
+			              <i class="fa fa-sitemap"></i> {{ 'Related' | translate }}
+			          </a>
+			      </li>
+						<!--<li>
+							 <a href="#transcendence" ng-click="$event.preventDefault()" role="tab" data-toggle="tab">
+									 <i class="fa fa-sitemap"></i> {{ 'Trascendencia' }}
+							 </a>
+					 </li>-->
+			    </ul>
+
+			    <!-- Tab panes -->
+			    <div class="tab-content" style="flex: 1 1 auto; overflow: auto;">
+			      <div class="tab-pane fade active in" id="seg1">
+					<div ng-show="vm.segTasks.inst.length>0" class="row">
+					<table st-table="displayedCollectionSeg" st-safe-src="vm.segTasks.inst" class="table table-hover ">
+					    <thead>
+					        <tr>
+						        <th></th>
+					            <th st-sort="feIni">{{ 'Received' | translate }}</th>
+					            <th colspan="2" st-sort="nbWfDest">{{ 'In activity' | translate }}</th>
+					            <th st-sort="detalle">{{ 'Related task' | translate }}</th>
+					            <th st-sort="nbPersona">{{ 'Assigned to' | translate }}</th>
+					            <th st-sort="feFin">{{ 'Completed' | translate }}</th>
+					            <th st-sort="tiempo">{{ 'Time task' | translate }}</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					        <tr ng-repeat="taskSeg in displayedCollectionSeg">
+						        <td style="display: flex;">
+						            <span ng-if="taskSeg.reposito == ''" ><img alt="" src="app/images/docAcquire.png" /></span>
+					   	            <span style="padding-left: 3px;" ng-if="taskSeg.e =='R'" ><img alt="" src="app/images/docRejected.png" /></span>
+					   	            <span style="padding-left: 3px;" ng-if="taskSeg.e == 'X'" ><img alt="" src="app/images/docCancel.png" /></span>
+					   	            <span style="padding-left: 3px;" ng-if="taskSeg.feFin == ''" ><img alt="" src="app/images/docOpen.png" /></span>
+					   	            <span style="padding-left: 3px;" ng-if="taskSeg.feFin != ''" ><img alt="" src="app/images/docfinish.png" /></span>
+						        </td>
+						        <td>{{taskSeg.feIni}}</td>
+								<td><a href="javascript:;" ng-click="openDoc(taskSeg.nuDoc,taskSeg.nuInst,0,vm.semaforoTask);"><img alt="" src="app/images/docPreview.png" width="20px"/></a></td>
+					            <td>{{taskSeg.nbWfDest}}</td>
+								<td><a  ng-if="taskSeg.txObserva != ''" href="javascript:;" tooltip-placement="top" tooltip="{{taskSeg.txObserva}}"><i class="fa fa-fw fa-comment"></i></a> {{taskSeg.detalle}}</td>
+					            <td>{{taskSeg.nbPersona}}</td>
+					            <td>{{taskSeg.feFin}}</td>
+					            <td>{{taskSeg.tiempo}}</td>
+					        </tr>
+					    </tbody>
+					</table>
+					</div>
+			        <h2 ng-show="vm.segTasks.inst.length==0">{{ 'NoResultsfound' | translate }}</h2>
+			      </div>
+			      <div class="tab-pane fade" id="seg2">
+						<div ng-if="vm.tabGantt" gantt
+						      data="vm.dataGantt"
+                              view-scale="vm.scale"
+                              auto-expand="vm.autoExpand"
+                              column-width="vm.getColumnWidth(vm.width, vm.scale, vm.zoom)"
+ 							  max-height="1000 || 0"
+ 							  api="vm.apiGantt"
+						      >
+							  <gantt-table enabled="true"
+							       columns="['model.name', 'model.data.res']"
+							       headers="{'model.name' : 'Actividad', 'model.data.res': 'Responsable'}"
+							       formatters="vm.columnsFormatters"
+							       classes="{'model.name' : 'gantt-column-name', 'model.data.res': 'gantt-column-res'}"	>
+							  </gantt-table>
+						</div>
+						<h2 ng-show="vm.dataGantt.length==0">{{ 'NoResultsfound' | translate }}</h2>
+			      </div>
+			      <div class="tab-pane fade" id="anexos">
+			         <div ng-show="vm.segAnexos.length>0"  ng-repeat="anexoDate in vm.segAnexos" class="row">
+				         <div class="col-lg-12">
+				             <h3 class="procesoheading">
+				                 {{anexoDate.fecha}}
+				             </h3>
+				         </div>
+			             <div ng-repeat="anexo in anexoDate.anexos" class="col-lg-4 col-md-6" style="padding: 5px;">
+			                 <div class="panel panel-primary">
+								<div class="panel-heading" style="background-color: white; border-color: white;padding: 10px 5px">
+	                                <div class="row">
+	                                    <div class="col-xs-1">
+	                                        <a href="javascript:;">
+		                                        <i ng-if="anexo.ext=='xls' || anexo.ext=='xlsx'" class="fa fa-file-excel-o" style="font-size: 30px;"></i>
+		                                        <i ng-if="anexo.ext=='doc' || anexo.ext=='docx'" class="fa fa-file-word-o" style="font-size: 30px;"></i>
+		                                        <i ng-if="anexo.ext=='txt'" class="fa fa-file-text-o" style="font-size: 30px;"></i>
+		                                        <i ng-if="anexo.ext=='pdf'" class="fa fa-file-pdf-o" style="font-size: 30px;"></i>
+		                                        <i ng-if="anexo.ext=='htm' || anexo.ext=='html'" class="fa fa-file-code-o" style="font-size: 30px;"></i>
+		                                        <i ng-if="anexo.ext=='jpg' || anexo.ext=='gif' || anexo.ext=='png' || anexo.ext=='jpge' || anexo.ext=='tif'" class="fa fa-file-image-o" style="font-size: 30px;"></i>
+	                                        </a>
+	                                    </div>
+	                                    <div class="col-xs-11">
+	                                        <a href="{{anexo.archivo}}" download="{{anexo.des}}.{{anexo.ext}}" Download><div class="anexouser">{{anexo.usuario}}</div></a>
+	                                        <a href="{{anexo.archivo}}" download="{{anexo.des}}.{{anexo.ext}}" Download><div style="float: left;"><span class="anexolabel">{{ 'AnexoEn' | translate }}:</span> <span class="anexoactividad">{{anexo.act}}</span></div></a>
+	                                    </div>
+	                                </div>
+	                                <div class="row" style="margin-top: 5px;">
+	                                    <div class="col-xs-12">
+		                                    <div style="float: left;"><a href="{{anexo.archivo}}" download="{{anexo.des}}.{{anexo.ext}}" Download><img alt="" src="app/images/download.png" width="20px"/></a></div>
+	                                        <div><a href="{{anexo.archivo}}" download="{{anexo.des}}.{{anexo.ext}}" Download><span class="anexodesc" style="margin-left: 5px;">  {{anexo.des}}</span></a></div>
+	                                    </div>
+	                                </div>
+	                            </div>
+			                 </div>
+			             </div>
+			         </div>
+			         <h2 ng-show="vm.segAnexos.length==0">{{ 'NoResultsfound' | translate }}</h2>
+			      </div>
+			      <div class="tab-pane fade" id="messages" style="height: 100%;">
+		              <div ng-show="vm.segMails.length>0" class="row" style="height: 100%;">
+		                <div class="col-lg-4" style="display: flex; flex-direction: column; height: 100%;">
+                            <div class="panel-body" style="flex: 0 1 auto; overflow: auto;">
+                                <div class="list-group">
+					                 <a href="javascript:;" ng-click="vm.openEmail(email);" class="list-group-item" ng-repeat="email in vm.segMails">
+					                     <div class="media">
+					                         <div class="media-body">
+					                             <h5 class="media-heading"><strong>{{ 'EmailFrom' | translate }}: </strong>{{email.de}}</h5>
+					                             <h5 class="media-heading"><strong>{{ 'EmailTo' | translate }}: </strong>{{email.para}}</h5>
+					                             <p class="small text-muted"><i class="fa fa-clock-o"></i> {{email.fecha}}</p>
+					                         </div>
+					                     </div>
+					                 </a>
+                                </div>
+                            </div>
+		                </div>
+		                <div class="col-lg-8">
+							<div ng-show="vm.segMail" class="page-header" style="margin: 10px 10px 9px;">
+								<div class="row">
+									<div class="col-lg-9">
+										<span><h5 class="media-heading"><strong>{{ 'EmailFrom' | translate }}: </strong>{{vm.segMail.de}}</h5></span>
+									</div>
+									<div class="col-lg-3">
+										<span><p class="small text-muted"><i class="fa fa-clock-o"></i> {{vm.segMail.fecha}}</p></span>
+									</div>
+								</div>
+								<div class="row">
+									<span><h5 class="media-heading"><strong>{{ 'EmailTo' | translate }}: </strong>{{vm.segMail.para}}</h5></span>
+								</div>
+								<div class="row">
+					             	<span class="pull-left"><h5 class="media-heading"><strong>{{vm.segMail.asunto}}</strong></h5></span>
+					             	<span class="pull-right"><p class="small text-muted"><i class="fa fa-mail-forward"></i></p></span>
+								</div>
+			                </div>
+							<div ng-show="vm.segMail" class="well" style="margin: 10px;">
+			                    <p>{{vm.segMailContent}}</p>
+			                </div>
+		                </div>
+		              </div>
+		              <h2 ng-show="vm.segMails.length==0">{{ 'NoResultsfound' | translate }}</h2>
+			      </div>
+			      <div class="tab-pane fade" id="related">
+							<div class="tree well">
+							    <ul ng-show="vm.segRelacionados.nuDoc != 0">
+							        <li class="parent_li">
+							            <span><a href="javascript:;" ng-click="vm.getSegTask(vm.segRelacionados.nuDoc,task.semaforo);">{{vm.segRelacionados.nuDoc}}</a></span>
+							            <ul>
+							                <li class="parent_li">
+							                	<span>{{vm.taskId}}</span>
+							            		<ul ng-show="vm.segRelacionados.childrens.length>0">
+									                <li class="parent_li" ng-repeat="child in vm.segRelacionados.childrens">
+									                	<span><a href="javascript:;" ng-click="vm.getSegTask(child.nuDoc,task.semaforo);">{{child.nuDoc}}</a></span>
+									                </li>
+									            </ul>
+							                </li>
+							            </ul>
+							        </li>
+							    </ul>
+							    <ul ng-show="vm.segRelacionados.nuDoc == 0 && vm.segRelacionados.childrens.length>0">
+							        <li class="parent_li">
+							            <span>{{vm.taskId}}</span>
+					            		<ul>
+							                <li class="parent_li" ng-repeat="child in vm.segRelacionados.childrens">
+							                	<span><a href="javascript:;" ng-click="vm.getSegTask(child.nuDoc,task.semaforo);">{{child.nuDoc}}</a></span>
+							                </li>
+							            </ul>
+							        </li>
+							    </ul>
+							</div>
+						<script>
+						$(function () {
+						    $('.tree li.parent_li > span').on('click', function (e) {
+						        var children = $(this).parent('li.parent_li').find(' > ul > li');
+						        if (children.is(":visible")) {
+						            children.hide('fast');
+						        } else {
+						            children.show('fast');
+						        }
+						        e.stopPropagation();
+						    });
+						});
+						</script>
+			          <h2 ng-show="vm.segRelacionados.nuDoc == 0 && vm.segRelacionados.childrens.length==0">{{ 'NoResultsfound' | translate }}</h2>
+			      </div>
+						<div class="tab-pane fade" id="transcendence">
+						</div>
+
+			    </div>
+		   </div>
+</div>
+</div>
+<div id="colDoc" class="span0">
+	  <st-document-form ng-if="vm.taskDocId != ''" lectura="'S'" nu-doc="vm.taskDocId" nu-inst="vm.taskNuInstId" wfa="vm.taskWfaId" hide-doc="openDoc(taskId,nuInst,wfa,semaforoTask)" /></st-document-form>
+</div>
+</div>
+
+<script>
+  //var tables = document.getElementsByTagName('table');
+  //lrStickyHeader(tables[0]);
+	 /*$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+  		var target = $(e.target).attr("href") // activated tab
+  		if (target=="#seg2"){
+  	  		alert(target);
+  			{{vm.tabGanttActive()}}
+  	  	}
+	});*/
+</script>
+
+	    </div>
+	</div>
+</div>

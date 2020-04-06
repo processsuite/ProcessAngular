@@ -1,0 +1,13 @@
+<div class="dropdown" style="display: flex;float:left;">
+  <label ng-if="nbFilterActivity==''" class="form-controlSearch" style="font-size: 18px;margin-bottom: 0px;border-style: solid none solid solid;">{{ 'FilterActivity' | translate }}</label>
+  <label ng-if="nbFilterActivity!=''" class="form-controlSearch" style="font-size: 18px;margin-bottom: 0px;border-style: solid none solid solid;">{{ nbFilterActivity }}</label>
+  <a class="dropdown-toggle form-controlSearch process" style="border-style: solid solid solid none;" type="button" data-toggle="dropdown"><div style="cursor: pointer; height: 29px;"><i class="fa fa-caret-down" style="font-size: 12px; top: 5px; position: relative;"></i></div></span></a>
+  <ul class="dropdown-menu process" style="padding: 5px;background-color: #E4E4E4;">
+    <li>
+	    <a class="category" href="javascript:;" ng-click="optionChanged('')">{{ 'AllActivades' | translate }}</a>
+    </li>
+    <li ng-repeat="item in distinctItems">
+    	<a class="category" href="javascript:;" ng-click="optionChanged(item)">{{item}}</a>
+    </li>
+  </ul>
+</div>

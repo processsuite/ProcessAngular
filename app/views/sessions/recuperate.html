@@ -1,0 +1,46 @@
+	<!-- END LOGO -->
+	<div class="content" style="width: 320px;">
+		<form class="form-vertical login-form" name="loginForm" action="" method="post">
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls">
+					<div style="text-align: center;">
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls">
+					<div style="text-align: center;">
+						 <img class="img-thumbnail" src="app/images/banner/logo-Login.png" alt="" style="border: 0px none;background-color: transparent;">
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls">
+					<div style="text-align: center;">
+						 <h3 style="font-family:'PT Sans Bold';font-weight:normal;font-size:14px" translate>Login</h3>
+					</div>
+				</div>
+			</div>
+			<div class="control-group">
+				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+				<div class="controls" style="text-align: center;">
+					<p>{{ 'You already have an established connection.' | translate }}</p>
+					<p>{{ 'What do you want to do with your previous session?' | translate }}</p>
+				</div>
+			</div>
+			<div class="form-actions" style="text-align: center;">
+				<button type="button" ng-click="vm.loginRenew()" class="btn blue">
+					{{ 'Delete' | translate }} <i class="fa fa-sign-in"></i>
+				</button>
+				<!--<button type="button" ng-click="vm.loginRecover()" class="btn blue">
+					{{ 'Recover' | translate }} <i class="fa fa-sign-in"></i>
+				</button>-->
+				<button type="button" ng-click="vm.back()" class="btn blue">
+					{{ 'Back' | translate }} <i class="fa fa-sign-in"></i>
+				</button>
+			</div>
+		</form>
+	</div>

@@ -1,0 +1,136 @@
+ <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+ <div class="collapse width  navbar-ex1-collapse">
+   <a ng-click="vm.goServices();" class="center-block vnavbaritemlabel">
+	    <div class="btn-create"><i class="fa fa-plus"></i><span> {{ 'Start' | translate }}</span></div>
+	 </a>
+  <ul class="nav navbar-nav side-nav">
+  	<li>
+  	<a href="javascript:;" data-toggle="collapse" data-target="#work-1" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> <i class="fas fa-inbox"></i> {{ 'Work' | translate }}</a>
+  		<ul id="work-1" class="collapse">
+  		    <li>
+  		        <a href="javascript:;" ng-click="vm.goTask('',false);">{{ 'WorkTodos' | translate }}</a>
+  		    </li>
+  		    <li>
+  		        <a href="javascript:;" ng-click="vm.goTask(2,false);">{{ 'WorkVencido' | translate }}</a>
+  		    </li>
+  		    <li>
+  		        <a href="javascript:;" ng-click="vm.goTask(1,false);">{{ 'WorkRiesgo' | translate }}</a>
+  		    </li>
+  		    <li>
+  		        <a href="javascript:;" ng-click="vm.goTask(0,false);">{{ 'WorkVigente' | translate }}</a>
+  		    </li>
+  		    <li>
+  		        <a href="javascript:;" ng-click="vm.goTask(3,false);">{{ 'WorkBorrador' | translate }}</a>
+  		    </li>
+  		</ul>
+  	</li>
+  	<li>
+  	<a href="javascript:;" data-toggle="collapse" data-target="#work-2" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> <i class="fas fa-file-export"></i> {{ 'Enviados' | translate }}</a>
+  		<ul id="work-2" class="collapse">
+  		    <li>
+  		        <a href="javascript:;" ng-click="vm.goTask(4,true);">{{ 'WorkEnAtencion' | translate }}</a>
+  		    </li>
+  		    <li>
+  		        <a href="javascript:;" ng-click="vm.goTask(5,true);">{{ 'WorkCulminado' | translate }}</a>
+  		    </li>
+  		</ul>
+  	</li>
+
+      <li ng-show="vm.isShowMenuColaborar">
+      	<a href="javascript:;" data-toggle="collapse" data-target="#colab-1" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> <i class="fas fa-users"></i> {{ 'Colaboration' | translate }}</a>
+  	    <ul id="colab-1" class="collapse">
+  		    <li ng-repeat="menuCola in vm.menuColaboration">
+  		        <a href="javascript:;" data-toggle="collapse" data-target="#cola-{{menuCola.wfp}}" class="yt-toggle collapsed"><i class="fa fa-caret-right" style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> {{menuCola.nombre}}</a>
+  		        <ul id="cola-{{menuCola.wfp}}" class="collapse">
+  		            <li ng-repeat="submenu in menuCola.childrens">
+  						<a href="javascript:;" ng-click="vm.goColaboration(submenu.wfp,submenu.wf,menuCola.nombre + ' / ' + submenu.nombre);">{{submenu.nombre}}</a>
+  		            </li>
+  		        </ul>
+  		    </li>
+  		</ul>
+  	</li>
+
+      <li ng-show="vm.isShowMenuFile">
+      	<a href="javascript:;" data-toggle="collapse" data-target="#file-1" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> <i class="fas fa-archive"></i> {{ 'Files' | translate }}</a>
+  	    <ul id="file-1" class="collapse">
+  		    <li ng-repeat="menuFile in vm.menuFile">
+  		        <a href="javascript:;" data-toggle="collapse" data-target="#fil-{{menuFile.wfp}}" class="yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> {{menuFile.nombre}}</a>
+  		        <ul id="fil-{{menuFile.wfp}}" class="collapse">
+  		            <li ng-repeat="submenu in menuFile.childrens">
+  						<a href="javascript:;" ng-click="vm.goFiles(submenu.wfp,submenu.wf,menuFile.nombre + ' / ' + submenu.nombre);">{{submenu.nombre}}</a>
+  		            </li>
+  		        </ul>
+  		    </li>
+  		</ul>
+  	</li>
+
+  	<li ng-show="vm.isShowMenuReport">
+  	<a href="javascript:;" data-toggle="collapse" data-target="#repo-1" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> <i class="fas fa-chart-bar"></i> {{ 'Reports' | translate }}</a>
+  		<ul id="repo-1" class="collapse">
+  		    <li ng-repeat="menuReport in vm.menuReport">
+  		        <a href="javascript:;" data-toggle="collapse" data-target="#rep-{{menuReport.wfp}}" class="yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> {{menuReport.nombre}}</a>
+  		        <ul id="rep-{{menuReport.wfp}}" class="collapse">
+  		            <li ng-repeat="submenu in menuReport.childrens">
+  		                <a href="javascript:;" ng-click="vm.goReport(submenu.wfp,submenu.wf,menuReport.nombre + ' / ' + submenu.nombre);"><i ng-if="submenu.tipo=='G'" class="fa fa-bar-chart-o"></i> {{submenu.nombre}}</a>
+  		            </li>
+  		        </ul>
+  		    </li>
+  		</ul>
+  	</li>
+    <!--<li ng-show="true">
+        <a href="javascript:;" ng-click="vm.goLogs();"" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i> <i class="fas fa-archive"></i> Logs</a>
+    </li>-->
+    <li ng-show="admUsr">
+    <a href="javascript:;" data-toggle="collapse" data-target="#adm-1" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i><i class="fas fa-user-cog"></i> Proces Console</a>
+      <ul id="adm-1" class="collapse">
+          <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#consol-1" class="yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> Console</a>
+            <ul id="consol-1" class="collapse">
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleAdmin')"><i class="fa fa-bar-chart-o"></i> Administrador</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleConf')"><i class="fa fa-bar-chart-o"></i> Configuración</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleCorreo')"><i class="fa fa-bar-chart-o"></i> Correo</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleInter')"><i class="fa fa-bar-chart-o"></i> Directorio de internet</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleFuente')"><i class="fa fa-bar-chart-o"></i> Fuente de datos</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleInspec')"><i class="fa fa-bar-chart-o"></i> Inspección</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleRepfis')"><i class="fa fa-bar-chart-o"></i> Repositorio Físico</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleSeg')"><i  class="fa fa-bar-chart-o"></i> Seguridad</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="vm.goAdm('consoleVarCons')"><i class="fa fa-bar-chart-o"></i> Variables de consultoría</a>
+                </li>
+            </ul>
+          </li>
+          <li>
+          <a href="javascript:;" data-toggle="collapse" data-target="#log-1" class="yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i> Logs</a>
+          <ul id="log-1" class="collapse">
+            <li>
+                <a href="javascript:;" ng-click="vm.goLogs('usuario')"><i class="fa fa-bar-chart-o"></i> Usuarios</a>
+            </li>
+            <li>
+                <a href="javascript:;" ng-click="vm.goLogs('evento')"><i class="fa fa-bar-chart-o"></i> Eventos</a>
+            </li>
+            <li>
+                <a href="javascript:;" ng-click="vm.goLogs('email')"><i class="fa fa-bar-chart-o"></i> Email</a>
+            </li>
+          </li>
+      </ul>
+
+    </li>
+
+  </ul>
+</div>

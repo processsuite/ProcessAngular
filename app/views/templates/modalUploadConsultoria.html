@@ -1,0 +1,38 @@
+<div class="modal-header" style="padding: 0px;">
+  <h3 style="margin-top: 10px; padding-left: 10px;">{{ 'AnexosForm' | translate }}</h3>
+</div>
+<div class="modal-body">
+	    <div class="row" style="padding-bottom: 10px;">
+		    <input type="file" nv-file-select="" uploader="uploader" />
+      </div>
+	    <div class="row" ng-repeat="item in uploader.queue" style="padding-top: 5px;">
+			<div class="col-lg-5" >
+				<strong>{{ item.file.name }}</strong>
+			</div>
+			<div class="col-lg-2" >
+                  <div class="progress" style="margin-bottom: 0;">
+                       <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                  </div>
+			</div>
+			<div class="col-lg-5" style="text-align: right;">
+				 <strong>{{ item.file.tamano }} MB </strong>
+         <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+         <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+         <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+          <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+              <span class="glyphicon glyphicon-upload"></span> {{ 'UploadModaluploadForm' | translate }}
+          </button>
+          <button type="button" class="btn btn-danger btn-xs" ng-click="uploader.removeItem(item)">
+              <span class="glyphicon glyphicon-trash"></span> {{ 'RemoveModaluploadForm' | translate }}
+          </button>
+			</div>
+      </div>
+      <div class="row">
+          <span ng-if="msgTamanoAnexo" style="color: red;">{{ 'msgTamanoAnexo' | translate }} {{tamanoAnexo}}</span>
+          <span ng-if="errorTamanoAnexoServidor" style="color: red;">{{ msgTamanoAnexoServidor | translate }}</span>
+      </div>
+</div>
+<div class="modal-footer">
+        <button type="button" class="btn btn-primary" ng-click="cancel()">{{ 'BackModalUploadForm' | translate }}</button>
+        <button ng-if="changeAnexos" type="button" class="btn btn-primary" ng-click="save()">{{ 'AcceptModalUploadForm' | translate }}</button>
+</div>

@@ -1,0 +1,14 @@
+	<div ui-view="login"></div>
+
+	<div id="wrapper" ng-show="$state.includes('root.main.*.*')">
+		<nav class="navbar navbar-inverse navbar-inverse-header navbar-fixed-top headerProcess" role="navigation">
+    		<div ui-view="headerIzq"></div>
+    		<div ui-view="headerDer"></div>
+    	</nav>
+    </div>
+
+    <div ui-view="sideBar"></div>
+
+    <div ui-view="container"></div>
+
+		<div inform class="inform-fixed inform-animate"></div>

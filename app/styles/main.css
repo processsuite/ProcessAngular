@@ -1,0 +1,171 @@
+body {
+	padding-top:50px;
+}
+
+#masthead {
+	min-height:270px;
+	background-color:#000044;
+  	color:#aaaacc;
+}
+
+#masthead h1 {
+	font-size: 55px;
+	line-height: 1;
+}
+
+#masthead .well {
+	margin-top:13%;
+	background-color:#111155;
+  	border-color:#000033;
+}
+
+.icon-bar {
+	background-color:#fff;
+}
+
+@media screen and (min-width: 768px) {
+	#masthead h1 {
+		font-size: 100px;
+	}
+}
+
+.navbar-bright {
+	background-color:#28639D;
+    color:#fff;
+} 
+  
+.title-process {
+    float: left;
+    font-family: "PT Serif",serif;
+    font-size: 24px;
+    font-weight: 900;
+    max-height: 40px;
+    padding-left: 30px;
+    padding-top: 12px;
+    text-align: left;
+}
+.navbar-bright a, #masthead a, #masthead .lead {
+    color: white;
+    font-family: Georgia,Times,"Times New Roman",serif;
+    font-weight: 900;
+    height: 100%;
+    letter-spacing: 9px;
+    width: 100%;
+}
+
+.navbar-bright a:hover,#masthead a:hover {
+		text-decoration: none;
+}
+
+.navbar-bright li > a:hover {
+    background-color:#000033;
+}
+
+.affix-top,.affix{
+	position: static;
+}
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	margin-top:30px;
+  	width:228px;
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:70px;
+    width:228px;
+  }
+}
+
+#sidebar li.active {
+  	border:0 #eee solid;
+  	border-right-width:4px;
+}
+
+#mainCol h2 {
+	padding-top: 55px;
+    margin-top: -55px;
+}
+
+.panel-default {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+
+
+.panel-body {
+     padding:0px;
+}
+.panel-body table tr td {
+     padding-left: 15px 
+}
+.panel-body .table {
+    margin-bottom: 0px; 
+}
+
+.label-as-badge{
+    border-radius: 1em;
+}
+
+.brandlabel {
+    color: white;
+    float: left;
+    font-family: "PT Serif",serif;
+    font-size: 24px;
+    font-weight: 900;
+    height: 100%;
+    letter-spacing: 9px;
+    max-height: 40px;
+    padding-left: 10px;
+    padding-top: 12px;
+    text-align: left;
+    width: 100%;
+}
+
+.ambientewrapper {
+    background-color: #dad7d7;
+    border-radius: 5px;
+    box-shadow: 0 0 8px 0 gray;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 5%;
+    padding-top: 1%;
+    width: 40%;
+}
+
+.loginambiente {
+    color: gray;
+    display: block;
+    float: left;
+    font-family: Georgia,Times,"Times New Roman",serif;
+    font-size: 30px;
+    font-weight: 400;
+    height: 40px;
+    letter-spacing: 4px;
+    line-height: 30px;
+    margin-bottom: 0;
+    margin-top: 0;
+    text-align: center;
+}
+
+.loginformbutton {
+    background-color: #ecc080;
+    border-radius: 10px;
+    box-shadow: 0 0 8px 0 gray inset;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-family: Verdana,Geneva,sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    height: 50px;
+    letter-spacing: 1.1px;
+    margin: 20px auto 30px;
+    padding-bottom: 0;
+    padding-top: 0;
+    width: 300px;
+}

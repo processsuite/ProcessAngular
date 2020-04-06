@@ -1,0 +1,183 @@
+<div id="wrapper">
+  <div id="page-wrapper">
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <header>
+          <div class="row">
+             <div class="col-lg-12">
+                 <ol class="breadcrumb">
+                     <li>
+                         {{ 'Logs Usuarios' | translate }} {{vm.ambiente}} <button type="button" class="btn btn-sm" name="button" ng-click="vm.getDatosLogs()"><i class="fas fa-sync-alt"></i></button>
+                     </li>
+                 </ol>
+             </div>
+            </div>
+            <div class="row formularioinfobar" style="background-color: rgb(245, 245, 245);padding: 2px;">
+              <div class="col-lg-5 col-md-5" style="padding: 1px;">
+                <label for="">Fecha</label>
+                <p class="input-group">
+                  <input type="text" class="form-control" uib-datepicker-popup="{{vm.format}}" ng-model="vm.fecha" is-open="popup1.opened" datepicker-options="vm.dateOptions" ng-required="true" close-text="Close" alt-input-formats="vm.altInputFormats" date-disabled="vm.disabled(date, mode)" show-button-bar ="false" ng-change="vm.obtenerUsuarioFecha()"/>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </p>
+              </div>
+              <div class="col-lg-5 col-md-5"  style="padding: 1px;">
+                <label for="">Usuario</label>
+                <div class="control-group">
+            				<div class="controls">
+            					<div>
+            						<select class="m-wrap placeholder-no-fix"  style="width:100%" ng-model = "vm.userSelect" >
+                          <option ng-repeat="option in vm.listUsuario" ng-value="option">{{option}}</option>
+            						</select>
+            					</div>
+            				</div>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-2">
+                <br/>
+                <button type="button" class="btn btn-sm" name="button" ng-click="vm.getTraza();vm.getTrazaSql()" style="margin:8px;"><i class="fas fa-search"></i></button>
+              </div>
+            </div>
+        </header>
+        <main>
+          <div class="row formularioContent">
+            <div class="col-lg-12 col-md-12">
+              <uib-tabset active="Errores" justified="true">
+                <uib-tab index="0" heading="Errores">
+                  <div class="row"  style="overflow: auto;">
+                    <table st-safe-src="vm.resultTraza.c"  st-table="displayedCollectionE" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th st-sort="f" class="text-center" style="width:5%">Hora</th>
+                          <th st-sort="e" class="text-center" style="width:5%">Error</th>
+                          <th st-sort="u" class="text-center" style="width:10%">Usuario/IP</th>
+                          <th st-sort="d" class="text-center" style="width:5%">Documento</th>
+                          <th st-sort="r" class="text-center" style="width:10%">Rutina</th>
+                          <th st-sort="is" class="text-center" style="width:65%">Detalle</th>
+                        </tr>
+                        <tr>
+                          <th colspan="2"><input st-search="f" placeholder="Hora" class="input-sm form-control" type="search"/></th>
+                          <th><input st-search="u" placeholder="Usuario" class="input-sm form-control" type="search"/></th>
+                          <th colspan="2"><input st-search="d" placeholder="Documento" class="input-sm form-control" type="search"/></th>
+                          <th><input st-search="is" placeholder="Detalle" class="input-sm form-control" type="search"/></th>
+                        </tr>
+                      <thead>
+                      <tbody>
+                        <tr ng-repeat="row in displayedCollectionE" ng-if="row.e != 10000">
+                          <td class="text-center" style="width:5%">{{row.f}}</td>
+                          <td class="text-center" style="width:5%">{{row.e}}</td>
+                          <td class="text-center" style="width:10%">{{row.u}}</td>
+                          <td class="text-center" style="width:5%">{{row.d}}</td>
+                          <td class="text-center" style="width:10%">{{row.r}}</td>
+                          <td class="text-center" style="color:red;width:65%">
+                              <p>{{row.is.i[0].value}}<p>
+                              <p>{{row.is.i[1].value}}<p>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                  			<tr>
+                  				<td colspan="6" class="text-center">
+                  					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="10"></div>
+                  				</td>
+                  			</tr>
+                  		</tfoot>
+                    </table>
+                  </div>
+                </uib-tab>
+                <uib-tab index="1" heading="Trazas">
+                  <div class="row" style="overflow: auto;">
+                    <table st-safe-src="vm.resultTraza.c" st-table="displayedCollection" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                      		<th st-sort="f" class="text-center" style="width:5%">Hora</th>
+                      		<th st-sort="t" class="text-center" style="width:5%">traza</th>
+                      		<th st-sort="u" class="text-center" style="width:10%">Usuario/IP</th>
+                      		<th st-sort="d" class="text-center" style="width:5%">Documento</th>
+                      		<th st-sort="r" class="text-center" style="width:10%">Rutina</th>
+                          <th st-sort="is" class="text-center" style="width:65%">Detalle</th>
+                      	</tr>
+                        <tr>
+                          <th colspan="2"><input st-search="f" placeholder="Hora" class="input-sm form-control" type="search"/></th>
+                      		<th><input st-search="u" placeholder="Usuario" class="input-sm form-control" type="search"/></th>
+                      		<th><input st-search="d" placeholder="Documento" class="input-sm form-control" type="search"/></th>
+                          <th><input st-search="r" placeholder="Rutina" class="input-sm form-control" type="search"/></th>
+                          <th><input st-search="is" placeholder="Detalle" class="input-sm form-control" type="search"/></th>
+                        </tr>
+                      <thead>
+                      <tbody>
+                        <tr ng-repeat="row in displayedCollection" ng-if="row.e == 10000">
+                          <td class="text-center"  style="width:5%">{{row.f}}</td>
+                          <td class="text-center"  style="width:5%">{{row.t}}</td>
+                          <td class="text-center"  style="width:10%">{{row.u}}</td>
+                          <td class="text-center" style="width:5%">{{row.d}}</td>
+                          <td class="text-center"  style="width:10%">{{row.r}}</td>
+                          <td class="text-center"  style="width:65%">
+                              <p>{{row.is.i[0].value}}<p>
+                              <p>{{row.is.i[1].value}}<p>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                  			<tr>
+                  				<td colspan="6" class="text-center">
+                  					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="10"></div>
+                  				</td>
+                  			</tr>
+                  		</tfoot>
+                    </table>
+                  </div>
+                </uib-tab>
+                <uib-tab index="2" heading="Traza SQL">
+                  <div class="row"  style="overflow: auto;">
+                    <table  st-safe-src="vm.resultTrazaSql.c" st-table="rowCollection" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                      		<th st-sort="f" class="text-center" style="width:5%">Hora</th>
+                      		<th st-sort="o" class="text-center" style="width:5%">Operación</th>
+                      		<th st-sort="t" class="text-center" style="width:5%">Tiempo</th>
+                      		<th st-sort="e" class="text-center" style="width:25%">Error</th>
+                      		<th st-sort="q" class="text-center" style="width:25%">Query</th>
+                          <th st-sort="is" class="text-center" style="width:25%">Detalle</th>
+                      	</tr>
+                        <tr>
+                          <th><input st-search="f" placeholder="Hora" class="input-sm form-control" type="search"/></th>
+                      		<th colspan="2"><input st-search="o" placeholder="Operación" class="input-sm form-control" type="search"/></th>
+                      		<th colspan="2"><input st-search="q" placeholder="Query" class="input-sm form-control" type="search"/></th>
+                          <th><input st-search="is" placeholder="Detalle" class="input-sm form-control" type="search"/></th>
+                        </tr>
+                      <thead>
+                      <tbody>
+                        <tr ng-repeat="row in rowCollection">
+                          <td class="text-center"   style="width:5%">{{row.f}}</td>
+                          <td class="text-center"  style="width:5%">{{row.o}}</td>
+                          <td class="text-center"  style="width:5%">{{row.t}}</td>
+                          <td class="text-center" style="color:red;width:25%">{{row.e}}</td>
+                          <td class="text-center"  style="width:25%">{{row.q}}</td>
+                          <td class="text-center"  style="width:25%">
+                              <p>{{row.is.i[0].value}}<p>
+                              <p>{{row.is.i[1].value}}<p>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                  			<tr>
+                  				<td colspan="6" class="text-center">
+                  					<div st-pagination="" st-items-by-page="vm.itemsByPage" st-displayed-pages="10"></div>
+                  				</td>
+                  			</tr>
+                  		</tfoot>
+                    </table>
+                  </div>
+                </uib-tab>
+              </uib-tabset>
+            </div>
+
+          </div>
+        </main>
+
+      </div>
+    </div>
+  </div>
+</div>

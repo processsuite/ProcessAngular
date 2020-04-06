@@ -1,0 +1,23 @@
+<nav ng-if="pages.length >= 2">
+  <ul class="pagination">
+    <li ng-if="(currentPage*stItemsByPage)<=totalItemCount"><a>{{((currentPage-1)*stItemsByPage)+1}} .. {{(currentPage*stItemsByPage)}} de {{totalItemCount}}</a></li>
+    <li ng-if="(currentPage*stItemsByPage)>totalItemCount"><a>{{((currentPage-1)*stItemsByPage)+1}} .. {{(totalItemCount)}} de {{totalItemCount}}</a></li>    
+    <li><a href="javascript:;" ng-click="selectPage(currentPage - 1)">&lt;</a>
+    </li><li><a href="javascript:;" ng-click="selectPage(currentPage + 1)">&gt;</a>
+    </li>
+  </ul>
+</nav>
+
+<nav ng-if="pages.length == 0">
+  <ul class="pagination">
+    <li><a>0 .. 0  de 0</a>
+    </li>
+  </ul>
+</nav>
+
+<nav ng-if="pages.length == 1">
+  <ul class="pagination">
+    <li ng-if="totalItemCount>0"><a>1 .. {{(totalItemCount)}}  de {{(totalItemCount)}}</a></li>
+    <li ng-if="totalItemCount==0"><a>0 .. 0  de 0</a></li>
+  </ul>
+</nav>

@@ -1,0 +1,19 @@
+<div class="dropdown">
+  <button class="btn" ng-click="toggleSelect()" ng-disabled="disabled" ng-class="{'error': !valid()}">
+    <span class="pull-left">{{ header | translate }}</span>
+    <b class="caret pull-right"></b>
+  </button>
+  <ul class="dropdown-menu">
+    <li>
+      <input class="form-control formularioControl" type="text" ng-model="searchText.label" autofocus="autofocus" placeholder="Filter" />
+    </li>
+    <li ng-show="multiple">
+      <button class="btn-link btn-small" ng-click="checkAll()" traslate><i class="fas fa-check"></i> {{ 'Check all' | translate}} </button>
+      <button class="btn-link btn-small" ng-click="uncheckAll()" traslate><i class="fas fa-times"></i> {{ 'Uncheck all' | translate}} </button>
+    </li>
+    <li ng-repeat="i in items | filter:searchText">
+      <a ng-click="select(i); focus()">
+        <i ng-class="{'fas fa-check': i.checked, 'icon-empty': !i.checked}"></i>  {{i.label}}</a>
+    </li>
+  </ul>
+</div>

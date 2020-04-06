@@ -1,0 +1,56 @@
+ <!-- Top Menu Items -->
+ <ul class="headerMenu nav navbar-right top-nav">
+     <li class="dropdown" style="color: rgb(77, 74, 58);" ng-if="documentService.isOpenDoc() && !$state.includes('root.main.documentcreate') && !$state.includes('root.main.documentopen')">
+         <a href="#" ng-click="$event.preventDefault()" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-folder-open"></i>  #{{vm.nuDocOpen}} <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+             <li>
+                     <div class="media" style="padding: 5px;">
+                         <div class="media-body">
+                             <p class="small text-muted"><a href="javascript:;" ng-click="vm.openModalCloseDocument();"><span class="label label-danger"><i class="fa fa-times" style="display: initial;"></i></span></a> <a href="javascript:;" ng-click="vm.goOpenDocument();" style="color:#337ab7;">{{vm.nbConversacionOpen}}</a></p>
+                         </div>
+                     </div>
+             </li>
+         </ul>
+     </li>
+     <li class="dropdown" ng-if="vm.isShowBarEmails">
+         <a href="#" style="color: rgb(77, 74, 58);" ng-click="$event.preventDefault()" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+         <ul class="dropdown-menu message-dropdown">
+             <li class="message-preview" ng-repeat="email in vm.barEmails">
+                 <a href="javascript:;" >
+                     <div class="media">
+                         <span class="pull-left">
+                         </span>
+                         <div class="media-body">
+                             <h5 class="media-heading"><strong>{{email.de}}</strong>
+                             </h5>
+                             <p class="small text-muted"><i class="fa fa-clock-o"></i> {{email.fecha}}</p>
+                             <p>{{email.asunto}}</p>
+                         </div>
+                     </div>
+                 </a>
+             </li>
+         </ul>
+     </li>
+     <li class="dropdown" ng-if="vm.agents.length>0">
+         <a href="#" style="color: rgb(77, 74, 58);" ng-click="$event.preventDefault()" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear"></i> <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+             <li ng-repeat="agent in vm.agents">
+                 <a href="javascript:;" ng-if="agent.href!=null" ng-click="vm.openLink(agent.href)" id="AGENTE_{{agent.cdAg}}" name="AGENTE_{{agent.cdAg}}">{{agent.descripcion}}</a>
+                 <a href="javascript:;" ng-if="agent.href==null" id="AGENTE_{{agent.cdAg}}" name="AGENTE_{{agent.cdAg}}">{{agent.descripcion}}</a>
+             </li>
+         </ul>
+     </li>
+     <li class="dropdown">
+         <a href="javascript:;" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;color:rgb(77, 74, 58);margin-right:11px;"  class="dropdown-toggle profileName" data-toggle="dropdown"><i class="fa fa-user"></i> {{vm.profileNombre}} <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+             <li>
+                 <a href="javascript:;" ng-click="vm.profile();"><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</a>
+             </li>
+             <li class="divider"></li>
+             <li>
+				 <a ng-if="documentService.isOpenDoc()" href="javascript:;" ng-click="vm.openModal();"><i class="fa fa-fw fa-power-off"></i>{{ 'Log Out' | translate }}</a>
+                 <a ng-if="!documentService.isOpenDoc()" href="javascript:;" ng-click="vm.logout();"><i class="fa fa-fw fa-power-off"></i>{{ 'Log Out' | translate }}</a>
+             </li>
+         </ul>
+     </li>
+ </ul>
