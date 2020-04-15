@@ -1,1 +1,0 @@
-OcultarGrupo("FUNCIONAL");
