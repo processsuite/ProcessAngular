@@ -185,8 +185,9 @@ try{
 		var num_list = document.getElementById(campoP).length;
 		var i = 0;
 		for(i=0;i<num_list;i++){
-			if (document.getElementById(campoP).item(i).getAttribute("value")){
-				if (document.getElementById(campoP).item(i).getAttribute("value")==valor){
+			var value = document.getElementById(campoP).item(i).getAttribute("value").split(":");
+			if (value[1]){
+				if (value[1]==valor){
 					document.getElementById(campoP).selectedIndex = i;
 					//document.getElementById(campoP).onchange();
 					$("#"+campoP).change();

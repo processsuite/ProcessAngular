@@ -1579,6 +1579,20 @@
                  }
                }
 
+               $scope.validarEventDocument = function(evento){
+                 //console.log('$event',evento)
+                 //console.log('event',event)
+                 if(evento == undefined && event !=  undefined && event.type == 'input'){ //esta validacion solo aplica para los eventos change
+                   evaluar_event( 'change', event.target.id);
+                 }else if(evento == undefined && event !=  undefined ){
+                   evaluar_event( event.type, event.target.id);
+                 }
+
+                 if(evento != undefined){ //captura evento click y blur
+                     evaluar_event( evento.type, evento.target.id);
+                 }
+               }
+
                $scope.ajaxDataServices = function(idquery, param){
                  let ambiente = $scope.nbAmbiente;
                  if(param == undefined || param == ''){
