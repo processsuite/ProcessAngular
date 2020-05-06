@@ -5,8 +5,8 @@
         .module('myApp')
         .controller('ReportController', ReportController);
 
-    ReportController.$inject = ['processEngine', '$stateParams', '$filter', '$sce', '$scope', '$state', '$modal', '$window', '$rootScope'];
-    function ReportController(processEngine, $stateParams, $filter, $sce, $scope, $state, $modal, $window, $rootScope ) {
+    ReportController.$inject = ['processEngine', '$stateParams', '$filter', '$sce', '$scope', '$state', '$modal', '$window', '$rootScope', '$locale'];
+    function ReportController(processEngine, $stateParams, $filter, $sce, $scope, $state, $modal, $window, $rootScope, $locale ) {
         var vm = this;
 
         vm.wfp = $stateParams.wfp;
@@ -151,6 +151,34 @@
                 });
         }
 
+        $scope.esNumero = function(campo){
+          if(isNaN($scope.depurar(campo,$locale.NUMBER_FORMATS.DECIMAL_SEP, 1))) return 0;
+          return true;
+        }
+        $scope.depurar = function(pe_valor, pe_sepdec, ope){
+           let valor = pe_valor;
+           if (valor!="")
+           {
+            if (pe_sepdec == ",")
+          { while (valor.indexOf(".")>=0)
+             { valor = valor.replace(".","");
+             }
+           if(ope == 1){ valor = valor.replace(",",".")};
+           }
+            else if (pe_sepdec== ".")
+           {
+            while (valor.indexOf(",")>=0)
+            {
+             valor = valor.replace(",","");
+            }
+           }
+           }
+           else
+            valor = "0";
+
+           return(valor)
+        }
+
         function exeReport(tableState) {
             vm.isLoading = true;
             vm.grafica = false;
@@ -169,7 +197,15 @@
         	    var item = vm.params[i];
         	    if (item.value!=null && item.value!=""){
         	    	var filtervalue = "";
-        	    	if (item.tipo =="L"){
+                if(item.tipo == "N"){
+                    let f = $scope.esNumero(item.value);
+                    if(!f){
+                      alertmb("Ingrese un numero valido en el campo "+item.descripcion ,1,1,"Aceptar");
+                      return false;
+                    }else{
+                      filtervalue = item.value;
+                    }
+                }else	if (item.tipo =="L"){
         	    		filtervalue = item.value.value;
         	    	}else{
         	    		filtervalue = item.value;

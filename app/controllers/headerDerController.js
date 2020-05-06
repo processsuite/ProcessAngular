@@ -3,8 +3,8 @@
     angular
         .module('myApp')
         .controller('HeaderDerController', HeaderDerController);
-    HeaderDerController.$inject = ['processEngine', 'user','$state', '$location','$scope', '$stateParams', '$modal', '$rootScope', '$window', 'Idle', 'inform'];
-    function HeaderDerController(processEngine, user, $state, $location, $scope, $stateParams, $modal, $rootScope, $window, Idle, inform) {
+    HeaderDerController.$inject = ['processEngine', 'user','$state', '$location','$scope', '$stateParams', '$modal', '$rootScope', '$window', 'Idle', 'inform', '$locale'];
+    function HeaderDerController(processEngine, user, $state, $location, $scope, $stateParams, $modal, $rootScope, $window, Idle, inform, $locale) {
         var vm = this;
         vm.user = { name: "", pass: "", envi: "", email: "", question:"" };
         vm.isShowBarEmails = false;
@@ -117,6 +117,10 @@
                     $rootScope.profileNombre = data.nombre;
                   	$rootScope.nbAmbiente = data.ambiente;
                     $rootScope.admUsr = data.admusr;
+                    /*se asgina formato decimal*/
+                    $locale.NUMBER_FORMATS.DECIMAL_SEP = data.formatoDecimal;
+                    $locale.NUMBER_FORMATS.GROUP_SEP = data.formatoMiles;
+
       	        		processEngine.loadEnvironment($rootScope.nbAmbiente)
       	                .then(function(data) {
       	                	if (data!=null){

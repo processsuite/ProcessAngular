@@ -38,10 +38,10 @@
 											                        <input ng-if="vm.params[0].tipo == 'T'" type="text" name="T0" class="m-wrap placeholder-no-fix" style="height: 30px !important;" placeholder="{{vm.params[0].descripcion}}" ng-model="vm.params[0].value" ng-required="vm.params[0].obligatorio"/>
 
 												                    <input ng-if="vm.params[0].tipo == 'H'" type="time" name="H0" class="m-wrap placeholder-no-fix" style="height: 30px !important;" placeholder="{{vm.params[0].descripcion}}" ng-model="vm.params[0].value" ng-required="vm.params[0].obligatorio"/>
-												                    <span style="color:red" ng-if="vm.params[0].tipo == 'H'" ng-show="reportForm.H0.$invalid">Error formato hora</span>
+												                    <!--<span style="color:red" ng-if="vm.params[0].tipo == 'H'" ng-show="reportForm.H0.$invalid">Error formato hora</span>-->
 
-											   	                    <input ng-if="vm.params[0].tipo == 'N'" type="number" name="N0" class="m-wrap placeholder-no-fix" style="height: 30px !important;" placeholder="{{vm.params[0].descripcion}}" ng-model="vm.params[0].value" ng-required="vm.params[0].obligatorio"/>
-											   	                    <span style="color:red" ng-if="vm.params[0].tipo == 'N'" ng-show="reportForm.N0.$invalid">Error formato numerico</span>
+											   	                    <input ng-if="vm.params[0].tipo == 'N'" type="text" name="N0" class="m-wrap placeholder-no-fix" style="height: 30px !important;" placeholder="{{vm.params[0].descripcion}}" ng-model="vm.params[0].value" ng-required="vm.params[0].obligatorio"/>
+											   	                    <!--<span style="color:red" ng-if="vm.params[0].tipo == 'N'" ng-show="reportForm.N0.$invalid">Error formato numerico</span>-->
 
 																	<select ng-if="vm.params[0].tipo == 'L'" name="L0" class="m-wrap placeholder-no-fix" style="height: 30px !important;width: 100%;" ng-model="vm.params[0].value"  ng-options="item.value for item in vm.params[0].opciones track by item.value" ng-required="vm.params[0].obligatorio">
 																	 	<option value=""></option>
@@ -93,10 +93,10 @@
 											                        <input ng-if="field.tipo == 'T'" type="text" name="T{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
 
 												                    <input ng-if="field.tipo == 'H'" type="time" name="H{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
-												                    <span style="color:red" ng-if="field.tipo == 'H'" ng-show="reportForm.H{{$index}}.$invalid">Error formato hora</span>
+												                    <!--span style="color:red" ng-if="field.tipo == 'H'" ng-show="reportForm.H{{$index}}.$invalid">Error formato hora</span-->
 
-											   	                    <input ng-if="field.tipo == 'N'" type="number" name="N{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
-											   	                    <span style="color:red" ng-if="field.tipo == 'N'" ng-show="reportForm.N{{$index}}.$invalid">Error formato numerico</span>
+											   	                    <input ng-if="field.tipo == 'N'" type="text" name="N{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
+											   	                    <!--span style="color:red" ng-if="field.tipo == 'N'" ng-show="reportForm.N{{$index}}.$invalid">Error formato numerico</span-->
 
 																	<select ng-if="field.tipo == 'L'" name="L{{$index}}" class="form-control formularioControl lista" style="width: 100%;" ng-model="field.value"  ng-options="item.value for item in field.opciones track by item.value" ng-required="field.obligatorio">
 																	 	<option value=""></option>
