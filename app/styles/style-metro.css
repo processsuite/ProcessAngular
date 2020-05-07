@@ -86,9 +86,14 @@ select:focus {
   color: black;
   text-shadow: none;
   background-color: rgba(244, 194, 100, 0.91);
+}
+.btn.blue.perfil
+{
   margin: 5px;
   width: auto;
 }
+
+
 .btn.blue:hover,
 .btn.blue:focus,
 .btn.blue:active,
