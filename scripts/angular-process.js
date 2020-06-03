@@ -389,6 +389,7 @@
             //$tasks
             getTasks: getTasks,
             postGenerarFile:postGenerarFile,
+            postGenerarFilePDF:postGenerarFilePDF,
             getTasksVencidos: getTasksVencidos,
             getTasksRiesgo: getTasksRiesgo,
             getTasksVigente: getTasksVigente,
@@ -620,6 +621,15 @@
 
            function postGenerarFailed(error) {
                console.log("Generate file error:" + error.data);
+           }
+        }
+
+        function postGenerarFilePDF(vm){
+          return $http.post(API + '/generarReporte/ireport?nombreForm='+vm.docData.nb_conversacion+'&wfa='+vm.docData.wfa,vm.gArch)
+           .then(postGenerarFilePDFComplete);
+           //.catch(getTasksFailed);
+           function postGenerarFilePDFComplete(response) {
+               return response.data;
            }
         }
 

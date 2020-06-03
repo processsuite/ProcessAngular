@@ -765,6 +765,65 @@
                     	}
                     });
 	            };
+              $scope.generarArchivoPDF = function(agent){
+                let flag = evaluar_event( event.type, event.target.id);
+                if(!flag){
+                  return false;
+                }
+                let url = agent.href;
+                let interpretar = url.match(/\{([^{}]*[^{}]*)\}/g)
+                if(interpretar!= null && interpretar.length > 0){
+                    angular.forEach(interpretar,function(k,v){
+                        let valor = k.replace('{','').replace('}','')
+                        url = url.replace(k,obtener_valor(valor))
+                    });
+                }
+                url = url.replace('ireport?', '');
+                let variables = url.split('&');
+                var gArch = {'pAnexar':1,'pDelimitador':'', 'pConsulta':'', 'pCampoInd':''};
+                angular.forEach(variables,function(k,v){
+                  //
+                    let valor = {};//k.split("=")
+                    valor[0] = k.substr(0,k.indexOf('='));
+                    valor[1] = k.substr(k.indexOf('=')+1);
+
+                    if(valor[0]=='A'){ gArch.pathArch = valor[1]+'\\';}
+                    if(valor[0]=='B'){ gArch.pNombreArch = valor[1];}
+                    if(valor[0]=='C'){ gArch.pCampoInd = valor[1];}
+                    if(valor[0]=='D'){ gArch.pDescripcion = valor[1];}
+                    if(valor[0]=='N'){ gArch.pDelimitador = valor[1];}
+                    if(valor[0]=='F'){ gArch.pAnexar = valor[1]=='S'?1:0;}
+                    if(valor[0]=='Consultastr'){ gArch.pConsulta = valor[1];}
+                    if(valor[0]=='M'){ gArch.pExtArch = valor[1];}
+                    //pConsulta
+                });
+                vm.gArch = gArch;
+                processEngine.saveFormDocument(vm).then(function (data){
+                    processEngine.postGenerarFilePDF(vm).then(function(data){
+                      if(data!='' && data != null){
+                        //console.log($rootScope.iRepAnexos);
+                        let a = data.split("/");
+                        let b = "";
+                        if(a.length > 0){
+                          b = a[a.length -1] //obtengo siempre el ultimo registro del arreglo
+                        }else{
+                          b = data;
+                        }
+                        let link = $rootScope.iRepAnexos+'/'+b;
+                        $window.open(link, '_blank');
+                        processEngine.attachedDocument()
+                           .then(function (data) {
+                            if (data!=null){
+                              $scope.listAnexos = data;
+                              $scope.changeAnexos = true;
+                              $scope.getDocument(vm.frmn);
+                            }
+                           });
+                      }
+                    });
+                });
+
+              }
 
             $scope.generarArchivo= function(agent){
               //  console.log(event.type);
