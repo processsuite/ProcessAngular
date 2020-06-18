@@ -634,7 +634,8 @@
         }
 
         function postGenerarFileReporte(vm) {
-            return $http.post(API + '/generarReporte/consulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order,vm.paramsData)
+            //return $http.post(API + '/generarReporte/consulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order,vm.paramsData)
+            return $http.post(API + '/generarReporte/ireportConsulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order+ '&ext='+vm.ext+"&ambiente="+$rootScope.nbAmbiente,vm.paramsData)
 	        	.then(postGenerarFileReporteComplete);
 	        	//.catch(getParamReportFailed);
 
@@ -819,7 +820,7 @@
         }
 
         function exeReport(vm){
-            return $http.post(API + '/report/exe?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order,vm.paramsData)
+            return $http.post(API + '/report/exe?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order+'&ambiente='+$rootScope.nbAmbiente,vm.paramsData)
 	        	.then(getParamReportComplete);
 	        	//.catch(getParamReportFailed);
 

@@ -35,6 +35,7 @@
         vm.getDataServerSide = getDataServerSide;
         vm.getDataServerSideHead = getDataServerSideHead;
         vm.imprimirPlantilla = imprimirPlantilla;
+        vm.modalImprimirPlantilla = modalImprimirPlantilla;
         vm.isLoading = true;
         vm.displayedCollection = [];
         vm.numberItems = 20;
@@ -140,8 +141,9 @@
                 });
         }
 
-        function imprimirPlantilla(){
+        function imprimirPlantilla(ext){
           vm.paramsData.rutaAgent = $rootScope.repAgentes+'\\';
+          vm.ext = ext;
           return processEngine.postGenerarFileReporte(vm)
                   .then(function (data) {
                     if (data!=null && data!='' ){
@@ -225,6 +227,7 @@
                    .then(function (data) {
                 	   if (data!=null){
                 		   vm.wfa = data.wfa;
+                       vm.archReport = data.archReport;
                			   if (data.tipo>vm.tipo){
                				   vm.grafica = true;
                				   vm.tipoGrafico = data.tipoGrafico;
@@ -278,6 +281,58 @@
                    });
         }
 
+        function modalImprimirPlantilla(){
+                  var modalInstance = $modal.open({
+                      templateUrl: 'app/views/templates/modalDocumentImp.html',
+                      keyboard: false,
+                      backdrop: 'static',
+                      controller: ModalImpController,
+                      resolve: {
+                      }
+                    });
+
+                    modalInstance.result.then(function(option) {
+                      console.log(option)
+                      if(option == 1){
+                        vm.imprimirPlantilla('.pdf')
+                      }else if (option == 2){
+                        vm.imprimirPlantilla('.xlsx')
+                      }
+                    }, function() {
+                      console.log("function2")
+                    });
+        }
+
     }
 
 })();
+
+
+var ModalImpController = function($scope, $modalInstance, documentService) {
+
+	$scope.nbConversacionOpen = '';
+	$scope.nuDocOpen = '';
+
+    activate();
+
+    function activate() {
+    	if (documentService.isOpenDoc()){
+			var arrayDoc = documentService.getCtxOpenDoc();
+			$scope.nbConversacionOpen = arrayDoc[4];
+			$scope.nuDocOpen = arrayDoc[0];
+    	}
+    }
+
+
+    $scope.xlsx = function () {
+	    $modalInstance.close('2');
+	  };
+
+    $scope.pdf = function () {
+      $modalInstance.close('1');
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+};
