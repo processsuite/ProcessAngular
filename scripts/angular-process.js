@@ -625,7 +625,7 @@
         }
 
         function postGenerarFilePDF(vm){
-          return $http.post(API + '/generarReporte/ireport?nombreForm='+vm.docData.nb_conversacion+'&wfa='+vm.docData.wfa,vm.gArch)
+          return $http.post(API + '/generarReporte/ireport?nombreForm='+vm.docData.nb_conversacion+'&wfa='+vm.docData.wfa+"&ambiente="+$rootScope.nbAmbiente,vm.gArch)
            .then(postGenerarFilePDFComplete);
            //.catch(getTasksFailed);
            function postGenerarFilePDFComplete(response) {

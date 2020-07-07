@@ -32,11 +32,11 @@
 
 	    $rootScope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
 	        if ((toState.name === "root.main.documentopen")||(toState.name === "root.main.documentcreate")) {
-	    		$rootScope.fromStateToDoc = fromState.name;
-	    		$rootScope.fromParamFilter = fromParams.filter;//only case task
-	    		$rootScope.fromParamWfp = fromParams.wfp;//only case reports
-	    		$rootScope.fromParamWfh = fromParams.wfh;//only case reports
-	    		$rootScope.fromParamName = fromParams.name;//only case reports
+  	    		$rootScope.fromStateToDoc = fromState.name;
+  	    		$rootScope.fromParamFilter = fromParams.filter;//only case task
+  	    		$rootScope.fromParamWfp = fromParams.wfp;//only case reports
+  	    		$rootScope.fromParamWfh = fromParams.wfh;//only case reports
+  	    		$rootScope.fromParamName = fromParams.name;//only case reports
 	        }
 	      });
 

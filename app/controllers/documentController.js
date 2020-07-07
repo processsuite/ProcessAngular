@@ -786,14 +786,15 @@
                     let valor = {};//k.split("=")
                     valor[0] = k.substr(0,k.indexOf('='));
                     valor[1] = k.substr(k.indexOf('=')+1);
-
+                    gArch.pConsultabool = 0;
                     if(valor[0]=='A'){ gArch.pathArch = valor[1]+'\\';}
                     if(valor[0]=='B'){ gArch.pNombreArch = valor[1];}
                     if(valor[0]=='C'){ gArch.pCampoInd = valor[1];}
                     if(valor[0]=='D'){ gArch.pDescripcion = valor[1];}
                     if(valor[0]=='N'){ gArch.pDelimitador = valor[1];}
                     if(valor[0]=='F'){ gArch.pAnexar = valor[1]=='S'?1:0;}
-                    if(valor[0]=='Consultastr'){ gArch.pConsulta = valor[1];}
+                    if(valor[0]=='Consultastr'){gArch.pConsulta = valor[1];}
+                    if(valor[0] == 'Consultabool'){gArch.pConsultabool = valor[1]=='S'?1:0;}
                     if(valor[0]=='M'){ gArch.pExtArch = valor[1];}
                     //pConsulta
                 });
