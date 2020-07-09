@@ -1,7 +1,7 @@
 <!-- Modal -->
-<form name="sendForm" novalidate>
+<form name="sendForm">
 <div class="modal-body">
-	    <div class="row" ng-if="!sendObj.allSelected && !sendBoolMsg">
+	   <div class="row" ng-if="!sendObj.allSelected && !sendBoolMsg">
 			<table ng-repeat="dest in sendObj.destinos" ng-if="!dest.anySelected" st-table="display" st-safe-src="dest.puestos" class="table" style="margin-bottom: 0px;">
 			    <thead>
 					<tr>
@@ -24,36 +24,36 @@
 			</table>
 		</div>
 	    <div class="row" ng-if="!sendBoolMsg">
-         	<div class="col-lg-6" ng-if="sendObj.evalua">
+     		<div class="col-lg-6" ng-if="sendObj.evalua">
 	         	<h3>{{ 'EvaluationModalSendForm' | translate }}</h3>
-				<div class="form-group">
-					<label>{{ 'OpinionModalSendForm' | translate }}</label>
-					<input type="radio" name="wl_satisfacion" value="1" ng-model="opinion"/><span>{{ 'OpinionOp1ModalSendForm' | translate }}</span>
-					<input type="radio" name="wl_satisfacion" value="2" ng-model="opinion"/><span>{{ 'OpinionOp2ModalSendForm' | translate }}</span>
-					<input type="radio" name="wl_satisfacion" value="3" ng-model="opinion"/><span>{{ 'OpinionOp3ModalSendForm' | translate }}</span>
-					<input type="radio" name="wl_satisfacion" value="4" ng-model="opinion"/><span>{{ 'OpinionOp4ModalSendForm' | translate }}</span>
-					<input type="radio" name="wl_satisfacion" value="5" ng-model="opinion"/><span>{{ 'OpinionOp5ModalSendForm' | translate }}</span>
-	            </div>
-				<div class="form-group">
-					<label>{{ 'CommentModalSendForm' | translate }}</label>
-					<input class="form-control" type="text" placeholder="{{ 'CommentModalSendForm' | translate }}" name="wl_observaciones" id="wl_observaciones" ng-model="comment" />
-	            </div>
+						<div class="form-group">
+							<label>{{ 'OpinionModalSendForm' | translate }}</label>
+							<input type="radio" name="wl_satisfacion" value="1" ng-model="opinion"/><span>{{ 'OpinionOp1ModalSendForm' | translate }}</span>
+							<input type="radio" name="wl_satisfacion" value="2" ng-model="opinion"/><span>{{ 'OpinionOp2ModalSendForm' | translate }}</span>
+							<input type="radio" name="wl_satisfacion" value="3" ng-model="opinion"/><span>{{ 'OpinionOp3ModalSendForm' | translate }}</span>
+							<input type="radio" name="wl_satisfacion" value="4" ng-model="opinion"/><span>{{ 'OpinionOp4ModalSendForm' | translate }}</span>
+							<input type="radio" name="wl_satisfacion" value="5" ng-model="opinion"/><span>{{ 'OpinionOp5ModalSendForm' | translate }}</span>
+	           </div>
+						 <div class="form-group">
+							 <label>{{ 'CommentModalSendForm' | translate }}</label>
+							 <input class="form-control" type="text" placeholder="{{ 'CommentModalSendForm' | translate }}" name="wl_observaciones" id="wl_observaciones" ng-model="comment" />
+	           </div>
 			</div>
          	<div class="col-lg-6" ng-if="sendObj.firma">
 	         	<h3>{{ 'SignModalSendForm' | translate }}</h3>
-				<div class="form-group">
-					<label>{{ 'QuestionModalSendForm' | translate }}: {{ question }}</label>
-	            </div>
+						<div class="form-group">
+							<label>{{ 'QuestionModalSendForm' | translate }}: {{ question }}</label>
+			       </div>
 
-				<div class="form-group">
-					<label>{{ 'AnswerModalSendForm' | translate }}</label>
-					<input class="form-control" type="password" placeholder="{{ 'AnswerModalSendForm' | translate }}" name="wl_respuesta" id="wl_respuesta"  ng-model="answer" required/>
-	            </div>
+						<div class="form-group">
+							<label>{{ 'AnswerModalSendForm' | translate }} {{ answer }}</label>
+							<input class="form-control" ng-model="input.answer"  type="password" placeholder="{{ 'AnswerModalSendForm' | translate }}" name="answer" id="answer" required/>
+			      </div>
 
-				<div class="form-group">
-					<label>{{ 'SignModalSendForm' | translate }}</label>
-					<input class="form-control" type="password" placeholder="{{ 'SignModalSendForm' | translate }}" name="wl_firma"  id="wl_firma" ng-model="sign" required/>
-	            </div>
+						<div class="form-group">
+							<label>{{ 'SignModalSendForm' | translate }} {{ sign }}</label>
+							<input class="form-control" type="password" ng-model="input.sign" placeholder="{{ 'SignModalSendForm' | translate }}" name="sign"  id="sign"  required/>
+			      </div>
 			</div>
 		</div>
 		<div class="row" ng-if="sendBoolMsg">

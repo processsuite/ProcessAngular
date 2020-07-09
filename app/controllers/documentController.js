@@ -2415,6 +2415,7 @@ var ModalSendController = function($scope, $modalInstance, processEngine, sendOb
 	$scope.sendBoolMsg = false;
 	$scope.sendAcc = sendAcc;
 	$scope.nbAcc = '';
+  $scope.input = {};
 
 	activate();
 
@@ -2476,24 +2477,26 @@ var ModalSendController = function($scope, $modalInstance, processEngine, sendOb
 
 	$scope.send = function () {
 	  $scope.sendMsg = {};
-	  if (!$scope.sendObj.allSelected){
-    	  if ($scope.comment!=''){
-      		$scope.sendComment = $scope.comment;
-      	  }
-      	  if ($scope.sendChkPriority=='1'){
-      		$scope.sendBoolPriority = true;
-      	  }else{
-      		$scope.sendBoolPriority = false;
-      	  }
-          processEngine.sendDocument($scope.sign,$scope.question,$scope.answer,$scope.sendComment,$scope.sendBoolPriority,true,$scope.opinion,$scope.sendCcMail,0,$scope.sendObj.destinos)
-          .then(function (data) {
-          	if (data!=null){
-          		//alert(JSON.stringify(data, null, 2));
-          		$scope.sendMsg = data;
-          		$scope.sendBoolMsg = true;
-          	}
-          });
-	  }
+    console.log($scope.sendObj);
+
+  	  //if ($scope.sendObj.allSelected){
+      	  if ($scope.comment!=''){
+        		$scope.sendComment = $scope.comment;
+        	  }
+        	  if ($scope.sendChkPriority=='1'){
+        		$scope.sendBoolPriority = true;
+        	  }else{
+        		$scope.sendBoolPriority = false;
+        	  }
+            processEngine.sendDocument($scope.input.sign,$scope.question,$scope.input.answer,$scope.sendComment,$scope.sendBoolPriority,true,$scope.opinion,$scope.sendCcMail,0,$scope.sendObj.destinos)
+            .then(function (data) {
+            	if (data!=null){
+            		//alert(JSON.stringify(data, null, 2));
+            		$scope.sendMsg = data;
+            		$scope.sendBoolMsg = true;
+            	}
+            });
+  	  //}
     };
 
     $scope.cancel = function () {
