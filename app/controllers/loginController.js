@@ -28,6 +28,7 @@
         vm.saveNewSecurity = saveNewSecurity;
         vm.changePasswordExpired = changePasswordExpired;
         vm.validateQuestion = validateQuestion;
+        vm.envShow = true;
         activate();
 
       function login() {
@@ -207,10 +208,16 @@
 
         function activate() {
         	$scope.ticketService.resetListError();
+
             if (!!$state.params.environmentName) {
                verifyEnvironment();
             }
-
+            if(config.environmentStatic!= undefined && !!config.environmentStatic){
+              vm.user.envi = config.environmentStatic;
+            }
+            if(vm.environmentShow != undefined && vm.envShow != config.environmentShow){
+              vm.envShow = vm.environmentShow;
+            }
     		if (($state.current.name=="root.login") || ($state.current.name=="root.login.environment") || ($state.current.name=="root.login.forgot")){
     			$scope.ticketService.delTicket();
     			$scope.ticketService.resetListError();
