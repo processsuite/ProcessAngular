@@ -39,7 +39,7 @@ angular.module('ui.multiselect', [])
             isMultiple = attrs.multiple ? true : false,
             required = false,
             scope = originalScope.$new(),
-            changeHandler = attrs.change || anguler.noop;
+            changeHandler = attrs.change || angular.noop;
 
           scope.items = [];
           scope.header = 'Select';
@@ -116,7 +116,8 @@ angular.module('ui.multiselect', [])
           element.append($compile(popUpEl)(scope));
 
           function getHeaderText() {
-            if (!modelCtrl.$modelValue || !modelCtrl.$modelValue.length) return scope.header = $filter('translate')('Select');;
+
+            if (!modelCtrl.$modelValue || (isMultiple && !modelCtrl.$modelValue.length)) return scope.header = $filter('translate')('Select');;
             if (isMultiple) {
               //scope.header = modelCtrl.$modelValue.length + ' ' + $filter('translate')('Selected');
 
@@ -128,7 +129,14 @@ angular.module('ui.multiselect', [])
               scope.header = headerSelect.replace(",", "", 1);
             } else {
               var local = {};
-              local[parsedResult.itemName] = modelCtrl.$modelValue;
+              angular.forEach(scope.items, function (item) {
+                if (item.model.codigo == modelCtrl.$modelValue) {
+                  local[parsedResult.itemName] = item.model;
+                  return false;
+                }
+              });
+
+              //local[parsedResult.itemName] = modelCtrl.$modelValue;
               scope.header = parsedResult.viewMapper(local);
             }
           }
@@ -165,7 +173,7 @@ angular.module('ui.multiselect', [])
             } else {
               angular.forEach(scope.items, function (item) {
                 if (item.checked) {
-                  value = item.model;
+                  value = item.model.codigo;
                   return false;
                 }
               })
@@ -176,7 +184,7 @@ angular.module('ui.multiselect', [])
           function markChecked(newVal) {
             if (!angular.isArray(newVal)) {
               angular.forEach(scope.items, function (item) {
-                if (angular.equals(item.model, newVal)) {
+                if (angular.equals(item.model.codigo, newVal)) {
                   item.checked = true;
                   return false;
                 }
@@ -197,14 +205,14 @@ angular.module('ui.multiselect', [])
             angular.forEach(scope.items, function (item) {
               item.checked = true;
             });
-            setModelValue(true);
+            setModelValue(isMultiple);
           };
 
           scope.uncheckAll = function () {
             angular.forEach(scope.items, function (item) {
               item.checked = false;
             });
-            setModelValue(true);
+            setModelValue(isMultiple);
           };
 
           scope.select = function (item) {
