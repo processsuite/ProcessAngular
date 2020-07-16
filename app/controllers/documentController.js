@@ -1487,13 +1487,61 @@
                 let valor;
                 for(let x in cantGrupos){
                     for(let y in cantGrupos[x].CAMPO){
-                        if(cantGrupos[x].CAMPO[y].nombre == campo){
-                          if(cantGrupos[x].CAMPO[y].tipo == 'L'){//Tipo SELECT
-                            console.log(cantGrupos[x].CAMPO[y]);
+                        if(cantGrupos[x].CAMPO[y].tipo != 'M' && cantGrupos[x].CAMPO[y].nombre == campo && index == undefined){
+                          if(cantGrupos[x].CAMPO[y].tipo == 'L' && cantGrupos[x].CAMPO[y].OPCIONES.multiple == "false"){//Tipo SELECT
                              valor = cantGrupos[x].CAMPO[y].value;
+                             break;
+                          }else if(cantGrupos[x].CAMPO[y].tipo == 'L' && cantGrupos[x].CAMPO[y].OPCIONES.multiple == "true"){//Tipo SELECT  multiple
+                             valor = cantGrupos[x].CAMPO[y].valueM;
+                             break;
+                          }else if(cantGrupos[x].CAMPO[y].tipo == 'S'){//Tipo SELECT
+                            valor = [];
+                              for(let z in cantGrupos[x].CAMPO[y].CAMPO){
+                                  valor.push(cantGrupos[x].CAMPO[y].CAMPO[z].value);
+                              }
+                             break;
+                          }else{
+                            valor = cantGrupos[x].CAMPO[y].value;
+                            break;
                           }
-                        }
+                        }else if(cantGrupos[x].CAMPO[y].tipo == 'S' && cantGrupos[x].CAMPO[y].nombre == campo && index != undefined){ //para campos con hijos
+                          if(cantGrupos[x].CAMPO[y].CAMPO[index].exclusivo == "false"){
+                              valor = cantGrupos[x].CAMPO[y].CAMPO[index].value;
+                          }else{
+                                if(cantGrupos[x].CAMPO[y].CAMPO[index].nombre == cantGrupos[x].CAMPO[y].value){
+                                  valor ="T"
+                                }else{
+                                  valor ="F"
+                                }
+                          }
 
+                          break;
+                        }else if(cantGrupos[x].CAMPO[y].tipo == 'L' && cantGrupos[x].CAMPO[y].nombre == campo && index != undefined){
+                          let valorTemp;
+                          if(cantGrupos[x].CAMPO[y].OPCIONES.multiple == "true"){
+                            valorTemp = cantGrupos[x].CAMPO[y].valueM;
+                          }else{
+                            valorTemp = cantGrupos[x].CAMPO[y].value;
+                          }
+                          let lista = cantGrupos[x].CAMPO[y].OPCIONES.OPCION;
+
+                          if(typeof valorTemp == "object"){
+                            valor = "";
+                            for(let a in valorTemp){
+                                  valor += ", "+valorTemp[a].value;
+                              }
+                            valor = valor.substr(2)
+                            break
+                          }else{
+                            for(let i in lista){
+                                if(lista[i].codigo == valorTemp ){
+                                  valor = lista[i].value;
+                                  break;
+                                }
+                              }
+                          }
+                          break;
+                        }
                     }
                 }
                 return valor;
@@ -1563,9 +1611,6 @@
               }
 
               $scope.valorSelect = function(campo){
-
-
-
                 let opcion = campo.OPCIONES.OPCION;
                 let r = '';
                    for(let opt in opcion){

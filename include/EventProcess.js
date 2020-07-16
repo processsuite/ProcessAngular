@@ -292,24 +292,25 @@ try{
 //rutina auxiliar para obtener valores de campos Process(No matriz).
 function obtener_valor(campoP,index){
 	try{
-	    if (document.getElementById(campoP).tagName=="SELECT"){
-					if (index==undefined){
-						index = 0;
-					}
-					if (index==0){
-						if (document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).getAttribute("value")){
-							var val = document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).getAttribute("value")
-							if(val.split(":").length>0){
-								return val.split(":")[1];
-							}
-							return val;
-						}else{
-							return(document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).text);
+		return angular.element($('[name="documentForm"]')).scope().obtenerValorAng(campoP, index);
+    /*if (document.getElementById(campoP).tagName=="SELECT"){
+				if (index==undefined){
+					index = 0;
+				}
+				if (index==0){
+					if (document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).getAttribute("value")){
+						var val = document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).getAttribute("value")
+						if(val.split(":").length>0){
+							return val.split(":")[1];
 						}
+						return val;
 					}else{
 						return(document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).text);
 					}
-        }
+				}else{
+					return(document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).text);
+				}
+      }
 		if (document.getElementById(campoP).type=="checkbox"){
 			if (document.getElementById(campoP).checked){
 				return("T");
@@ -331,7 +332,7 @@ function obtener_valor(campoP,index){
 			}else{
 				return(document.getElementById("SPAN_"+campoP).innerHTML);
 			}
-        }
+		}*/
 	}
 	catch(e){}
 }
