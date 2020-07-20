@@ -181,7 +181,8 @@ try{
 //rutina auxiliar para asignar valores a campos Process(No matriz) y avisar que han cambiado.
 function asignar_valor(campoP,valor,index){
 try{
-	if (document.getElementById(campoP).tagName=="SELECT"){
+	angular.element($('[name="documentForm"]')).scope().asignarValorAng(campoP,valor,index)
+	/*if (document.getElementById(campoP).tagName=="SELECT"){
 		var num_list = document.getElementById(campoP).length;
 		var i = 0;
 		for(i=0;i<num_list;i++){
@@ -240,7 +241,7 @@ try{
 		    //document.getElementById(campoP).onchange();
 				$("#"+campoP).change();
 		}catch(e){}
-	}
+	}*/
 	return(true);
 }catch(e){}
 }

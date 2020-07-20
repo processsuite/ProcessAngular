@@ -90,6 +90,7 @@ angular.module('ui.multiselect', [])
             //for preselected list then we need to mark checked in our scope item. But we don't want to do this every time
             //model changes. We need to do this only if it is done outside directive scope, from controller, for example.
             if (angular.isDefined(newVal)) {
+              unMarkChecked(oldVal);
               markChecked(newVal);
               scope.$eval(changeHandler);
             }
@@ -194,6 +195,25 @@ angular.module('ui.multiselect', [])
                 angular.forEach(scope.items, function (item) {
                   if (angular.equals(item.model, i)) {
                     item.checked = true;
+                  }
+                });
+              });
+            }
+          }
+
+          function unMarkChecked(oldVal) {
+            if (!angular.isArray(oldVal)) {
+              angular.forEach(scope.items, function (item) {
+                if (angular.equals(item.model.codigo, oldVal)) {
+                  item.checked = false;
+                  return false;
+                }
+              });
+            } else {
+              angular.forEach(oldVal, function (i) {
+                angular.forEach(scope.items, function (item) {
+                  if (angular.equals(item.model, i)) {
+                    item.checked = false;
                   }
                 });
               });
