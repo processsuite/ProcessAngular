@@ -293,14 +293,18 @@ try{
 //rutina auxiliar para obtener valores de campos Process(No matriz).
 function obtener_valor(campoP,index){
 	try{
-		return angular.element($('[name="documentForm"]')).scope().obtenerValorAng(campoP, index);
-    /*if (document.getElementById(campoP).tagName=="SELECT"){
+		let val;
+		val=  angular.element($('[name="documentForm"]')).scope().obtenerValorAng(campoP, index);
+		if(val != undefined){
+			return val;
+		}
+    if (document.getElementById(campoP).tagName=="SELECT"){
 				if (index==undefined){
 					index = 0;
 				}
 				if (index==0){
 					if (document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).getAttribute("value")){
-						var val = document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).getAttribute("value")
+						val = document.getElementById(campoP).item(document.getElementById(campoP).selectedIndex).getAttribute("value")
 						if(val.split(":").length>0){
 							return val.split(":")[1];
 						}
@@ -333,7 +337,7 @@ function obtener_valor(campoP,index){
 			}else{
 				return(document.getElementById("SPAN_"+campoP).innerHTML);
 			}
-		}*/
+		}
 	}
 	catch(e){}
 }
