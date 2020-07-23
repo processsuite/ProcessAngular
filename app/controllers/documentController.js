@@ -1599,13 +1599,13 @@
                           if(cantGrupos[x].CAMPO[y].nombre == campo && fil >= 0 && col >= 0){
                             if(cantGrupos[x].CAMPO[y].CAMPO[col].tipo == 'N'){
                                 valor = cantGrupos[x].CAMPO[y].FILAS.FILA[fil].CAMPO[col].value
-                                if (valor % 1 == 0 && valor != "") {
+                              /*  if (valor % 1 == 0 && valor != "") {
                                   valor = valor+$locale.NUMBER_FORMATS.DECIMAL_SEP+"00"
                                 }else if(valor != ""){
                                   valor = valor+"";
                                 }else{
                                   valor = "0";
-                                }
+                                }*/
                             }else if(cantGrupos[x].CAMPO[y].CAMPO[col].tipo == 'A' && cantGrupos[x].CAMPO[y].CAMPO[col].OPCIONES.multiple == 'true'){
                               valor = cantGrupos[x].CAMPO[y].FILAS.FILA[fil].CAMPO[col].valueM
                             }else{
@@ -2070,6 +2070,10 @@
 	        	  return $scope.searchEventAjax({userInputString : userInputStringM, timeoutPromise: timeoutPromiseM, identField: idFieldObj.substring(idFieldObj.indexOf("_")+1), fila: idFieldObj.substring(1,idFieldObj.indexOf("_")) });
 	          };
 
+          $scope.depurarM = function(pe_valorM, pe_sepdecM, opeM){
+              return $scope.depurar({pe_valor: pe_valorM,pe_sepdec:pe_sepdecM ,ope: opeM});
+          }
+
           $scope.generarArchivoM = function(field, fil){
             return  $scope.generarArchivo({field: field});
           }
@@ -2127,7 +2131,7 @@
 
              /*Validar Rango colocado en el diseñador*/
              if(f ==true){
-               let valor =parseFloat($scope.depurar(fil.value,$locale.NUMBER_FORMATS.DECIMAL_SEP, 1));
+               let valor =parseFloat($scope.depurarM(fil.value,$locale.NUMBER_FORMATS.DECIMAL_SEP, 1));
                if (minimo<=maximo){
                     if (valor<minimo||valor>maximo){
                     alertmb("El valor ingresado no se encuentra dentro del rango, minimo ("+campo.minimo+") maximo ("+campo.maximo+")",1,1,"Aceptar");
@@ -2143,7 +2147,7 @@
           }
 
           $scope.esNumeroM = function(campo){
-            if(isNaN($scope.depurar({ pe_valor:campo.value, pe_sepdec:$locale.NUMBER_FORMATS.DECIMAL_SEP, ope: 1 }))) return 0;
+            if(isNaN($scope.depurarM(campo.value, $locale.NUMBER_FORMATS.DECIMAL_SEP,1))) return 0;
             //pe_valor, pe_sepdec, ope
             if(campo.value != null){
                campo.value = $scope.formatoNumero({valor:campo.value,cant_decimal:campo.decimales});
