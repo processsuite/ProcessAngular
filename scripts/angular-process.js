@@ -443,6 +443,7 @@
             marckAttachedDocument:marckAttachedDocument,
             getAgentsGenerals:getAgentsGenerals,
             postGenerarFileReporte:postGenerarFileReporte,
+            postGenerarFileReporteIreport:postGenerarFileReporteIreport,
             getDataServices:getDataServices,
             getLogsDatos:getLogsDatos,
         		getLogsTraza:getLogsTraza,
@@ -634,8 +635,8 @@
         }
 
         function postGenerarFileReporte(vm) {
-            //return $http.post(API + '/generarReporte/consulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order,vm.paramsData)
-            return $http.post(API + '/generarReporte/ireportConsulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order+ '&ext='+vm.ext+"&ambiente="+$rootScope.nbAmbiente,vm.paramsData)
+            return $http.post(API + '/generarReporte/consulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order,vm.paramsData)
+            //return $http.post(API + '/generarReporte/ireportConsulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order+ '&ext='+vm.ext+"&ambiente="+$rootScope.nbAmbiente,vm.paramsData)
 	        	.then(postGenerarFileReporteComplete);
 	        	//.catch(getParamReportFailed);
 
@@ -644,6 +645,22 @@
 		        }
 
 		        function postGenerarFileReporteFailed(error) {
+		            return error.data;
+		        };
+
+        }
+
+        function postGenerarFileReporteIreport(vm) {
+            //return $http.post(API + '/generarReporte/consulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order,vm.paramsData)
+            return $http.post(API + '/generarReporte/ireportConsulta?wfp='+ vm.wfp +'&wfh=' + vm.wfh + '&tipo=' + vm.tipo + '&desde=' + vm.from + '&order=' + vm.order+ '&ext='+vm.ext+"&ambiente="+$rootScope.nbAmbiente,vm.paramsData)
+	        	.then(postGenerarFileReporteIreportComplete);
+	        	//.catch(getParamReportFailed);
+
+		        function postGenerarFileReporteIreportComplete(response){
+		            return response.data;
+		        }
+
+		        function postGenerarFileReporteIreportFailed(error) {
 		            return error.data;
 		        };
 

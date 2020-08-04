@@ -36,6 +36,7 @@
         vm.getDataServerSideHead = getDataServerSideHead;
         vm.imprimirPlantilla = imprimirPlantilla;
         vm.modalImprimirPlantilla = modalImprimirPlantilla;
+        vm.imprimirPlantillaConsulta = imprimirPlantillaConsulta;
         vm.isLoading = true;
         vm.displayedCollection = [];
         vm.numberItems = 20;
@@ -144,6 +145,18 @@
         function imprimirPlantilla(ext){
           vm.paramsData.rutaAgent = $rootScope.repAgentes+'\\';
           vm.ext = ext;
+          return processEngine.postGenerarFileReporteIreport(vm)
+                  .then(function (data) {
+                    if (data!=null && data!='' ){
+                      let link = $rootScope.iRepAnexos+'/'+data;
+                      $window.open(link, '_blank');
+                  }
+                });
+        }
+
+        function imprimirPlantillaConsulta(ext){
+          vm.paramsData.rutaAgent = $rootScope.repAgentes+'\\';
+          vm.ext = '.xls';
           return processEngine.postGenerarFileReporte(vm)
                   .then(function (data) {
                     if (data!=null && data!='' ){
