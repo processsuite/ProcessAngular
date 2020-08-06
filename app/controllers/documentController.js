@@ -612,6 +612,13 @@
 	                 });
 	            };
 
+              $scope.eventLista = function(field){
+                console.log(field)
+                if(field.evento == "true"){
+                    $scope.ejecEventAgent(field.nombre,0, field.opcionesmultiples);
+                }
+              }
+
 	            $scope.ejecEventAgent = function(campo,fila, opcionesmultiples) {
                 //console.log(opcionesmultiples)
                 if(event != undefined){
@@ -1554,34 +1561,42 @@
                       if(cantGrupos[x].CAMPO[y].nombre == campo){
                         if(cantGrupos[x].CAMPO[y].tipo == 'L'&& cantGrupos[x].CAMPO[y].OPCIONES.multiple == "false"){
                             cantGrupos[x].CAMPO[y].value=valor;
+                            cantGrupos[x].CAMPO[y].change=true;
                         }else if(cantGrupos[x].CAMPO[y].tipo == 'L'&& cantGrupos[x].CAMPO[y].OPCIONES.multiple == "true"){
                             cantGrupos[x].CAMPO[y].valueM=valor;
+                            cantGrupos[x].CAMPO[y].change=true;
                         }if(cantGrupos[x].CAMPO[y].tipo == 'S'){
                             if(index!= -1 && cantGrupos[x].CAMPO[y].CAMPO[index].exclusivo == "true"){
                               cantGrupos[x].CAMPO[y].value = cantGrupos[x].CAMPO[y].CAMPO[index].nombre;
+                              cantGrupos[x].CAMPO[y].change=true;
                             }else{
                               if(!angular.isArray(valor)){
                                 if(valor == "T"){
                                       cantGrupos[x].CAMPO[y].CAMPO[index].checked = true;
                                       cantGrupos[x].CAMPO[y].CAMPO[index].value = valor;
+                                      cantGrupos[x].CAMPO[y].change=true;
                                 }else if(valor == "F"){
                                     cantGrupos[x].CAMPO[y].CAMPO[index].checked = false;
                                     cantGrupos[x].CAMPO[y].CAMPO[index].value = valor;
+                                    cantGrupos[x].CAMPO[y].change=true;
                                 }
                               }else{ //valor = ["T","F","T"]
                                   for(let i in valor){
                                     if(valor[i] == "T"){
                                           cantGrupos[x].CAMPO[y].CAMPO[i].checked = true;
                                           cantGrupos[x].CAMPO[y].CAMPO[i].value = valor[i];
+                                          cantGrupos[x].CAMPO[y].change=true;
                                     }else if(valor[i] == "F"){
                                         cantGrupos[x].CAMPO[y].CAMPO[i].checked = false;
                                         cantGrupos[x].CAMPO[y].CAMPO[i].value = valor[i];
+                                        cantGrupos[x].CAMPO[y].change=true;
                                     }
                                   }
                               }
                             }
                         }else{
                           cantGrupos[x].CAMPO[y].value=valor;
+                          cantGrupos[x].CAMPO[y].change=true;
                         }
                       }
                   }

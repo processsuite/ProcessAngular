@@ -50,7 +50,11 @@ angular.module('ui.multiselect', [])
             scope.$destroy();
           });
 
-          var popUpEl = angular.element('<multiselect-popup></multiselect-popup>');
+          var popUpEl = angular.element('<multiselect-popup evento-hijo ="eventoPadre()"></multiselect-popup>');
+
+          scope.eventoPadre = function(){
+            $parse(attrs.eventLista)(originalScope);
+          }
 
           //required validator
           if (attrs.required || attrs.ngRequired) {
@@ -140,7 +144,9 @@ angular.module('ui.multiselect', [])
               //local[parsedResult.itemName] = modelCtrl.$modelValue;
               scope.header = parsedResult.viewMapper(local);
             }
+            //$parse(attrs.eventLista)(originalScope)
           }
+
 
           scope.valid = function validModel() {
             if(!required) return true;
@@ -247,7 +253,7 @@ angular.module('ui.multiselect', [])
       };
     }])
 
-  .directive('multiselectPopup', ['$document', function ($document) {
+  .directive('multiselectPopup', ['$parse','$document', function ($parse, $document) {
     return {
       restrict: 'E',
       scope: false,
@@ -261,6 +267,8 @@ angular.module('ui.multiselect', [])
           if (element.hasClass('open')) {
             element.removeClass('open');
             $document.unbind('click', clickHandler);
+            $parse(attrs.eventoHijo)(scope)
+            console.log("salir")
           } else {
             element.addClass('open');
             scope.focus();
