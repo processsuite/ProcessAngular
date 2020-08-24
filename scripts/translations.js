@@ -245,7 +245,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
       'Internet Directory':'Directorio de internet',
       'Logs':'Registros',
       'Users':'Usuarios',
-      'robot events':'Eventos por robot',
+      'Robot':'Robot',
       'Email':'Correo',
       'Proces Console':'Proces Console',
     	//************Formularios*****************
