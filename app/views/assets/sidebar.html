@@ -81,7 +81,7 @@
         <a href="javascript:;" ng-click="vm.goLogs();"" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i> <i class="fas fa-archive"></i> Logs</a>
     </li>-->
     <li ng-show="admUsr">
-    <a href="javascript:;" data-toggle="collapse" data-target="#adm-1" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i><i class="fas fa-user-cog"></i> Proces Console</a>
+    <a href="javascript:;" data-toggle="collapse" data-target="#adm-1" class="vnavbaritemlabel yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i><i class="fas fa-user-cog"></i> {{ 'Proces Console' | translate }}</a>
       <ul id="adm-1" class="collapse">
           <li>
             <a href="javascript:;" data-toggle="collapse" data-target="#consol-1" class="yt-toggle collapsed"><i class="fa fa-caret-right " style="font-size: 12px;"></i><i class="fa fa-caret-down" style="font-size: 12px;"></i>  {{ 'setting' | translate }}</a>
@@ -122,7 +122,7 @@
                 <a href="javascript:;" ng-click="vm.goLogs('usuario')"><i class="fa fa-bar-chart-o"></i> {{ 'Users' | translate }}</a>
             </li>
             <li>
-                <a href="javascript:;" ng-click="vm.goLogs('evento')"><i class="fa fa-bar-chart-o"></i> {{ 'Events' | translate }}</a>
+                <a href="javascript:;" ng-click="vm.goLogs('evento')"><i class="fa fa-bar-chart-o"></i> {{ 'robot events' | translate }}</a>
             </li>
             <li>
                 <a href="javascript:;" ng-click="vm.goLogs('email')"><i class="fa fa-bar-chart-o"></i> {{ 'Email' | translate }}</a>

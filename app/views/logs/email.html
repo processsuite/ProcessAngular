@@ -7,7 +7,13 @@
              <div class="col-lg-12">
                  <ol class="breadcrumb">
                      <li>
-                         {{ 'Logs Email' | translate }} {{vm.ambiente}} <button type="button" class="btn btn-sm" name="button" ng-click="vm.getDatosLogs()"><i class="fas fa-sync-alt"></i></button>
+                         {{ 'Proces Console' | translate }}
+                     </li>
+                     <li>
+                         {{ 'Logs' | translate }}
+                     </li>
+                     <li class="active">
+                         {{ 'Email' | translate }} <button type="button" class="btn btn-sm" name="button" ng-click="vm.getDatosLogs()"><i class="fas fa-sync-alt"></i></button>
                      </li>
                  </ol>
              </div>

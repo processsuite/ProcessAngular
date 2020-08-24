@@ -245,8 +245,9 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
       'Internet Directory':'Directorio de internet',
       'Logs':'Registros',
       'Users':'Usuarios',
-      'Events':'Eventos',
+      'robot events':'Eventos por robot',
       'Email':'Correo',
+      'Proces Console':'Proces Console',
     	//************Formularios*****************
     	"AccAbrir":"Abrir",
     	"AccEnviar":"Enviar",
