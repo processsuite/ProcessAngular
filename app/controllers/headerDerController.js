@@ -22,6 +22,9 @@
         vm.goOpenDocument = goOpenDocument;
         vm.openModalCloseDocument = openModalCloseDocument;
 
+        $rootScope.ultVezConexion=''
+        $rootScope.ultIP=''
+
         activate();
         function logout() {
         	if ($scope.ticketService.isAuthed()){
@@ -135,6 +138,15 @@
                             $rootScope.timeSave = data.matriz.timeSave;
       	                	}
       	                });
+                        let param = []
+                        param.push(['user',data.nombre])
+                    processEngine.getDataServices($rootScope.nbAmbiente, 'getUltVez', param)
+                      .then(function(data){
+                          $rootScope.ultVezConexion=data.arrayResult[0][1]
+                          $rootScope.ultIP=data.arrayResult[0][0]
+                          console.log(data)
+                      })
+
               	}
               });
 
