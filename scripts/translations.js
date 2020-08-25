@@ -247,7 +247,7 @@ angular.module('gettext').run(['gettextCatalog', function (gettextCatalog) {
       'Users':'Usuarios',
       'Robot':'Robot',
       'Email':'Correo',
-      'Proces Console':'Proces Console',
+      'Process Console':'Process Console',
     	//************Formularios*****************
     	"AccAbrir":"Abrir",
     	"AccEnviar":"Enviar",
