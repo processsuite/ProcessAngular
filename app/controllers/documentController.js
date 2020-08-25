@@ -1305,7 +1305,7 @@
                    alertmb("error en rango",1,1,"Aceptar");
                  }
                }else{
-                 alertmb("Ingrese un numero valido",1,1,"Aceptar");
+                 alertmb("Ingrese un número válido",1,1,"Aceptar");
                  campo.value = 0;
                }
              }
