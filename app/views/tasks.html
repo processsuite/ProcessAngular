@@ -14,9 +14,9 @@
 								</li>
 								<li class="active">{{vm.name | translate}}</li>
 							</ol>
-							<div ng-if="ultVezConexion != ''" class="pull-right" style="display: inline-block;font-size: 12px;text-transform: none;">
-								Su ultima visita fue el {{ultVezConexion}}
-								desde la IP {{ultIP}}
+							<div ng-if="fchultconex != undefined && fchultconex != ''" class="pull-right" style="display: inline-block;font-size: 12px;text-transform: none;">
+								Su ultima visita fue el {{fchultconex}}
+								desde la IP {{ip}}
 							</div>
             </div>
 		</div>

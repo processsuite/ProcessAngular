@@ -29,6 +29,7 @@
         vm.changePasswordExpired = changePasswordExpired;
         vm.validateQuestion = validateQuestion;
         vm.envShow = true;
+        $rootScope.fchultconex = ''
         activate();
 
       function login() {
@@ -53,6 +54,9 @@
                         }
                         processEngine.getProfile()
                         .then(function(data){
+                              $rootScope.fchultconex = data.fchultconex;
+                              $rootScope.ip = data.ip;
+
                               if(data.primaraVez){
                                 user.oldpass = vm.user.pass;
                                 $state.go('root.login.primeravez',{},{reload:true});

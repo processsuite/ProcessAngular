@@ -22,8 +22,8 @@
         vm.goOpenDocument = goOpenDocument;
         vm.openModalCloseDocument = openModalCloseDocument;
 
-        $rootScope.ultVezConexion=''
-        $rootScope.ultIP=''
+      /*  $rootScope.fchultconex=''
+        $rootScope.ip=''*/
 
         activate();
         function logout() {
@@ -42,13 +42,13 @@
         }
 
         function activate() {
-          console.log($state)
-          /*if($state.url == 'root.login'){
-            ultVez()
-          }*/
-
     			if ($scope.ticketService.isAuthed()){
     				loadContext();
+            console.log($state.current.name)
+            /*if($state.current.name=="root.login"){
+              $rootScope.fchultconex = data.fchultconex;
+              $rootScope.ip = data.ip;
+            }*/
 
             /*Activacion de monitoreo de actividades en angular*/
               Idle.watch();
