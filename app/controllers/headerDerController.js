@@ -3,8 +3,8 @@
     angular
         .module('myApp')
         .controller('HeaderDerController', HeaderDerController);
-    HeaderDerController.$inject = ['processEngine', 'user','$state', '$location','$scope', '$stateParams', '$modal', '$rootScope', '$window', 'Idle', 'inform', '$locale'];
-    function HeaderDerController(processEngine, user, $state, $location, $scope, $stateParams, $modal, $rootScope, $window, Idle, inform, $locale) {
+    HeaderDerController.$inject = ['processEngine', 'user','$state', '$location','$scope', '$stateParams', '$modal', '$rootScope', '$window', 'Idle', 'inform', '$locale', '$timeout'];
+    function HeaderDerController(processEngine, user, $state, $location, $scope, $stateParams, $modal, $rootScope, $window, Idle, inform, $locale, $timeout) {
         var vm = this;
         vm.user = { name: "", pass: "", envi: "", email: "", question:"" };
         vm.isShowBarEmails = false;
@@ -44,11 +44,6 @@
         function activate() {
     			if ($scope.ticketService.isAuthed()){
     				loadContext();
-            console.log($state.current.name)
-            /*if($state.current.name=="root.login"){
-              $rootScope.fchultconex = data.fchultconex;
-              $rootScope.ip = data.ip;
-            }*/
 
             /*Activacion de monitoreo de actividades en angular*/
               Idle.watch();
@@ -79,7 +74,10 @@
                     }
                 });
 
-
+                $timeout(function () {
+                  console.log('elimina11')
+                  $rootScope.fchultconex = ''
+                },60000);
     			}
     			if ($scope.documentService.isOpenDoc()){
     				var arrayDoc = $scope.documentService.getCtxOpenDoc();
