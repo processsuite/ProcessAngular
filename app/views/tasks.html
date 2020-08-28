@@ -419,7 +419,7 @@
 								</div>
 			                </div>
 							<div ng-show="vm.segMail" class="well" style="margin: 10px;">
-			                    <p>{{vm.segMailContent}}</p>
+			                    <p ng-bind-html="vm.getHtml(vm.segMailContent)"></p>
 			                </div>
 		                </div>
 		              </div>

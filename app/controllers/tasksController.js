@@ -8,8 +8,8 @@
         .directive('stDateRange', DateRange)
     	.filter('customFilter', CustomFilter);
 
-    TasksController.$inject = ['processEngine', '$stateParams', '$filter', '$scope', '$state', '$modal', '$window', '$rootScope'];
-    function TasksController(processEngine, $stateParams, $filter, $scope, $state, $modal, $window, $rootScope) {
+    TasksController.$inject = ['processEngine', '$stateParams', '$filter', '$scope', '$state', '$modal', '$window', '$rootScope', '$sce'];
+    function TasksController(processEngine, $stateParams, $filter, $scope, $state, $modal, $window, $rootScope, $sce) {
         var vm = this;
         //seg
         vm.taskId = '';
@@ -57,6 +57,11 @@
         vm.tabGantt = false;
         vm.tabGanttActive = tabGanttActive;
         vm.apiGantt = apiGantt;
+        vm.getHtml = getHtml
+
+        function getHtml(html) {
+            return $sce.trustAsHtml(html);
+        };
 
         function tabGanttActive() {
         	vm.tabGantt = true;

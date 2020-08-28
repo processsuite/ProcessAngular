@@ -75,7 +75,6 @@
                 });
 
                 $timeout(function () {
-                  console.log('elimina11')
                   $rootScope.fchultconex = ''
                 },60000);
     			}
