@@ -1555,6 +1555,7 @@
             }
 
             $scope.asignarValorAng = function(campo, valor, index){
+              let flag = false;
               let cantGrupos = $scope.docData.FORMA.GRUPO_CAMPOS;
               for(let x in cantGrupos){
                   for(let y in cantGrupos[x].CAMPO){
@@ -1562,46 +1563,54 @@
                         if(cantGrupos[x].CAMPO[y].tipo == 'L'&& cantGrupos[x].CAMPO[y].OPCIONES.multiple == "false"){
                             cantGrupos[x].CAMPO[y].value=valor;
                             cantGrupos[x].CAMPO[y].change=true;
+                            flag = true;
                         }else if(cantGrupos[x].CAMPO[y].tipo == 'L'&& cantGrupos[x].CAMPO[y].OPCIONES.multiple == "true"){
                             cantGrupos[x].CAMPO[y].valueM=valor;
                             cantGrupos[x].CAMPO[y].change=true;
-                        }if(cantGrupos[x].CAMPO[y].tipo == 'S'){
+                            flag = true;
+                        }
+                        if(cantGrupos[x].CAMPO[y].tipo == 'S'){
                             if(index!= -1 && cantGrupos[x].CAMPO[y].CAMPO[index].exclusivo == "true"){
                               cantGrupos[x].CAMPO[y].value = cantGrupos[x].CAMPO[y].CAMPO[index].nombre;
                               cantGrupos[x].CAMPO[y].change=true;
+                              flag = true;
                             }else{
                               if(!angular.isArray(valor)){
-                                if(valor == "T"){
-                                      cantGrupos[x].CAMPO[y].CAMPO[index].checked = true;
+                                  if(valor == "T"){
+                                        cantGrupos[x].CAMPO[y].CAMPO[index].checked = true;
+                                        cantGrupos[x].CAMPO[y].CAMPO[index].value = valor;
+                                        cantGrupos[x].CAMPO[y].change=true;
+                                  }else if(valor == "F"){
+                                      cantGrupos[x].CAMPO[y].CAMPO[index].checked = false;
                                       cantGrupos[x].CAMPO[y].CAMPO[index].value = valor;
                                       cantGrupos[x].CAMPO[y].change=true;
-                                }else if(valor == "F"){
-                                    cantGrupos[x].CAMPO[y].CAMPO[index].checked = false;
-                                    cantGrupos[x].CAMPO[y].CAMPO[index].value = valor;
-                                    cantGrupos[x].CAMPO[y].change=true;
-                                }
-                              }else{ //valor = ["T","F","T"]
-                                  for(let i in valor){
-                                    if(valor[i] == "T"){
-                                          cantGrupos[x].CAMPO[y].CAMPO[i].checked = true;
+                                  }
+                                  flag = true;
+                                }else{ //valor = ["T","F","T"]
+                                    for(let i in valor){
+                                      if(valor[i] == "T"){
+                                            cantGrupos[x].CAMPO[y].CAMPO[i].checked = true;
+                                            cantGrupos[x].CAMPO[y].CAMPO[i].value = valor[i];
+                                            cantGrupos[x].CAMPO[y].change=true;
+                                      }else if(valor[i] == "F"){
+                                          cantGrupos[x].CAMPO[y].CAMPO[i].checked = false;
                                           cantGrupos[x].CAMPO[y].CAMPO[i].value = valor[i];
                                           cantGrupos[x].CAMPO[y].change=true;
-                                    }else if(valor[i] == "F"){
-                                        cantGrupos[x].CAMPO[y].CAMPO[i].checked = false;
-                                        cantGrupos[x].CAMPO[y].CAMPO[i].value = valor[i];
-                                        cantGrupos[x].CAMPO[y].change=true;
+                                      }
                                     }
-                                  }
-                              }
+                                  flag = true;
+                                }
                             }
                         }else{
                           cantGrupos[x].CAMPO[y].value=valor;
                           cantGrupos[x].CAMPO[y].change=true;
+                          flag = true;
                         }
                       }
                   }
                 }
               $scope.$apply();
+              return flag
             }
               /*funcion para obtener valor desde contexto de angular*/
               $scope.obtenerValorMAng = function(campo, fila, columna){
