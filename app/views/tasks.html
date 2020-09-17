@@ -263,10 +263,10 @@
 			            <img alt="" src="app/images/tracking.png" width="16px"/>  {{ 'Tracing' | translate }}
 			          </a>
 			      </li>
-			      <li class="gantt"><a href="#seg2" ng-click="vm.tabGanttActive();$event.preventDefault();" role="tab" data-toggle="tab">
+			      <!--<li class="gantt"><a href="#seg2" ng-click="vm.tabGanttActive();$event.preventDefault();" role="tab" data-toggle="tab">
 			          <img alt="" src="app/images/gantt.png" width="20px"/>  {{ 'Tracing2' | translate }}
 			          </a>
-			      </li>
+			      </li>-->
 			      <li>
 			          <a href="#anexos" ng-click="$event.preventDefault()" role="tab" data-toggle="tab">
 			              <i class="fa fa-newspaper-o"></i> {{ 'Attached' | translate }}
@@ -327,7 +327,7 @@
 					</div>
 			        <h2 ng-show="vm.segTasks.inst.length==0">{{ 'NoResultsfound' | translate }}</h2>
 			      </div>
-			      <div class="tab-pane fade" id="seg2">
+			      <!--<div class="tab-pane fade" id="seg2">
 						<div ng-if="vm.tabGantt" gantt
 						      data="vm.dataGantt"
                               view-scale="vm.scale"
@@ -344,7 +344,7 @@
 							  </gantt-table>
 						</div>
 						<h2 ng-show="vm.dataGantt.length==0">{{ 'NoResultsfound' | translate }}</h2>
-			      </div>
+			      </div>-->
 			      <div class="tab-pane fade" id="anexos">
 			         <div ng-show="vm.segAnexos.length>0"  ng-repeat="anexoDate in vm.segAnexos" class="row">
 				         <div class="col-lg-12">

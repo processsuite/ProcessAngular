@@ -279,6 +279,9 @@
 
         function forgot_step1() {
         	vm.user.pass = "";
+          if(vm.selectedOption.name == undefined || vm.selectedOption.name == ""){
+              vm.selectedOption.name  = config.environmentStatic;
+          }
         	$scope.ticketService.resetListError();
             processEngine.postSessionRc(vm)
             .then(function (data) {

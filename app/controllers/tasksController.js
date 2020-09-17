@@ -77,6 +77,7 @@
              	}
              	processEngine.getSegGanttTask(vm)
                  .then(function (data) {
+                   console.log(data)
                 	 if (data!=null){
              			//vm.segTasks = data;
              			//alert(JSON.stringify(data, null, 2));
@@ -94,8 +95,9 @@
 
                  	    	var date1 = new Date(parseInt(datetime1Date[2]), parseInt(datetime1Date[1]) -1, parseInt(datetime1Date[0]), parseInt(datetime1Time[0]), parseInt(datetime1Time[1]), parseInt(datetime1Time[2]));
                  	    	var date2 = new Date(parseInt(datetime2Date[2]), parseInt(datetime2Date[1]) -1, parseInt(datetime2Date[0]), parseInt(datetime2Time[0]), parseInt(datetime2Time[1]), parseInt(datetime2Time[2]));
-
-
+                        console.log('date 1', date1);
+                        console.log('date 2', date2);
+                        /*
                      	    if (nameRow==''){
                      	    	nameRow = item.nbWfDest;
                      	    	resRow = item.nbPersona;
@@ -115,19 +117,21 @@
                          	        "to"       : date2
                          	    });
                      	    }else{
+
                      	    	dataTask.push({
                          	        "name" : item.nbWfDest,
                          	        "from"  : date1,
                          	        "to"       : date2
                          	    });
                      	    }
+
                      	    if ((vm.dataGantt.length==0)&&(dataTask.length>0)){
                      	    	vm.dataGantt.push({
                          	        "name" : nameRow,
                          	        "data"  : {res:item.nbPersona},
                          	        "tasks" : dataTask
                          	    });
-                     	    }
+                     	    }*/
                      	}
                      	//return seg
                      	if (vm.semaforo == 5){
