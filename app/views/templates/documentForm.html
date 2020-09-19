@@ -246,8 +246,8 @@
 
                             <input ng-if="(stringToBoolean(fieldChild.exclusivo) && stringToBoolean(fieldChild.escritura))" ng-init="obligatorioRadio(field,fieldChild)" ng-value="fieldChild.nombre" ng-model="field.value" ng-click="setChangeValue(field);setChangeValue(fieldChild);" type="radio" id="{{field.nombre}}" ide="{{fieldChild.nombre}}" name="{{field.nombre}}" >
 															<span ng-if="(stringToBoolean(fieldChild.exclusivo) && stringToBoolean(fieldChild.escritura))">{{fieldChild.descripcion}}</span>
-                            <input ng-if="(stringToBoolean(fieldChild.exclusivo) && !stringToBoolean(fieldChild.escritura))" ng-value="fieldChild.nombre" disabled="disabled" ng-model="field.value" ng-click="setChangeValue(field);setChangeValue(fieldChild);" type="radio" id="{{field.nombre}}" ide="{{fieldChild.nombre}}" name="{{field.nombre}}">
-															<span ng-if="(stringToBoolean(fieldChild.exclusivo) && !stringToBoolean(fieldChild.escritura))">{{fieldChild.descripcion}}</span>
+                            <input ng-if="(stringToBoolean(fieldChild.exclusivo) && !stringToBoolean(fieldChild.escritura)  && stringToBoolean(fieldChild.lectura))" ng-value="fieldChild.nombre" disabled="disabled" ng-model="field.value" ng-click="setChangeValue(field);setChangeValue(fieldChild);" type="radio" id="{{field.nombre}}" ide="{{fieldChild.nombre}}" name="{{field.nombre}}">
+															<span ng-if="(stringToBoolean(fieldChild.exclusivo) && !stringToBoolean(fieldChild.escritura)  && stringToBoolean(fieldChild.lectura))">{{fieldChild.descripcion}}</span>
                             <input ng-if="(stringToBoolean(fieldChild.exclusivo) && !stringToBoolean(fieldChild.lectura) && !stringToBoolean(fieldChild.escritura))"  ng-value="fieldChild.nombre" ng-show="false" ng-model="field.value" ng-click="setChangeValue(field);setChangeValue(fieldChild);" type="radio" id="{{field.nombre}}" ide="{{fieldChild.nombre}}" name="{{field.nombre}}">
 															<!--<span ng-if="(stringToBoolean(fieldChild.exclusivo) && !stringToBoolean(fieldChild.lectura))">{{fieldChild.descripcion}}</span>-->
                         </label>
