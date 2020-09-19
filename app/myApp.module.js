@@ -11,7 +11,8 @@
         'gantt',
         'gantt.table',
         'chart.js',
-        'ui.utils.masks',
+        //'ui.utils.masks',
+        'ngMask', //->maskedInput
         'angularFileUpload',
         'angucomplete-alt',
         'ngSanitize',
