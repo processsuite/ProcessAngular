@@ -1553,7 +1553,30 @@
                 }
                 return valor;
             }
-
+            $scope.asignarValorMAng = function(campo, valor, fila, columna){
+              let flag = false;
+              let cantGrupos = $scope.docData.FORMA.GRUPO_CAMPOS;
+              for(let x in cantGrupos){
+                for(let y in cantGrupos[x].CAMPO){
+                  if(cantGrupos[x].CAMPO[y].nombre == campo){
+                    if(cantGrupos[x].CAMPO[y].tipo == 'M' && fila > 0 && columna > 0){
+                    /*falta desarrollar*/
+                    flag = true;
+                    }else{
+                      /*RESTABLECER MATRIZ*/
+                      let filas = cantGrupos[x].CAMPO[y].FILAS.FILA
+                        for(let z in filas){//recorro fila
+                          for(let a in filas[z].CAMPO){//recorro campo por fila
+                              filas[z].CAMPO[a].value = ""
+                              filas[z].CAMPO[a].valueM = []
+                          }
+                        }
+                      flag = true;
+                    }removeRows
+                  }
+                }
+              }
+            }
             $scope.asignarValorAng = function(campo, valor, index){
               let flag = false;
               let cantGrupos = $scope.docData.FORMA.GRUPO_CAMPOS;

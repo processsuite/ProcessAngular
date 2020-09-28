@@ -1182,3 +1182,50 @@ multiselect .btn .caret {
     margin-right: 1px;
     margin-top: 5px;
 }
+/*Menu taks event*/
+
+.xY {
+    border-bottom: 1px rgba(100,121,143,0.122) solid;
+    empty-cells: show;
+    font-size: .875rem;
+    height: 20px;
+    outline: none;
+    padding: 0;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.bqY {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    margin-right: 6px;
+    padding: 0;
+	list-style: none;
+}
+
+.brq{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+}
+
+.bqX {
+    height: 20px;
+    width: 20px;
+    opacity: .54;
+    align-items: center;
+    border: none;
+    display: inline-flex;
+    justify-content: center;
+    outline: none;
+    position: relative;
+    z-index: 0;
+    cursor: pointer;
+    list-style: none;
+    margin: 0 10px;
+}
+
+.bqX:not(.pW):hover, .bqX:not(.pW):focus, .bqX:not(.pW):active {
+    opacity: 1;
+}
