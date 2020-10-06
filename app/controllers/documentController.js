@@ -1298,7 +1298,7 @@
                   let valor = parseFloat($scope.depurar(campo.value,$locale.NUMBER_FORMATS.DECIMAL_SEP, 1));
                   if (minimo<=maximo){
         					     if (valor<minimo||valor>maximo){
-                       alertmb("El valor ingresado no se encuentra dentro del rango, minimo ("+campo.minimo+") maximo ("+campo.maximo+")",1,1,"Aceptar");
+                       alertmb("El valor ingresado no se encuentra dentro del rango, mínimo ("+campo.minimo+") máximo ("+campo.maximo+")",1,1,"Aceptar");
                        campo.value = 0;
                       }
           			  }else{
@@ -2181,14 +2181,14 @@
                let valor =parseFloat($scope.depurarM(fil.value,$locale.NUMBER_FORMATS.DECIMAL_SEP, 1));
                if (minimo<=maximo){
                     if (valor<minimo||valor>maximo){
-                    alertmb("El valor ingresado no se encuentra dentro del rango, minimo ("+campo.minimo+") maximo ("+campo.maximo+")",1,1,"Aceptar");
+                    alertmb("El valor ingresado no se encuentra dentro del rango, mínimo ("+campo.minimo+") máximo ("+campo.maximo+")",1,1,"Aceptar");
                     fil.value = 0;
                    }
                }else{
                 alertmb("error en rango",1,1,"Aceptar");
               }
             }else{
-              alertmb("Ingrese un numero valido",1,1,"Aceptar");
+              alertmb("Ingrese un número válido",1,1,"Aceptar");
               fil.value = 0;
             }
           }
