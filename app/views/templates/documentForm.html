@@ -218,7 +218,7 @@
 										<!--<select ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'L' && stringToBoolean(field.escritura) && stringToBoolean(field.lectura) && !stringToBoolean(field.OPCIONES.multiple))" id="{{field.nombre}}" name="{{field.nombre}}" class="form-control formularioControl lista" style="width: 100%;" ng-model="field.value" ng-change="setChangeValue(field);validarEventDocument($event)" ng-blur="validarEventDocument($event)" ng-options="item.codigo as item.value for item in field.OPCIONES.OPCION" ng-required="stringToBoolean(field.obligatorio)" ng-init = "valorSelect(field)">
 											<option value="">Seleccione</option>
 										</select>-->
-										<span ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'L' && !stringToBoolean(field.escritura) && stringToBoolean(field.lectura))" id="SPAN_{{field.nombre}}" name="SPAN_{{field.nombre}}" >
+										<span ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'L' && !stringToBoolean(field.escritura) && stringToBoolean(field.lectura))" id="SPAN_{{field.nombre}}" name="SPAN_{{field.nombre}}"  ng-init = "stringToBoolean(field.OPCIONES.multiple) ? valorSelectMultiple(field) :valorSelect(field)">
 											<div class="well formularioControlRead" ><span ng-repeat="option in field.OPCIONES.OPCION" ng-if="stringToBoolean(option.seleccionado)">{{option.value}}<br/></span></div>
 										</span>
 
@@ -233,7 +233,7 @@
 										<a ng-if="(stringToBoolean(field.evento) && (field.desevento==null || field.desevento =='') && lectura=='N' && field.href != null && field.href.indexOf('ireport')==-1 && field.href.indexOf('OfficeWeb')==-1)" href="javascript:;"  class="event-form" ng-click="openLink(field.href);" id="evento_{{field.nombre}}" name="evento_{{field.nombre}}" >{{'DescriptionEventForm' | translate }}</a><!--Eventos para url de internet sin descripcion de evento-->
 
 
-									<input ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'L' && (!stringToBoolean(field.lectura) || !stringToBoolean(field.escritura)))" style="display:none" id="{{field.nombre}}" name="{{field.nombre}}" value="{{concatFieldList((field.OPCIONES.OPCION | filter:{seleccionado:'true'}))}}" />
+									<input ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'L' && (!stringToBoolean(field.lectura) || !stringToBoolean(field.escritura)))" style="display:none" id="{{field.nombre}}" name="{{field.nombre}}" value="{{concatFieldList((field.OPCIONES.OPCION | filter:{seleccionado:'true'}))}}"  ng-init = "stringToBoolean(field.OPCIONES.multiple) ? valorSelectMultiple(field) :valorSelect(field)"/>
 
 	                <div ng-repeat="fieldChild in field.CAMPO" ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'S')" class="{{!stringToBoolean(fieldChild.exclusivo)?'checkbox-inline formularioControlCheck':'radio-inline formularioControlRadio'}}" ng-init="getValue(field)">
 	                    <label class="formulariolabel">
