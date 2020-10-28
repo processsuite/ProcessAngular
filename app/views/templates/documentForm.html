@@ -148,16 +148,18 @@
 				             </h3>
 				         </div>
 				         <div class="row">
-							<div ng-repeat="field in group.CAMPO" class="{{(field.tipo=='M' || field.tipo=='Q')?'col-lg-12':'col-lg-6 col-md-6'}}" style="padding: 0px 3px {{field.tipo=='S'?'2px':'0px'}} 3px;" ng-show="(stringToBoolean(field.lectura) || field.tipo == 'S' && getVisible(field) || field.tipo == 'M' && getVisible(field))  && !field.ocultarCliente">
+							<div ng-repeat="field in group.CAMPO" class="{{(field.tipo=='M' || field.tipo=='Q')?'col-lg-12 col-md-12':'col-lg-6 col-md-6'}}" style="padding: 0px 3px {{field.tipo=='S'?'2px':'0px'}} 3px;" ng-show="(stringToBoolean(field.lectura) || field.tipo == 'S' && getVisible(field) || field.tipo == 'M' && getVisible(field))  && !field.ocultarCliente">
 								<div class="formulario-group">
-                  <div><label class="formulariolabel" ng-if="((stringToBoolean(field.lectura) || (field.tipo == 'S' && getVisible(field))) && field.tipo!='M')"><!--<span ng-if="(stringToBoolean(field.obligatorio))" style="color:red">*</span>--><span ng-bind-html="getHtml(field.descripcion)" id="DES{{field.nombre}}"></span>
+                  <div>
+										<label class="formulariolabel" ng-if="((stringToBoolean(field.lectura) || (field.tipo == 'S' && getVisible(field))) && field.tipo!='M')"><!--<span ng-if="(stringToBoolean(field.obligatorio))" style="color:red">*</span>--><span ng-bind-html="getHtml(field.descripcion)" id="DES{{field.nombre}}"></span>
                   	<!--<a ng-if="(stringToBoolean(field.evento) && field.desevento!=null && field.desevento!='' && lectura=='N' && field.href == null)" href="javascript:;" style="color: #337ab7;" ng-click="ejecEventAgent(field.nombre,0, field.opcionesmultiples);" id="evento_{{field.nombre}}" name="evento_{{field.nombre}}" >{{field.desevento}}</a>
 										<a ng-if="(stringToBoolean(field.evento) && field.desevento!=null && field.desevento!='' && lectura=='N' && field.href != null)" href="javascript:;" style="color: #337ab7;" ng-click="generarArchivo(field);" id="evento_{{field.nombre}}" name="evento_{{field.nombre}}" >{{field.desevento}}</a>
                   	<a ng-if="(stringToBoolean(field.evento) && (field.desevento==null || field.desevento =='') && lectura=='N' && field.href == null)" href="javascript:;" style="color: #337ab7;" ng-click="ejecEventAgent(field.nombre,0, field.opcionesmultiples);" id="evento_{{field.nombre}}" name="evento_{{field.nombre}}" >{{ 'DescriptionEventForm' | translate }}</a>
 										<a ng-if="(stringToBoolean(field.evento) && (field.desevento==null || field.desevento =='') && lectura=='N' && field.href != null)" href="javascript:;" style="color: #337ab7;" ng-click="generarArchivo(field);" id="evento_{{field.nombre}}" name="evento_{{field.nombre}}" >{{ 'DescriptionEventForm' | translate }}</a>-->
 										<i ng-if="(stringToBoolean(field.obligatorio))" class="fas fa-asterisk" style="color: #db4437;font-size: 9px;vertical-align: top;"></i>
 										<i ng-if="field.info!='' && field.info!=null" class="far fa-question-circle" data-toggle="tooltip" data-placement="right" data-original-title="{{field.info}}" tooltips></i>
-                  </label></div>
+                  </label>
+								</div>
 									<!-- Campo tipo texto-->
                   <input ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'T' && stringToBoolean(field.escritura) && stringToBoolean(field.lectura) && field.formula == '')" type="text" maxlength="{{field.longitudmaxima}}" id="{{field.nombre}}" name="{{field.nombre}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-change="setChangeValue(field)" ng-required="stringToBoolean(field.obligatorio)" ng-pattern="field.reglavalida"/>
 									<input ng-if="(!stringToBoolean(field.listaajax) && field.tipo == 'T' && stringToBoolean(field.escritura) && stringToBoolean(field.lectura) && field.formula != '')" type="{{field.formula}}" maxlength="{{field.longitudmaxima}}" id="{{field.nombre}}" name="{{field.nombre}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-change="setChangeValue(field)" ng-required="stringToBoolean(field.obligatorio)"/>
