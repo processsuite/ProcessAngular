@@ -8,7 +8,10 @@ RegistrarFormula(":FORMAPAG[*,3]:*:FORMAPAG[*,4]:/100","FORMAPAG[*,5]");
 function ObtValor(Cadena)
 {
 	var valor=Cadena;
-	valor=valor.substring(0,valor.indexOf("-",1));
+	//valor=valor.substring(0,valor.indexOf(":",1));
+	valor=valor.substring(valor.indexOf(":",1)+1);
+	if (valor=="")
+		valor=0;
 	return (valor);
 }
 
@@ -119,7 +122,7 @@ for(i=1;i<=col;i++)
 					while(FormulaNueva.indexOf("M1"+NombreMatriz)>=0)
 						FormulaNueva=FormulaNueva.replace("M1"+NombreMatriz,"M"+Fila+NombreMatriz);
 
-					CrearFuncionCampoCambio("M"+Fila+NombreMatriz+i);
+					//CrearFuncionCampoCambio("M"+Fila+NombreMatriz+i);
 					GuardarRelacionCampos("M"+Fila+NombreMatriz+i,ArrCampos[j].toString().replace("M1"+NombreMatriz,"M"+Fila+NombreMatriz));
 					GuardarFormula(ArrCampos[j].toString().replace("M1"+NombreMatriz,"M"+Fila+NombreMatriz),FormulaNueva);
 				}
@@ -413,7 +416,7 @@ function RegistrarFormula(Formula,CampoActualizar,FilaInicial)
 					if(CampAux.indexOf("[")<0)
 					{
 						ArrCampFjo[ArrCampFjo.length]=CampAux
-						CrearFuncionCampoCambio(CampAux);
+						//CrearFuncionCampoCambio(CampAux);
 					}
 					punto1=punto2+1;
 				}
@@ -456,13 +459,22 @@ function RegistrarFormula(Formula,CampoActualizar,FilaInicial)
 					if(frm.indexOf(":"+NombreMatriz+"[*,"+ArrColumnas[j]+"]:")>=0)
 						while(frm.indexOf(":"+NombreMatriz+"[*,"+ArrColumnas[j]+"]:")>=0)
 							frm=frm.replace(":"+NombreMatriz+"[*,"+ArrColumnas[j]+"]:",":M"+i+NombreMatriz+ArrColumnas[j]+":");
-					CrearFuncionCampoCambio("M"+i+NombreMatriz+ArrColumnas[j]);
-					GuardarRelacionCampos("M"+i+NombreMatriz+ArrColumnas[j],"M"+i+NombreMatriz+Columna);
+					//CrearFuncionCampoCambio("M"+i+NombreMatriz+ArrColumnas[j]);
+					if (CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))=="*")
+					   GuardarRelacionCampos("M"+i+NombreMatriz+ArrColumnas[j],"M"+i+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna);
+				    else
+					   GuardarRelacionCampos("M"+i+NombreMatriz+ArrColumnas[j],"M"+CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna);
 				}
-				GuardarFormula("M"+i+NombreMatriz+Columna,frm);
-				for(var k=0;k<ArrCampFjo.length;k++)
-					GuardarRelacionCampos(ArrCampFjo[k],"M"+i+NombreMatriz+Columna);
+				if (CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))=="*")
+				    GuardarFormula("M"+i+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna,frm);
+				else
+					GuardarFormula("M"+CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna,frm);
 
+				for(var k=0;k<ArrCampFjo.length;k++)
+				if (CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))=="*")
+					GuardarRelacionCampos(ArrCampFjo[k],"M"+i+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna);
+				else
+                    GuardarRelacionCampos(ArrCampFjo[k],"M"+CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna);
 				//alert(frm);
 			}
 		}
@@ -493,12 +505,12 @@ function RegistrarFormula(Formula,CampoActualizar,FilaInicial)
 
 			for(var i=FilaInicial;i<=filas;i++)
 			{
-				CrearFuncionCampoCambio("M"+i+NombreMatriz+Columna);
+				//CrearFuncionCampoCambio("M"+i+NombreMatriz+Columna);
 				GuardarFormula("M"+i+NombreMatriz+Columna,Formula);
 				for(var j=0;j<ArrCampRel.length;j++)
 				{
 					GuardarRelacionCampos(ArrCampRel[j],"M"+i+NombreMatriz+Columna);
-					CrearFuncionCampoCambio(ArrCampRel[j]);
+				//	CrearFuncionCampoCambio(ArrCampRel[j]);
 				}
 
 			}
@@ -510,11 +522,11 @@ function RegistrarFormula(Formula,CampoActualizar,FilaInicial)
 	{
 		if(Formula.indexOf("[*,")>0)
 		{
-			alert("Esta formula no es v�lida");
+			alert("Esta formula no es válida");
 			return(false);
 		}
 		else
-		//Cuando la formula es v�lida
+		//Cuando la formula es válida
 		//Solo se puede actualizar un campo externo cuando es operaciones sobre campos externos o cuando
 		//es suma de columnas de matrices.
 		{
@@ -550,7 +562,7 @@ function RegistrarFormula(Formula,CampoActualizar,FilaInicial)
 						}
 						else
 						{
-							CrearFuncionCampoCambio(CampoActual);
+							//CrearFuncionCampoCambio(CampoActual);
 							GuardarRelacionCampos(CampoActual,CampoActualizar);
 						}
 						punto1=punto2+1;
@@ -676,7 +688,7 @@ try
 					if(document.getElementById(campo).type=="select-one")
 					{
 						var Or=document.getElementById(campo);
-						valor=ObtValor(Or.options[Or.selectedIndex].text);
+						valor=ObtValor(Or.options[Or.selectedIndex].value);
 					}
 					else
 					{
@@ -708,11 +720,13 @@ try
 
 			try{
 				document.getElementById(Campo).value=FormatNum(valor,Formatodec,parseInt(nu_decimales));
-				document.getElementById("SPAN_"+Campo).innerHTML=FormatNum(valor,Formatodec,parseInt(nu_decimales));
-				//asignar_valor(Campo, FormatNum(valor,Formatodec,parseInt(nu_decimales)));
+				//document.getElementById("SPAN_"+Campo).innerHTML=FormatNum(valor,Formatodec,parseInt(nu_decimales));
+				//asignar_valor("SPAN_"+Campo, FormatNum(valor,Formatodec,parseInt(nu_decimales)));
 			}
 			catch(mm)
-			{}
+			{
+				console.error('asignar valor ',mm)
+			}
 		}
 
 	}
@@ -720,12 +734,13 @@ try
 		 //document.getElementById(Campo).onchange();
 		 $('#'+Campo).change()
 	}catch(e){
+			console.error('change ejecutar formula',e)
 	}
 	return(true);
 }
 catch(e)
 {
-	alert(e.description);
+	console.error('ejecutar formula',e)
 }
 }
 
@@ -812,19 +827,19 @@ function ReconstruirFormulas(Matriz,Fila)
 var i=0;
 var Formula=new String();
 var Campo=new String();
-var j=FormulasGenerales[0].length;
+var j=ArregloFormulas[0].length;
 
 for(i=0;i<j;i++)
 {
-	if(FormulasGenerales[0][i].toString().indexOf(Matriz,0)>=0)
+	if(ArregloFormulas[0][i].toString().indexOf(Matriz,0)>=0)
 	{
-		RegistrarFormula(FormulasGenerales[1][i].toString(),FormulasGenerales[0][i].toString(),Fila);
-		AplicarFormula(FormulasGenerales[0][i].toString());
+		RegistrarFormula(ArregloFormulas[1][i].toString(),ArregloFormulas[0][i].toString(),Fila);
+		AplicarFormula(ArregloFormulas[0][i].toString());
 	}
-	else if(FormulasGenerales[1][i].toString().indexOf(Matriz+"[{+}",0)>=0)
+	else if(ArregloFormulas[1][i].toString().indexOf(Matriz+"[{+}",0)>=0)
 	{
-		RegistrarFormula(FormulasGenerales[1][i].toString(),FormulasGenerales[0][i].toString(),Fila);
-		AplicarFormula(FormulasGenerales[0][i].toString());
+		RegistrarFormula(ArregloFormulas[1][i].toString(),ArregloFormulas[0][i].toString(),Fila);
+		AplicarFormula(ArregloFormulas[0][i].toString());
 	}
 
 }

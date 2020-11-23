@@ -1285,17 +1285,209 @@
                 }, 10);
               };
 
+              $scope.formatoNumberCliente = function(campo){
+                	let sep_decimal = $locale.NUMBER_FORMATS.DECIMAL_SEP
+                  let sepDecConcat = sep_decimal == '.'?'\\.':','
+                	let sep_miles = $locale.NUMBER_FORMATS.GROUP_SEP
+                  let sepMilesConcat = sep_miles == '.'?'\\.':','
+                	let cant_entero = campo.maximo.split('.')[0].length //cantidad total de numeros enteros
+                  let cant_decimal = campo.decimales
+                  let cant_decima_conact = campo.decimales==0?'':`(${sepDecConcat}\\d{1,${campo.decimales}})?`
+                  let cant_decima_conact_inv = campo.decimales==0?'':`(${sepMilesConcat}\\d{1,${campo.decimales}})?`
+                  //(?!0+${sepDecConcat}00) -->evita inicio con 0
+                	let regex = new RegExp(`^(?=.*(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+                  let regexInv = new RegExp(`^(?=.*(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+                  //let regex = new RegExp(`^(?=.{1,${cant_entero}}(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+                  //let regexInv = new RegExp(`^(?=.{1,${cant_entero}}(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+                  let regexFormato = /[0-9\.,]/
+                  let regexNumEnetero =  /^([0-9])*$/
+                  let regexNumPunto =  /^([0-9\.])*$/
+                  let regexNumComa =  /^([0-9,])*$/
+                  let expTreEsp = /(\d+)(\d{3})/;
+                  let regexCero = /^(0+)/
+                  let string_decimal = ''
+                  let string_entero = '';
+                	console.log(campo.value,regex.test(campo.value))
+                  campo.value = ''+campo.value
+                  /*Verifica si el campo no cumple con el formato de la configuracion del ambiente*/
+                  if(!regex.test(campo.value)){ //si no cumple se debe realizar la modificaciín para llevarlo al formato.
+
+                    if(regexFormato.test(campo.value)){//verifico q el valor contenga numeros puntos y coma
+                        //console.log(campo.value, 'si esta dentro del formato')
+/*-----------------------------------------------------------Numero enteros para tranformar----------------------------------------*/
+                        if(regexNumEnetero.test(campo.value)){//verificar si es solo numero
+                             string_entero = campo.value;
+                            for(let i=0;i<cant_decimal;i++){
+                              string_decimal +='0'
+                            }
+                            if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                                string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                                if(string_entero == ''){
+                                  string_entero = '0'
+                                }
+                            }
+                            while (expTreEsp.test(string_entero)) {
+                               string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                              }
+
+                              string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                              campo.value = string_entero+string_decimal
+/*-------------------------------------------------------Numero enteros con punto para tranformar--------------------------------------------*/
+                        }else if(regexNumPunto.test(campo.value)){ //Si el campo tiene nuemro y punto
+                           if(sep_decimal == '.'){
+                             string_entero = campo.value.split('.')[0]
+                             string_decimal = parseFloat('0.'+campo.value.split('.')[1]).toFixed(cant_decimal).split('.')[1]
+                           }else{
+                             if(campo.value.split('.').length >= 2 && campo.value.split('.')[campo.value.split('.').length-1].length == 0){
+                               //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales si la cantidad de nomeros es = 0 entonces se le agregan 2 decimales
+                                 for(let i = 0; i<campo.value.split('.').length-1;i++){
+                                   string_entero += campo.value.split('.')[i]
+                                 }
+                                 for(let i=0;i<cant_decimal;i++){
+                                   string_decimal +='0'
+                                 }
+                             }else if(campo.value.split('.').length >= 2){
+                               //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales y redondearla a la cantidad correcta dependiendo de numero de decimales
+                               for(let i = 0; i<campo.value.split('.').length-1;i++){
+                                 string_entero += campo.value.split('.')[i]
+                               }
+                               string_decimal = parseFloat('0.'+campo.value.split('.')[campo.value.split('.').length-1]).toFixed(cant_decimal).split('.')[1]
+                             }
+
+                           }
+                           if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                               string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                               if(string_entero == ''){
+                                 string_entero = '0'
+                               }
+                           }
+                           while (expTreEsp.test(string_entero)) {
+                              string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                             }
+
+                             string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                             campo.value = string_entero+string_decimal
+/*-----------------------------------------------------------Numero enteros con coma para tranformar----------------------------------------*/
+                          }else if(regexNumComa.test(campo.value)){ //Si el campo tiene nuemro y es coma
+                            if(sep_decimal == ','){
+                              string_entero = campo.value.split(',')[0]
+                              string_decimal = parseFloat('0.'+campo.value.split(',')[1]).toFixed(cant_decimal).split('.')[1]
+                            }else{
+                              if(campo.value.split(',').length >= 2 && campo.value.split(',')[campo.value.split(',').length-1].length == 0){
+                                //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales si la cantidad de nomeros es = 0 entonces se le agregan 2 decimales
+                                  for(let i = 0; i<campo.value.split(',').length-1;i++){
+                                    string_entero += campo.value.split(',')[i]
+                                  }
+                                  for(let i=0;i<cant_decimal;i++){
+                                    string_decimal +='0'
+                                  }
+                              }else if(campo.value.split(',').length >= 2){
+                                //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales y redondearla a la cantidad correcta dependiendo de numero de decimales
+                                for(let i = 0; i<campo.value.split(',').length-1;i++){
+                                  string_entero += campo.value.split(',')[i]
+                                }
+                                string_decimal = parseFloat('0.'+campo.value.split(',')[campo.value.split(',').length-1]).toFixed(cant_decimal).split('.')[1]
+                              }
+
+                            }
+                            if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                                string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                                if(string_entero == ''){
+                                  string_entero = '0'
+                                }
+                            }
+                            while (expTreEsp.test(string_entero)) {
+                               string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                              }
+
+
+                              string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                              campo.value = string_entero+string_decimal
+/*------------------------------------------------------------------------------Verificar separadores invertidos-----------------------------------------------------------*/
+                        }else if(regexInv.test(campo.value)){
+                                string_entero = campo.value.split(sep_miles)[0].replaceAll(sep_decimal, sep_miles) //se asigna el separador de miles porq en este caso es el decimales
+                                if(cant_decimal > 0){
+                                  string_decimal = campo.value.split(sep_miles)[1] //se asigna el separador de decimal porq en este caso es el miles
+                                }else{
+                                  string_decimal = ''
+                                }
+                                if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                                    string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                                }
+
+                                string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                                campo.value = string_entero+string_decimal
+                                console.log('La nomenclatura inversa')
+/*-----------------------------------------------------------------------------Ninguna de las anteriores-----------------------------------------------------------*/
+                        }else{
+
+                          string_entero = campo.value.split(sep_decimal)[0].replace(/[^0-9]/g, '')
+                          if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                              string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                          }
+                          if(cant_decimal > 0){
+                            string_decimal = parseFloat('0.'+campo.value.split(sep_decimal)[1]).toFixed(cant_decimal).split('.')[1]
+                          }else{
+                            string_decimal = ''
+                          }
+                          if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                              string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                              if(string_entero == ''){
+                                string_entero = '0'
+                              }
+                          }
+
+                          while (expTreEsp.test(string_entero)) {
+                             string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                            }
+
+                          string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                          campo.value = string_entero+string_decimal
+                          console.log('Ninguna de las anteriores')
+                        }
+                        return true
+                    }else{
+
+                      if(cant_decimal == 0 || campo.value == ''){
+                          campo.value = 0;
+                          return true;
+                      }else{
+                        campo.value = 0;
+                        alertmb("Ingrese un número válido",1,1,"Aceptar");
+                      }
+                    }
+                  }else{
+                    console.log(campo.value,'Si posee el formato configurado por manejo cliente')
+                    return true;
+                  }
+
+                }
+
+              $scope.depurarN = function(pe_valor){
+                /*Esta funcion trabaja en conjunto con la de formatoNumberCliente, si el numero no tiene el formato no funcionara*/
+                 let valor = pe_valor;
+                 let sep_decimal = $locale.NUMBER_FORMATS.DECIMAL_SEP
+                 let sep_miles = $locale.NUMBER_FORMATS.GROUP_SEP
+
+                 if (valor!=""){
+                     valor = valor.replaceAll(sep_miles, '');//se eliminan los  separadores de mil para que se pueda parcear el campo a numeric
+                     valor = valor.replace(sep_decimal, '.')//se reemplaza el separador decimal en caso de que este no sea numero
+                   }else{
+                     valor = "0";
+                   }
+                   return(valor)
+                }
 
              $scope.validarRangoNumero = function(campo){
                 let minimo = parseFloat(campo.minimo);
                 let maximo = parseFloat(campo.maximo);
                 //let minimo = parseFloat($scope.depurar(campo.minimo,$locale.NUMBER_FORMATS.DECIMAL_SEP, 0));
                 //let maximo = parseFloat($scope.depurar(campo.maximo,$locale.NUMBER_FORMATS.DECIMAL_SEP, 0));
-                let f = $scope.esNumero(campo);
+                let f = $scope.formatoNumberCliente(campo);
 
                 /*Validar Rango colocado en el diseñador*/
                 if(f ==true){
-                  let valor = parseFloat($scope.depurar(campo.value,$locale.NUMBER_FORMATS.DECIMAL_SEP, 1));
+                  let valor = parseFloat($scope.depurarN(campo.value));
                   if (minimo<=maximo){
         					     if (valor<minimo||valor>maximo){
                        alertmb("El valor ingresado no se encuentra dentro del rango, mínimo ("+campo.minimo+") máximo ("+campo.maximo+")",1,1,"Aceptar");
@@ -1319,27 +1511,25 @@
              }
              $scope.depurar = function(pe_valor, pe_sepdec, ope){
                 let valor = pe_valor;
-                if (valor!="")
-                {
-                 if (pe_sepdec == ",")
-               { while (valor.indexOf(".")>=0)
-                  { valor = valor.replace(".","");
+                if (valor!=""){
+                  if(pe_sepdec == ","){
+                       while (valor.indexOf(".")>=0){
+                         valor = valor.replace(".","");
+                      }
+                      if(ope == 1){ //Depurar1  Debido a problemas con isNaN.
+                          valor = valor.replace(",",".")
+                        }
+                    }
+                  else if (pe_sepdec== "."){
+                     while (valor.indexOf(",")>=0){
+                      valor = valor.replace(",","");
+                     }
+                    }
+                  }else{
+                    valor = "0";
                   }
-                if(ope == 1){ valor = valor.replace(",",".")};
-                }
-                 else if (pe_sepdec== ".")
-                {
-                 while (valor.indexOf(",")>=0)
-                 {
-                  valor = valor.replace(",","");
-                 }
-                }
-                }
-                else
-                 valor = "0";
-
-                return(valor)
-             }
+                  return(valor)
+               }
 
              $scope.formatoNumero = function(valor, cant_decimal){
                let pe_sepdec = $locale.NUMBER_FORMATS.DECIMAL_SEP;
@@ -1628,11 +1818,17 @@
                           cantGrupos[x].CAMPO[y].value=valor;
                           cantGrupos[x].CAMPO[y].change=true;
                           flag = true;
+                          if(cantGrupos[x].CAMPO[y].tipo == 'N' && $scope.stringToBoolean(cantGrupos[x].CAMPO[y].lectura) && !$scope.stringToBoolean(cantGrupos[x].CAMPO[y].escritura) ){ //aplica solo para campos lectura
+                            $scope.formatoNumberCliente(cantGrupos[x].CAMPO[y]);
+                            $scope.validarRangoNumero(cantGrupos[x].CAMPO[y]);
+                          }
                         }
                       }
                   }
                 }
-              $scope.$apply();
+              if(flag){
+                  $scope.$apply();
+              }
               return flag
             }
               /*funcion para obtener valor desde contexto de angular*/
@@ -2166,6 +2362,199 @@
             }
           };
 
+          $scope.formatoNumberClienteM = function(campo, fil){
+              let sep_decimal = $locale.NUMBER_FORMATS.DECIMAL_SEP
+              let sepDecConcat = sep_decimal == '.'?'\\.':','
+              let sep_miles = $locale.NUMBER_FORMATS.GROUP_SEP
+              let sepMilesConcat = sep_miles == '.'?'\\.':','
+              let cant_entero = campo.maximo.split('.')[0].length //cantidad total de numeros enteros
+              let cant_decimal = campo.decimales
+              let cant_decima_conact = campo.decimales==0?'':`(${sepDecConcat}\\d{1,${campo.decimales}})?`
+              let cant_decima_conact_inv = campo.decimales==0?'':`(${sepMilesConcat}\\d{1,${campo.decimales}})?`
+              //(?!0+${sepDecConcat}00) -->evita inicio con 0
+              let regex = new RegExp(`^(?=.*(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+              let regexInv = new RegExp(`^(?=.*(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+              //let regex = new RegExp(`^(?=.{1,${cant_entero}}(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+              //let regexInv = new RegExp(`^(?=.{1,${cant_entero}}(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+              let regexFormato = /[0-9\.,]/
+              let regexNumEnetero =  /^([0-9])*$/
+              let regexNumPunto =  /^([0-9\.])*$/
+              let regexNumComa =  /^([0-9,])*$/
+              let expTreEsp = /(\d+)(\d{3})/;
+              let string_decimal = ''
+              let string_entero = '';
+              let regexCero = /^(0+)/
+              console.log(fil.value,regex.test(fil.value))
+              fil.value = ''+fil.value
+              /*Verifica si el campo no cumple con el formato de la configuracion del ambiente*/
+              if(!regex.test(fil.value)){ //si no cumple se debe realizar la modificaciín para llevarlo al formato.
+
+                if(regexFormato.test(fil.value)){//verifico q el valor contenga numeros puntos y coma
+                    //console.log(fil.value, 'si esta dentro del formato')
+          /*-----------------------------------------------------------Numero enteros para tranformar----------------------------------------*/
+                    if(regexNumEnetero.test(fil.value)){//verificar si es solo numero
+                         string_entero = fil.value;
+                        for(let i=0;i<cant_decimal;i++){
+                          string_decimal +='0'
+                        }
+                        if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                            string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                            if(string_entero == ''){
+                              string_entero = '0'
+                            }
+                        }
+                        while (expTreEsp.test(string_entero)) {
+                           string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                          }
+
+                          string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                          fil.value = string_entero+string_decimal
+          /*-------------------------------------------------------Numero enteros con punto para tranformar--------------------------------------------*/
+                    }else if(regexNumPunto.test(fil.value)){ //Si el campo tiene nuemro y punto
+                       if(sep_decimal == '.'){
+                         string_entero = fil.value.split('.')[0]
+                         string_decimal = parseFloat('0.'+fil.value.split('.')[1]).toFixed(cant_decimal).split('.')[1]
+                       }else{
+                         if(fil.value.split('.').length >= 2 && fil.value.split('.')[fil.value.split('.').length-1].length == 0){
+                           //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales si la cantidad de nomeros es = 0 entonces se le agregan 2 decimales
+                             for(let i = 0; i<fil.value.split('.').length-1;i++){
+                               string_entero += fil.value.split('.')[i]
+                             }
+                             for(let i=0;i<cant_decimal;i++){
+                               string_decimal +='0'
+                             }
+                         }else if(fil.value.split('.').length >= 2){
+                           //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales y redondearla a la cantidad correcta dependiendo de numero de decimales
+                           for(let i = 0; i<fil.value.split('.').length-1;i++){
+                             string_entero += fil.value.split('.')[i]
+                           }
+                           string_decimal = parseFloat('0.'+fil.value.split('.')[fil.value.split('.').length-1]).toFixed(cant_decimal).split('.')[1]
+                         }
+
+                       }
+                       if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                           string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                           if(string_entero == ''){
+                             string_entero = '0'
+                           }
+                       }
+                       while (expTreEsp.test(string_entero)) {
+                          string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                         }
+
+                         string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                         fil.value = string_entero+string_decimal
+          /*-----------------------------------------------------------Numero enteros con coma para tranformar----------------------------------------*/
+                      }else if(regexNumComa.test(fil.value)){ //Si el campo tiene nuemro y es coma
+                        if(sep_decimal == ','){
+                          string_entero = fil.value.split(',')[0]
+                          string_decimal = parseFloat('0.'+fil.value.split(',')[1]).toFixed(cant_decimal).split('.')[1]
+                        }else{
+                          if(fil.value.split(',').length >= 2 && fil.value.split(',')[fil.value.split(',').length-1].length == 0){
+                            //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales si la cantidad de nomeros es = 0 entonces se le agregan 2 decimales
+                              for(let i = 0; i<fil.value.split(',').length-1;i++){
+                                string_entero += fil.value.split(',')[i]
+                              }
+                              for(let i=0;i<cant_decimal;i++){
+                                string_decimal +='0'
+                              }
+                          }else if(fil.value.split(',').length >= 2){
+                            //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales y redondearla a la cantidad correcta dependiendo de numero de decimales
+                            for(let i = 0; i<fil.value.split(',').length-1;i++){
+                              string_entero += fil.value.split(',')[i]
+                            }
+                            string_decimal = parseFloat('0.'+fil.value.split(',')[fil.value.split(',').length-1]).toFixed(cant_decimal).split('.')[1]
+                          }
+
+                        }
+                        if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                            string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                            if(string_entero == ''){
+                              string_entero = '0'
+                            }
+                        }
+                        while (expTreEsp.test(string_entero)) {
+                           string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                          }
+
+                          string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                          fil.value = string_entero+string_decimal
+          /*------------------------------------------------------------------------------Verificar separadores invertidos-----------------------------------------------------------*/
+                    }else if(regexInv.test(fil.value)){
+                            string_entero = fil.value.split(sep_miles)[0].replaceAll(sep_decimal, sep_miles) //se asigna el separador de miles porq en este caso es el decimales
+                            if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                                string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                            }
+                            if(cant_decimal > 0){
+                              string_decimal = fil.value.split(sep_miles)[1] //se asigna el separador de decimal porq en este caso es el miles
+                            }else{
+                              string_decimal = ''
+                            }
+                            string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                            fil.value = string_entero+string_decimal
+                            console.log('La nomenclatura inversa')
+          /*-----------------------------------------------------------------------------Ninguna de las anteriores-----------------------------------------------------------*/
+                    }else{
+
+
+                      string_entero = fil.value.split(sep_decimal)[0].replace(/[^0-9]/g, '')
+                      if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                          string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                      }
+                      if(cant_decimal > 0){
+                        string_decimal = parseFloat('0.'+fil.value.split(sep_decimal)[1]).toFixed(cant_decimal).split('.')[1]
+                      }else{
+                        string_decimal = ''
+                      }
+                      if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                          string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                          if(string_entero == ''){
+                            string_entero = '0'
+                          }
+                      }
+
+                      while (expTreEsp.test(string_entero)) {
+                         string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                        }
+
+                      string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                      fil.value = string_entero+string_decimal
+                      console.log('Ninguna de las anteriores')
+                    }
+                    return true;
+                }else{
+
+                  if(cant_decimal == 0 || fil.value == ''){
+                      fil.value = 0;
+                      return true;
+                  }else{
+                    fil.value = 0;
+                    alertmb("Ingrese un número válido",1,1,"Aceptar");
+                  }
+
+                }
+              }else{
+                console.log(fil.value,'Si posee el formato configurado por manejo cliente')
+                return true;
+              }
+
+            }
+
+          $scope.depurarNM = function(pe_valor){
+            /*Esta funcion trabaja en conjunto con la de formatoNumberCliente, si el numero no tiene el formato no funcionara*/
+             let valor = pe_valor;
+             let sep_decimal = $locale.NUMBER_FORMATS.DECIMAL_SEP
+             let sep_miles = $locale.NUMBER_FORMATS.GROUP_SEP
+
+             if (valor!=""){
+                 valor = valor.replaceAll(sep_miles, '');//se eliminan los  separadores de mil para que se pueda parcear el campo a numeric
+                 valor = valor.replace(sep_decimal, '.')//se reemplaza el separador decimal en caso de que este no sea numero
+               }else{
+                 valor = "0";
+               }
+               return(valor)
+            }
+
           $scope.validarRangoNumeroM = function(campo, fil){
             let minimo = parseFloat(campo.minimo);
             let maximo = parseFloat(campo.maximo);
@@ -2174,11 +2563,11 @@
             // let valor = parseFloat(fil.value);
             fil.decimales = campo.decimales;
 
-             let f = $scope.esNumeroM(fil);
+             let f = $scope.formatoNumberClienteM(campo, fil);
 
              /*Validar Rango colocado en el diseñador*/
              if(f ==true){
-               let valor =parseFloat($scope.depurarM(fil.value,$locale.NUMBER_FORMATS.DECIMAL_SEP, 1));
+               let valor =parseFloat($scope.depurarNM(fil.value));
                if (minimo<=maximo){
                     if (valor<minimo||valor>maximo){
                     alertmb("El valor ingresado no se encuentra dentro del rango, mínimo ("+campo.minimo+") máximo ("+campo.maximo+")",1,1,"Aceptar");
@@ -2210,7 +2599,6 @@
             }else{
               id = event.target.id;
             }
-
             ActualizarCamposDependientes(id)//funcion que ejecuta los eventos asociados que tiene una matriz en registrar formula
           }
 
