@@ -137,6 +137,7 @@
                 .then(function (data) {
                 	if (data!=null){
                         vm.params = data;
+                         vm.isLoading = false;
                         return vm.params;
             		}
                 });
