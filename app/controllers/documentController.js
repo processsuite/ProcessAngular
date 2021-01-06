@@ -2923,7 +2923,7 @@ var ModalInstController = function($scope, $modalInstance, documentService) {
       $modalInstance.dismiss('cancel');
     };
 };
-var ModalSendController = function($scope, $modalInstance, processEngine, sendObj, sendAcc, sendChkPriority, sendComment, sendCcMail, $state, documentService) {
+var ModalSendController = function($scope, $modalInstance, processEngine, sendObj, sendAcc, sendChkPriority, sendComment, sendCcMail, $state, documentService, ticketService) {
 
 	//send form
 	$scope.sign = '';
@@ -2962,6 +2962,9 @@ var ModalSendController = function($scope, $modalInstance, processEngine, sendOb
 	          	  if (data!=null){
 	          		//alert(JSON.stringify(data, null, 2));
 	          		$scope.sendMsg = data;
+                if(data.sendError){
+                    ticketService.setMessageError(data.messages);
+                }
 	          		$scope.sendBoolMsg = true;
 	          	  }
 	           });
@@ -3018,6 +3021,9 @@ var ModalSendController = function($scope, $modalInstance, processEngine, sendOb
             	if (data!=null){
             		//alert(JSON.stringify(data, null, 2));
             		$scope.sendMsg = data;
+                if(data.sendError){
+                    ticketService.setMessageError(data.messages);
+                }
             		$scope.sendBoolMsg = true;
             	}
             });
