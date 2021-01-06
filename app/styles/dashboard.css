@@ -482,6 +482,8 @@ ul.alert-dropdown {
  */
 .container-fluid {
 	height: 100%;
+  padding-right: 1px !important;
+  padding-left: 1px !important;
 }
 #page-wrapper {
     overflow-y: auto;
@@ -521,7 +523,7 @@ ul.alert-dropdown {
 .row-fluid .span1 {
     width: 100%;
     float: left;
-    padding-right: 5px;
+    /*padding-right: 5px;*/
 }
 
 .row-fluid .row1 {
