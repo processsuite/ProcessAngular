@@ -19,10 +19,13 @@
          	<div class="col-lg-6">
 
 				<div class="form-group">
-					<label>{{ 'NombreApellido' | translate }}</label>
+					<label>{{ 'Name' | translate }}</label>
 					<input class="form-control" type="text" placeholder="{{ 'NombreApellido' | translate }}" name="name"  ng-model="vm.profile.nombre" required/>
-	            </div>
-
+	      </div>
+				<div class="form-group">
+					<label>{{ 'Last name' | translate }}</label>
+					<input class="form-control" type="text" placeholder="{{ 'Last name' | translate }}" name="apellido"  ng-model="vm.profile.apellido" required/>
+	      </div>
 				<div class="form-group">
 				<label>{{ 'Email' | translate }}</label>
 					<input class="form-control" type="text" placeholder="{{ 'Email' | translate }}" name="email"  ng-model="vm.profile.email" required/>

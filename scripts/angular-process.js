@@ -881,7 +881,7 @@
         }
 
         function changeInfoProfile(vm) {
-            return $http.put(API + '/user/updatedata?name=' + vm.profile.nombre +'&email=' + vm.profile.email)
+            return $http.put(API + '/user/updatedata?name=' + vm.profile.nombre +'&email=' + vm.profile.email+'&apellido='+vm.profile.apellido)
                         .then(changeInfoProfileComplete);
                         //.catch(changeInfoProfileFailed);
 

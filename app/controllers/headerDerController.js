@@ -118,8 +118,8 @@
               var prof = processEngine.getProfile()
               .then(function (data) {
               	if (data!=null){
-                  	vm.profileNombre = data.nombre;
-                    $rootScope.profileNombre = data.nombre;
+                    vm.profileNombre = data.nombre +' '+data.apellido;
+                    $rootScope.profileNombre = data.nombre+' '+data.apellido;
                   	$rootScope.nbAmbiente = data.ambiente;
                     $rootScope.admUsr = data.admusr;
                     /*se asgina formato decimal*/

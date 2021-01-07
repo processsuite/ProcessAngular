@@ -48,6 +48,7 @@
                 .then(function (data) {
                 	if (data!=null){
                     	vm.profile.nombre = data.nombre;
+                      vm.profile.apellido = data.apellido;
                     	vm.profile.email = data.email;
                     	vm.profile.formatoFecha = data.formatoFecha;
                     	vm.profile.activoD = data.activoD;
