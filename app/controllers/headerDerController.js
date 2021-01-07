@@ -21,6 +21,7 @@
         vm.nuDocOpen = '';
         vm.goOpenDocument = goOpenDocument;
         vm.openModalCloseDocument = openModalCloseDocument;
+        vm.openLink = openLink;
 
       /*  $rootScope.fchultconex=''
         $rootScope.ip=''*/
@@ -113,6 +114,10 @@
         		}
             });
         }
+
+        function openLink(link){
+         $window.open(link, '_blank');
+       }
 
         function loadProfile() {
               var prof = processEngine.getProfile()
