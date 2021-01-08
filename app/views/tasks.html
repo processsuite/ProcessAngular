@@ -85,32 +85,74 @@
         <tr>
             <th style="cursor: pointer;" st-sort="nuDoc">{{ 'NumDoc task' | translate }}</th>
             <th style="cursor: pointer;" st-sort="nbPersona">{{ 'Sent by task' | translate }}</th>
-            <th style="cursor: pointer;" colspan="3" st-sort="nbWf">{{ 'Name activity task' | translate }}</th>
+            <th style="cursor: pointer;" st-sort="nbWf">{{ 'Name activity task' | translate }}</th>
             <th style="cursor: pointer;" st-sort="detalle">{{ 'Related task' | translate }}</th>
             <th style="cursor: pointer;" st-sort="getters.feIni">{{ 'Date task' | translate }}</th>
             <th style="cursor: pointer;" st-sort="tiempo">{{ 'Time task' | translate }}</th>
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="task in vm.displayedCollection">
-            <td style="display: flex;">
-            	<a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 0" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
-	            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 1" class="label label-semaforoYellow">{{task.nuDoc}}</span></a>
-	            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 2" class="label label-semaforoRed">{{task.nuDoc}}</span></a>
-	            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == null" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
+        <tr ng-repeat="task in vm.displayedCollection"  class="zA" ng-mouseover = "vm.classId[task.nuDoc]=1" ng-mouseleave="vm.classId[task.nuDoc]=0">
+            <td style="display: flex;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);">
+            	<a href="javascript:;" class="icon-style">
+									<span ng-if="task.semaforo == 0" class="label label-semaforoGreen">{{task.nuDoc}}</span>
+	            		<span ng-if="task.semaforo == 1" class="label label-semaforoYellow">{{task.nuDoc}}</span>
+	            		<span ng-if="task.semaforo == 2" class="label label-semaforoRed">{{task.nuDoc}}</span>
+	            		<span ng-if="task.semaforo == null" class="label label-semaforoGreen">{{task.nuDoc}}</span>
+							</a>
 	            <span style="padding-left: 3px;" ng-if="task.inEspera" ><img alt="" src="app/images/docWait.png" /></span>
    	            <span style="padding-left: 3px;" ng-if="task.e =='R'" ><img alt="" src="app/images/docRejected.png" /></span>
    	            <span style="padding-left: 3px;" ng-if="task.inUrgente" ><img alt="" src="app/images/urgente.png" /></span>
    	            <span style="padding-left: 3px;" ng-if="task.nuDocOpened" ><img alt="" src="app/images/docOpen.png" /></span>
    	            <span style="padding-left: 3px;" ng-if="task.fever == ''" ><img alt="" src="app/images/docNoRead.png" /></span>
             </td>
-            <td>{{task.nbPersona}}</td>
-			<td><a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);"><img alt="" src="app/images/docPreview.png" width="20px"/></a></td>
-			<td><a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,task.semaforo);"><img alt="" src="app/images/eye.png" width="20px"/></a></td>
-            <td>{{task.nbWf}}</td>
-            <td><a  ng-if="task.txObserva != ''" href="javascript:;" tooltip-placement="top" tooltip="{{task.txObserva}}"><i class="fa fa-fw fa-comment"></i></a> {{task.detalle}}</td>
-            <td>{{ task.feIni }}</td>
-            <td>{{task.tiempo}}</td>
+						<td  ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);">
+							 <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);" style="color: #333;">
+								 {{task.nbPersona}}
+							 </a>
+					 </td>
+					 <!--<td>
+							 <a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);" class="icon-style">
+								 <i class="fas fa-file" data-toggle="tooltip" data-placement="top" data-original-title="Ver documento en lectura" tooltips=""></i>
+							 </a>
+					 </td>
+					 <td>
+						 <a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,task.semaforo);" class="icon-style" >
+							 <i class="fas fa-archive" data-toggle="tooltip" data-placement="top" data-original-title="Consultar historial de expediente" tooltips=""></i>
+						 </a>
+					 </td>-->
+					 <td  ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);">
+						 <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);" style="color: #333;">
+							 {{task.nbWf}}
+						 </a>
+					 </td>
+					 <td  ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><a  ng-if="task.txObserva != ''" href="javascript:;" tooltip-placement="top" tooltip="{{task.txObserva}}"><i class="fa fa-fw fa-comment"></i></a> {{task.detalle}}</td>
+					 <td  ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);">{{ task.feIni }}</td>
+					 <td class="bq0">
+						 <div class="bq1" ng-class="vm.classId[task.nuDoc]==1?'bq1h':''">
+							 {{task.tiempo}}
+						 </div>
+						 <div class="xY bq4" ng-class="vm.classId[task.nuDoc]==1?'bq4h':''">
+							 <ul class="bqY">
+
+								 <li class="bqX brq"  ng-mouseleave="vm.classId[task.nuDoc]=0">
+									 <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);" class="icon-style">
+										 <i class="fas fa-file-signature"></i>
+									 </a>
+								 </li>
+								 <li class="bqX brq"  ng-mouseleave="vm.classId[task.nuDoc]=0">
+									 <a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);" class="icon-style">
+										 <i class="fas fa-glasses"></i>
+									 </a>
+								 </li>
+								 <li class="bqX brq"  ng-mouseleave="vm.classId[task.nuDoc]=0">
+									 <a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,task.semaforo);" class="icon-style" >
+										 <i class="far fa-folder-open"></i>
+									 </a>
+								 </li>
+							 </ul>
+						 </div>
+					 </td>
         </tr>
     </tbody>
 </table>
@@ -215,14 +257,14 @@
 	        <tr>
 	            <th style="cursor: pointer;" st-sort="nuDoc">{{ 'NumDoc task' | translate }}</th>
 	            <th style="cursor: pointer;" st-sort="nbPersona">{{ 'Sent by task' | translate }}</th>
-	            <th style="cursor: pointer;" colspan="3" st-sort="nbWf">{{ 'Name activity task' | translate }}</th>
+	            <th style="cursor: pointer;" st-sort="nbWf">{{ 'Name activity task' | translate }}</th>
 	            <th style="cursor: pointer;" st-sort="detalle">{{ 'Related task' | translate }}</th>
 	            <th style="cursor: pointer;" st-sort="feIni">{{ 'Date task' | translate }}</th>
 	            <th style="cursor: pointer;" st-sort="tiempo">{{ 'Time task' | translate }}</th>
 	        </tr>
 	    </thead>
 	    <tbody ng-show="!vm.isLoading">
-	        <tr ng-repeat="task in vm.displayedCollection">
+	        <tr ng-repeat="task in vm.displayedCollection" class="zA" ng-mouseover = "vm.classId[task.nuDoc]=1" ng-mouseleave="vm.classId[task.nuDoc]=0">
 	            <td>
 	            	<a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 0" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
 		            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == 1" class="label label-semaforoYellow">{{task.nuDoc}}</span></a>
@@ -230,12 +272,36 @@
 		            <a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);"><span ng-if="task.semaforo == null" class="label label-semaforoGreen">{{task.nuDoc}}</span></a>
 	            </td>
 	            <td>{{task.nbPersona}}</td>
-  	            <td><a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);"><img alt="" src="app/images/docPreview.png" width="20px"/></a></td>
-  	            <td><a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,null);"><img alt="" src="app/images/eye.png" width="20px"/></a></td>
+  	            <!--<td><a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);"><img alt="" src="app/images/docPreview.png" width="20px"/></a></td>
+  	            <td><a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,null);"><img alt="" src="app/images/eye.png" width="20px"/></a></td>-->
 	            <td>{{task.nbWf}}</td>
 	            <td><a  ng-if="task.txObserva != ''" href="javascript:;" tooltip-placement="top" tooltip="{{task.txObserva}}"><i class="fa fa-fw fa-comment"></i></a> {{task.detalle}}</td>
 	            <td>{{task.feIni}}</td>
-	            <td>{{task.tiempo}}</td>
+							<td class="bq0">
+								<div class="bq1" ng-class="vm.classId[task.nuDoc]==1?'bq1h':''">
+									{{task.tiempo}}
+								</div>
+								<div class="xY bq4" ng-class="vm.classId[task.nuDoc]==1?'bq4h':''">
+									<ul class="bqY">
+
+										<li class="bqX brq"  ng-mouseleave="vm.classId[task.nuDoc]=0">
+											<a href="javascript:;" ng-click="goOpenDocument(task.nuDoc,task.nuInst,0);" class="icon-style">
+												<i class="fas fa-file-signature"></i>
+											</a>
+										</li>
+										<li class="bqX brq"  ng-mouseleave="vm.classId[task.nuDoc]=0">
+											<a href="javascript:;" ng-click="openDoc(task.nuDoc,task.nuInst,0,task.semaforo);" class="icon-style">
+												<i class="fas fa-glasses"></i>
+											</a>
+										</li>
+										<li class="bqX brq"  ng-mouseleave="vm.classId[task.nuDoc]=0">
+											<a href="javascript:;" ng-click="vm.getSegTask(task.nuDoc,task.semaforo);" class="icon-style" >
+												<i class="far fa-folder-open"></i>
+											</a>
+										</li>
+									</ul>
+								</div>
+						</td>
 	        </tr>
 	    </tbody>
 		<tbody ng-show="vm.isLoading">
