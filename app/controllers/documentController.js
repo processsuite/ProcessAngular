@@ -41,6 +41,7 @@
     };
 
 	function DocumentForm() {
+      const random = Math.random();
         return {
             restrict: 'E',
             scope: {
@@ -57,7 +58,7 @@
               hideDoc: '&',
               fromState: '='
             },
-            templateUrl: 'app/views/templates/documentForm.html',
+            templateUrl: 'app/views/templates/documentForm.html?'+random,
             controller: function (processEngine, $stateParams, $sce, $scope, $rootScope, $modal, documentService, $state, $window, $filter, ticketService, $compile, $timeout, $q, $locale, $interval, blockUI, blockUIConfig, inform) {
 	            //event/agent
 	            $scope.eventCampo = '';
@@ -183,7 +184,7 @@
 	            		 if (!arrayDoc[3]){//no read
 	            			 //open modal
 		                     var modalInstance = $modal.open({
-		                         templateUrl: 'app/views/templates/modalDocument.html',
+		                         templateUrl: 'app/views/templates/modalDocument.html?'+random,
 		                         keyboard: false,
 		                         backdrop: 'static',
 		                         controller: ModalInstController,
@@ -954,7 +955,7 @@
 	            $scope.openInstModal = function(link) {
 	             	if (!$scope.docData.lectura){
 	                     var modalInstance = $modal.open({
-	                         templateUrl: 'app/views/templates/modalDocument.html',
+	                         templateUrl: 'app/views/templates/modalDocument.html?'+random,
 	                         keyboard: false,
 	                         backdrop: 'static',
 	                         controller: ModalInstController,
@@ -990,7 +991,7 @@
 	            $scope.openAgentModal = function() {
 
 	                 var modalInstance = $modal.open({
-	                     templateUrl: 'app/views/templates/modalAgentDocument.html',
+	                     templateUrl: 'app/views/templates/modalAgentDocument.html?'+random,
 	                     keyboard: false,
 	                     backdrop: 'static',
 	                     windowClass: 'modal-fit',
@@ -1033,7 +1034,7 @@
 	            $scope.openAnexoModal = function() {
                 console.log($rootScope);
 	                 var modalInstance = $modal.open({
-	                     templateUrl: 'app/views/templates/modalUploadDocument.html',
+	                     templateUrl: 'app/views/templates/modalUploadDocument.html?'+random,
                        cache: false,
 	                     keyboard: false,
 	                     backdrop: 'static',
@@ -1076,7 +1077,7 @@
 
               $scope.openAnexoConsultoriaModal = function(matriz, sec, sufijo, dirvir, dirfis,colruta, colver){
                 var modalInstance = $modal.open({
-                    templateUrl: 'app/views/templates/modalUploadConsultoria.html',
+                    templateUrl: 'app/views/templates/modalUploadConsultoria.html?'+random,
                     keyboard: false,
                     backdrop: 'static',
                     cache: false,
@@ -1119,7 +1120,7 @@
 
 	            $scope.openSendModal = function() {
 	                 var modalInstance = $modal.open({
-	                     templateUrl: 'app/views/templates/modalSendDocument.html',
+	                     templateUrl: 'app/views/templates/modalSendDocument.html?'+random,
 	                     keyboard: false,
 	                     backdrop: 'static',
 	                     //windowClass: 'modal-fit',
@@ -2088,6 +2089,7 @@
     }
 
     function MatrizForm($sce) {
+      const random = Math.random();
         return {
             restrict: 'E',
             scope: {
@@ -2107,7 +2109,7 @@
               registrarCampodependienteLista: '&',
               refrescarListasDepend:'&'
             },
-            templateUrl: 'app/views/templates/matrizform.html',
+            templateUrl: 'app/views/templates/matrizform.html?'+random,
             //link: function(scope, element, attr) {
             controller: function ($scope,$timeout,$locale) {
 
@@ -2923,7 +2925,7 @@ var ModalInstController = function($scope, $modalInstance, documentService) {
       $modalInstance.dismiss('cancel');
     };
 };
-var ModalSendController = function($scope, $modalInstance, processEngine, sendObj, sendAcc, sendChkPriority, sendComment, sendCcMail, $state, documentService, ticketService) {
+var ModalSendController = function($scope, $modalInstance, processEngine, sendObj, sendAcc, sendChkPriority, sendComment, sendCcMail, $state, documentService, ticketService, $sce) {
 
 	//send form
 	$scope.sign = '';
@@ -2998,6 +3000,10 @@ var ModalSendController = function($scope, $modalInstance, processEngine, sendOb
 		}
 
 	}
+
+  $scope.getHtml = function(html) {
+      return $sce.trustAsHtml(html);
+  };
 
     $scope.selPlace = function (dest, place) {
     	dest.valueSelected = place;
