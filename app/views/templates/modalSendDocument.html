@@ -87,8 +87,8 @@
 						<table st-table="display" st-safe-src="sendMsg.messages" class="table" style="margin-bottom: 0px;">
 						    <tbody>
 						        <tr ng-repeat="msg in sendMsg.messages">
-							        <td ng-if="sendMsg.sendError"><i class="fa fa-times-circle"></i> {{msg}}</td>
-							        <td ng-if="!sendMsg.sendError"><i class="fa fa-check-circle"></i> {{msg}}</td>
+							        <td ng-if="sendMsg.sendError"><i class="fa fa-times-circle"></i> <span ng-bind-html="getHtml(msg)"></span></td>
+							        <td ng-if="!sendMsg.sendError"><i class="fa fa-check-circle"></i> <span ng-bind-html="getHtml(msg)"></span></td>
 						        </tr>
 						    </tbody>
 						</table>

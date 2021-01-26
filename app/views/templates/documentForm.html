@@ -76,8 +76,8 @@
 					</div>
 	       </div>
 				<div ng-if="ticketService.isShowError()">
-					<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" style="margin-bottom: 0px;">
-				         {{ msg | translate }}
+					<div ng-repeat="msg in ticketService.getMessageError()" class="alert alert1 alert-danger" style="margin-bottom: 0px;" >
+								 <span ng-bind-html="getHtml(msg)" traslate></span>
 					</div>
 				</div>
 				<div ng-if="agentMsg.length>0">
