@@ -60,8 +60,8 @@
 			</div>
 			<div class="panel-body collapse in" id="filtro">
 				<div class="col-lg-12">
-					<div ng-repeat="field in vm.params" class="col-lg-4 col-md-6" style="padding: 2px;">
-						<div class="form-group" ng-if="field.campoBd != ''" style="height:50px;">
+					<div ng-repeat="field in vm.params" ng-if="field.campoBd != ''" class="col-lg-4 col-md-6" style="padding: 2px;">
+						<div class="form-group" style="height:50px;">
 								<label><span ng-show="field.obligatorio" style="color:red">*</span> {{field.descripcion}}</label>
 								<input ng-if="field.tipo == 'T'" type="text" name="T{{$index}}" class="form-control formularioControl" placeholder="{{field.descripcion}}" ng-model="field.value" ng-required="field.obligatorio"/>
 
