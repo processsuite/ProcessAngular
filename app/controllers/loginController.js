@@ -315,7 +315,11 @@
             processEngine.getProfile()
             .then(function (data) {
             	if (!$scope.ticketService.isShowError()){
-                	vm.user.question = data.pregunta;
+                if(data.pregunta == "" && data.primaraVez == true ){
+                    $state.go('root.login',{'msg':"El usuario solicito restablecer su contraseña. Por favor revisar su bandeja de correo electrónico."},{reload:true});
+                }else{
+                  vm.user.question = data.pregunta;
+                }
             	}
             });
         }
