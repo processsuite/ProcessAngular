@@ -109,7 +109,7 @@
 	            };
 
 	            $scope.getHtml = function(html) {
-	            	return $sce.trustAsHtml(html);
+	            	return $sce.trustAsHtml($filter('translate')(html));
 	            };
 
               $scope.toTime = function(field){
