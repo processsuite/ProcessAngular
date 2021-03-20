@@ -867,7 +867,7 @@
         }
 
         function changePassProfile(vm) {
-            return $http.put(API + '/user/updatesecurity?ctx=2&clave1=' + vm.user.oldpass +'&clave2=' + vm.user.pass)
+            return $http.put(API + '/user/updatesecurity?ctx=2&clave1=' + btoa(vm.user.oldpass) +'&clave2=' + btoa(vm.user.pass))
                         .then(changePassProfileComplete);
                         //.catch(changePassProfileFailed);
 
@@ -895,7 +895,7 @@
         }
 
         function changePassApprovalProfile(vm) {
-            return $http.put(API + '/user/updatesecurity?ctx=0&clave1=' + vm.profile.pregunta + '&clave2=' +  vm.user.answer  + '&clave3=' + vm.user.approval )
+            return $http.put(API + '/user/updatesecurity?ctx=0&clave1=' + btoa(vm.profile.pregunta) + '&clave2=' +  btoa(vm.user.answer)  + '&clave3=' + btoa(vm.user.approval) )
                         .then(changePassApprovalProfileComplete);
                         //.catch(changePassApprovalProfileFailed);
 
@@ -909,7 +909,7 @@
         }
 
         function changeSecurityQuestionProfile(vm) {
-            return $http.put(API + '/user/updatesecurity?ctx=1&clave1=' + vm.user.approval + '&clave2=' + vm.user.question + '&clave3=' + vm.user.answer )
+            return $http.put(API + '/user/updatesecurity?ctx=1&clave1=' + btoa(vm.user.approval) + '&clave2=' + btoa(vm.user.question) + '&clave3=' + btoa(vm.user.answer) )
                         .then(changeSecurityQuestionProfileComplete);
                         //.catch(changeSecurityQuestionProfileFailed);
 
@@ -923,7 +923,7 @@
         }
 
         function changeSecurityQuestionInicio(vm) {
-            return $http.put(API + '/user/updatesecurity?ctx=1&clave1=' + vm.user.approval + '&clave2=' + vm.user.question + '&clave3=' + vm.user.answer)
+            return $http.put(API + '/user/updatesecurity?ctx=1&clave1=' + btoa(vm.user.approval) + '&clave2=' + btoa(vm.user.question) + '&clave3=' + btoa(vm.user.answer))
                         .then(changeSecurityQuestionProfileComplete);
                         //.catch(changeSecurityQuestionProfileFailed);
 
