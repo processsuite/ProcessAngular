@@ -38,10 +38,10 @@
                              </div>
                          </div>
                      </div>
-                     <div class="actividadfichadesc">
-                         {{child.info}}
-                         <!--<span class="pull-right"><img alt="" src="app/images/startDoc.png" width="20px"/></i></span>-->
-                         <div class="clearfix"></div>
+										 <div class="actividadfichadesc" ng-init = "vm.stringtojson(child)">
+
+                         <span class="pull-left"> <img alt="" src="{{child.info.img}}" width="20px"/></span>
+                         <div class="clearfix" style="margin-left: 15%;">{{child.info.text}}</div>
                      </div>
                  </div>
                  </a>

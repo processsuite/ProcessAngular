@@ -12,7 +12,7 @@
         var vm = this;
         vm.goCreateDocument = goCreateDocument;
         vm.openModal = openModal;
-
+        vm.stringtojson = stringtojson;
         vm.services = [];
         activate();
 
@@ -72,6 +72,19 @@
 	    		 goCreateDocument(wfp,name,frmn);
 	    	 }
         }
+
+        function stringtojson(child){
+          let data = {};
+            if(child.info.indexOf('{') != -1){
+               data = angular.fromJson(child.info)
+            }else{
+              data.img = "app/images/documento.gif";
+              data.text = child.info;
+            }
+          console.log(data)
+          child.info = data;
+        }
+
 
     }
 
