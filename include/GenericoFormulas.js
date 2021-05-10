@@ -461,12 +461,12 @@ function RegistrarFormula(Formula,CampoActualizar,FilaInicial)
 							frm=frm.replace(":"+NombreMatriz+"[*,"+ArrColumnas[j]+"]:",":M"+i+NombreMatriz+ArrColumnas[j]+":");
 					//CrearFuncionCampoCambio("M"+i+NombreMatriz+ArrColumnas[j]);
 					if (CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))=="*")
-					   GuardarRelacionCampos("M"+i+NombreMatriz+ArrColumnas[j],"M"+i+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna);
+					   GuardarRelacionCampos("M"+i+NombreMatriz+ArrColumnas[j],"M"+i+CampoActualizar.substring(0,CampoActualizar.indexOf("["))+Columna);
 				    else
 					   GuardarRelacionCampos("M"+i+NombreMatriz+ArrColumnas[j],"M"+CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna);
 				}
 				if (CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))=="*")
-				    GuardarFormula("M"+i+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna,frm);
+				    GuardarFormula("M"+i+CampoActualizar.substring(0,CampoActualizar.indexOf("["))+Columna,frm);
 				else
 					GuardarFormula("M"+CampoActualizar.substring(CampoActualizar.indexOf("[")+1,CampoActualizar.indexOf(","))+CampoActualizar.substring(1,CampoActualizar.indexOf("["))+Columna,frm);
 
