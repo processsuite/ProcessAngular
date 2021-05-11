@@ -2102,6 +2102,8 @@
               selectedAjax: '&',
               searchEventAjax: '&',
               generarArchivo: '&',
+			  generarArchivoPDF: '&',
+              openLink: '&',
               formatoNumero:'&',
               setChangeForm:'&',
               depurar:'&',
@@ -2321,6 +2323,14 @@
 
           $scope.generarArchivoM = function(field, fil){
             return  $scope.generarArchivo({field: field});
+          }
+
+          $scope.generarArchivoPDFM= function(field, fil){
+            return  $scope.generarArchivoPDF({field: field});
+          }
+
+          $scope.openLinkM= function(link){
+            return  $scope.openLink({link: link});
           }
 
           $scope.getEscritura = function(){
