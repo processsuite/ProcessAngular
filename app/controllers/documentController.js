@@ -457,6 +457,9 @@
 	                         				var listMessage = ticketService.getMessageError();
 	                         				listMessage.push(data.msgObligatorios);
 	                         				ticketService.setMessageError(listMessage);
+                                  if(data.messages.length){
+                                    ticketService.setMessageError(data.messages);
+                                  }
 	                         				$('#'+data.focus).focus();
 	                         			}else{
 	                         				//open modal send
@@ -475,8 +478,11 @@
 	                     				var listMessage = ticketService.getMessageError();
 	                     				listMessage.push(data.msgObligatorios);
 	                     				ticketService.setMessageError(listMessage);
+                              if(data.messages.length){
+                                ticketService.setMessageError(data.messages);
+                              }
 	                     				$('#'+data.focus).focus();
-	                     			}else{
+                            }else{
 	                     				//open modal send
 	                     				$scope.sendObj = data;
 	                     				$scope.openSendModal();
