@@ -263,15 +263,15 @@
                 var Formatodec = $scope.perfilUser.formatoDecimal;
                 $scope.nbAmbiente = $scope.perfilUser.ambiente;
 
-                $scope.docData.fileClientGeneral = "include/"+$scope.nbAmbiente+"/"+$scope.docData.wfp+"/ManejoCliente-"+$scope.docData.wfp+".js";
-                $scope.docData.fileClient = "include/"+$scope.nbAmbiente+"/"+$scope.docData.wfp+"/ManejoCliente-"+$scope.frmn+"-"+$scope.docData.wfa+"-"+$scope.docData.estado+".js";
+                $scope.docData.fileClientGeneral = "include/"+$scope.nbAmbiente+"/"+$scope.docData.wfp+"/ManejoCliente-"+$scope.docData.wfp+".js?"+random;
+               $scope.docData.fileClient = "include/"+$scope.nbAmbiente+"/"+$scope.docData.wfp+"/ManejoCliente-"+$scope.frmn+"-"+$scope.docData.wfa+"-"+$scope.docData.estado+".js?"+random;
 	            	$(".clientFiles").html("");
                 	var link = '<script "type="text/javascript"> var Formatodec = "'+Formatodec+'";</script>'+
-                              '<script type="text/javascript" src="include/EventProcess.js"></script>'+
-                              '<script type="text/javascript" src="include/Formulario.js"></script>'+
-                              '<script type="text/javascript" src="include/GenericoMatrices.js"></script>'+
-                              '<script type="text/javascript" src="include/GenericoFormulas.js"></script>'+
-                              '<script type="text/javascript" src="include/C_ValidaForma.js"></script>';
+                              '<script type="text/javascript" src="include/EventProcess.js?'+random+'"></script>'+
+                              '<script type="text/javascript" src="include/Formulario.js?'+random+'"></script>'+
+                              '<script type="text/javascript" src="include/GenericoMatrices.js?'+random+'"></script>'+
+                              '<script type="text/javascript" src="include/GenericoFormulas.js?'+random+'"></script>'+
+                              '<script type="text/javascript" src="include/C_ValidaForma.js?'+random+'"></script>';
                 	if ($scope.docData.fileClientGeneral!=''){
                 		link = link + ' <script src="' + $scope.docData.fileClientGeneral + '" type="text/javascript"></script>';
                		}
