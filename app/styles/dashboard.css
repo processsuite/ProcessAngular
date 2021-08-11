@@ -1273,3 +1273,7 @@ multiselect .btn .caret {
     position: absolute;
     width: 125px;
 }
+/*Prueba para estandarisar matrices*/
+#wfrm_formulario  table > tbody > tr > td{
+    width: 100px;
+}
