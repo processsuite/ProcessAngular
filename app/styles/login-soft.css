@@ -17,10 +17,16 @@ Login page
 
 
 .login .content {
-  width: 250px;
-  margin: 0 auto; 
+  width: 320px;
+  margin: 0 auto;
   margin-bottom: 0px;
-  padding-bottom: 15px;  
+  padding-bottom: 15px;
+  border: 1px solid, #c5bebe;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+  box-shadow: inset 3px 3px 3px rgba(255,255,255,.7), inset -2px -2px 3px rgba(0,0,0,.1), 2px 2px 10px rgba(0,0,0,.1);
+  background: rgb(255 255 255 / 100%);								  
 }
 
 .width2 {
