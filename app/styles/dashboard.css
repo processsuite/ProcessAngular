@@ -76,7 +76,7 @@ body {
 
 /*Header*/
 .btn-create {
-   border-color: rgb(0,118,194,0.5)!important;
+    border-color: #ddd;
     height: 37px;
     cursor: pointer;
     width: 110px;
@@ -87,33 +87,27 @@ body {
     padding: 8px;
     margin-top : 4px;
     /*sombra  borde*/
-    -webkit-box-shadow: 1px 2px 4px rgb(0,118,194,0.5);
-    -moz-box-shadow: 1px 2px 4px rgb(0,118,194,0.5);
-    box-shadow: 1px 2px 4px rgb(0,118,194,0.5);
-    color: rgb(245 245 245) !important;
-    background:rgb(0,118,194);
+    -webkit-box-shadow: 1px 2px 4px rgba(0,0,0,.5);
+    -moz-box-shadow: 1px 2px 4px rgba(0,0,0,.5);
+    box-shadow: 1px 2px 4px rgba(0,0,0,.5);
 }
 
-.btn-create:hover, .btn-create:focus {
-    color: rgb(0 6 10) !important;
-    background-color: transparent;
-}
 
 
 .headerProcess {
-   /*background-image: url("../images/banner/header.png");*/
+   background-image: url("../images/banner/header.png");
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
 
 .headerMenu > li > a:hover, .headerMenu >li > a:focus {
  	background-color: transparent !important;
- 	/*color: #ea942d !important;*/
+ 	color: #ea942d !important;
 }
 
 .navbar-inverse-header {
 	background-color: transparent !important;
-    /*border-color: #ea942d !important;*/
+    border-color: #ea942d !important;
 }
 
 /**para mover de forma horizontal*/
@@ -188,7 +182,7 @@ body {
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 20px;
-    color: rgb(253 253 252);
+    color: black;
 }
 
 .top-nav>li>a:hover,
@@ -279,7 +273,7 @@ ul.alert-dropdown {
 /*primer nivel */
 .side-nav>li>a:hover,
 .side-nav>li>a:focus {
-    color: rgb(127,160,15) !important;
+    color: #ea942d !important;
     background-color: transparent;
 }
 
@@ -292,7 +286,7 @@ ul.alert-dropdown {
 }
 
 .side-nav>li>ul>li>a:hover {
-    color: rgb(127,160,15) !important;
+    color: #ea942d;
 }
 
 /*tres niveles */
@@ -304,7 +298,7 @@ ul.alert-dropdown {
 }
 
 .side-nav>li>ul>li>ul>li>a:hover {
-    color:rgb(127,160,15) !important;
+    color:#ea942d;
 }
 
 /*niveles para menu categorias */
@@ -908,9 +902,9 @@ cursor: pointer;
 	margin-bottom: 0px;
 	padding-top: 0px;
 	padding-bottom: 0px;
-	border-bottom: 1px solid #101010;
+	border-bottom: 1px solid #28639d;
 	font-family: Georgia, Times, 'Times New Roman', serif;
-	color:1px solid #101010;
+	color: #28639d;
 	font-size: 14px;
 	line-height: 24px;
 	font-weight: bold;
@@ -918,7 +912,7 @@ cursor: pointer;
 
 .formulariolabel {
 	margin-bottom: 0px;
-	/*color: #0f2337;*/
+	color: #0f2337;
 	font-size: 12px;
 }
 
@@ -983,9 +977,6 @@ cursor: pointer;
 	font-size: 12px;
 }
 
-.formularioControl-number {
-	text-align: right;
-}						   
 .formularioControlRead {
 	min-height: 21px;
 	padding: 0px 6px;

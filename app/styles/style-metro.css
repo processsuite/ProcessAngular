@@ -100,12 +100,12 @@ select:focus {
 .btn.blue.active,
 .btn.blue[disabled],
 .btn.blue.disabled {
-  background-color: #29abe2 !important;
+  background-color: rgba(244, 194, 100, 0.91) !important;
   color: black !important;
 }
 
 .btn-group .btn.blue.dropdown-toggle {
-  background-color: #29abe2 !important;
+  background-color: rgba(244, 194, 100, 0.91) !important;
 }
 .btn-group .btn.blue:hover,
 .btn-group .btn.blue:focus,
@@ -113,7 +113,7 @@ select:focus {
 .btn-group .btn.blue.active,
 .btn-group .btn.blue.disabled,
 .btn-group .btn.blue[disabled] {
-  background-color: #29abe2 !important;
+  background-color: rgba(244, 194, 100, 0.91) !important;
   color: black !important;
 }
 
