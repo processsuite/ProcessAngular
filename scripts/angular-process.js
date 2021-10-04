@@ -56,7 +56,9 @@
             },
 
             responseError: function (rejection) {
-            	ticketService.statusCode(rejection.status);
+              console.log(rejection)
+              //ticketService.statusCode(rejection.status);
+            	ticketService.statusCode(rejection.headers('codError'));
             	if (rejection.config.url.indexOf('/admin/') < 0){
                     if (rejection.config.url.indexOf(API) == 0){
                         var numR = ticketService.getNumReq();
