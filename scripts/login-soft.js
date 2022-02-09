@@ -8,7 +8,7 @@ var Login = function () {
 		          fade: 1000,
 		          duration: 8000
 		    });
-	       
+
         }
 
     };

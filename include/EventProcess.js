@@ -253,8 +253,10 @@ try{
 
 //rutina auxiliar para asignar valores a campos Process(solo matriz) y avisar que han cambiado.
 function asignar_valorM(campoP,valor,fila,columna){
+	let resp
 try{
-	if (document.getElementById("M"+fila+campoP+columna).tagName=="SELECT"){
+		resp = angular.element($('[name="documentForm"]')).scope().asignarValorMAng(campoP, valor, fila, columna)
+	/*if (document.getElementById("M"+fila+campoP+columna).tagName=="SELECT"){
 		var num_list = document.getElementById("M"+fila+campoP+columna).length;
 		var i = 0;
 		for(i=0;i<num_list;i++){
@@ -291,8 +293,12 @@ try{
 			}
 		}catch(e){}
 	}
-	return(true);
-}catch(e){}
+	return(true);*/
+}catch(e){
+	console.log('asignar_valorM',e)
+	resp = false;
+}
+return resp;
 }
 
 //rutina auxiliar para obtener valores de campos Process(No matriz).

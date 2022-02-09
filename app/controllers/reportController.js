@@ -146,6 +146,7 @@
         function imprimirPlantilla(ext){
           vm.paramsData.rutaAgent = $rootScope.repAgentes+'\\';
           vm.ext = ext;
+          vm.tipo = 128;
           return processEngine.postGenerarFileReporteIreport(vm)
                   .then(function (data) {
                     if (data!=null && data!='' ){
@@ -311,6 +312,8 @@
                         vm.imprimirPlantilla('.pdf')
                       }else if (option == 2){
                         vm.imprimirPlantilla('.xlsx')
+                      }else if (option == 3){
+                        vm.imprimirPlantilla('.csv')
                       }
                     }, function() {
                       console.log("function2")
@@ -337,6 +340,9 @@ var ModalImpController = function($scope, $modalInstance, documentService) {
     	}
     }
 
+    $scope.csv = function () {
+	    $modalInstance.close('3');
+	  };
 
     $scope.xlsx = function () {
 	    $modalInstance.close('2');

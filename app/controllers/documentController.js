@@ -1302,8 +1302,8 @@
                   let cant_decima_conact = campo.decimales==0?'':`(${sepDecConcat}\\d{1,${campo.decimales}})?`
                   let cant_decima_conact_inv = campo.decimales==0?'':`(${sepMilesConcat}\\d{1,${campo.decimales}})?`
                   //(?!0+${sepDecConcat}00) -->evita inicio con 0
-                	let regex = new RegExp(`^(?=.*(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
-                  let regexInv = new RegExp(`^(?=.*(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+                	let regex = new RegExp(`^-?(?=.*(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+                  let regexInv = new RegExp(`^-?(?=.*(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
                   //let regex = new RegExp(`^(?=.{1,${cant_entero}}(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
                   //let regexInv = new RegExp(`^(?=.{1,${cant_entero}}(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
                   let regexFormato = /[0-9\.,]/
@@ -1311,11 +1311,18 @@
                   let regexNumPunto =  /^([0-9\.])*$/
                   let regexNumComa =  /^([0-9,])*$/
                   let expTreEsp = /(\d+)(\d{3})/;
-                  let regexCero = /^(0+)/
+                  let regexCero = /^(0+)/;
+                  let regexNegativo = /^-/;
                   let string_decimal = ''
                   let string_entero = '';
                 	console.log(campo.value,regex.test(campo.value))
                   campo.value = ''+campo.value
+
+                  let signo = '';
+                  /*Validar si el campo tienen signo negativo*/
+                  if(regexNegativo.test(campo.value)){
+                      signo = '-';
+                  }
                   /*Verifica si el campo no cumple con el formato de la configuracion del ambiente*/
                   if(!regex.test(campo.value)){ //si no cumple se debe realizar la modificaciín para llevarlo al formato.
 
@@ -1449,7 +1456,7 @@
                             }
 
                           string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
-                          campo.value = string_entero+string_decimal
+                          campo.value = signo+string_entero+string_decimal
                           console.log('Ninguna de las anteriores')
                         }
                         return true
@@ -1757,8 +1764,46 @@
                 for(let y in cantGrupos[x].CAMPO){
                   if(cantGrupos[x].CAMPO[y].nombre == campo){
                     if(cantGrupos[x].CAMPO[y].tipo == 'M' && fila > 0 && columna > 0){
-                    /*falta desarrollar*/
-                    flag = true;
+                      fila = fila - 1;
+                      columna = columna -1;
+                      /*falta desarrollar*/
+                      console.log('matriz',cantGrupos[x].CAMPO[y]);
+                      console.log('tipo',cantGrupos[x].CAMPO[y].CAMPO[columna]);
+                      let campo = cantGrupos[x].CAMPO[y].CAMPO[columna];
+                      console.log('celda',cantGrupos[x].CAMPO[y].FILAS.FILA[fila].CAMPO[columna].value);
+                      let celda = cantGrupos[x].CAMPO[y].FILAS.FILA[fila].CAMPO[columna];
+
+                      if(campo.tipo == 'A'&& campo.multiple == "false"){//Lista
+                            celda.value=valor;
+                            celda.change=true;
+                            flag = true;
+                        }else if(campo.tipo == 'A'&& campo.OPCIONES.multiple == "true"){//Lista multiple
+                            celda.valueM=valor;
+                            celda.change=true;
+                            flag = true;
+                        }
+                        if(campo.tipo == 'V'){//check
+                          if(valor == "T"){
+                              celda.checked = true;
+                              celda.value = valor;
+                              celda.change=true;
+                            }else if(valor == "F"){
+                              celda.checked = false;
+                              celda.value = valor;
+                              celda.change=true;
+                          }
+                        }else{
+                          celda.value=valor;
+                          celda.change=true;
+                          flag = true;
+                          if(campo.tipo == 'N'){ //aplica solo para campos lectura
+                            //$scope.formatoNumberClienteM(campo,celda);
+                            $scope.validarRangoNumeroM(campo,celda);
+                          }
+                        }
+
+
+                      flag = true;
                     }else{
                       /*RESTABLECER MATRIZ*/
                       let filas = cantGrupos[x].CAMPO[y].FILAS.FILA
@@ -1769,11 +1814,232 @@
                           }
                         }
                       flag = true;
-                    }removeRows
-                  }
+                    }
+                  }//fin del campo
                 }
               }
+              if(flag){
+                  $scope.$apply();
+              }
+              return flag
             }
+            /*Implementacion por asignar valor mariz*/
+            $scope.validarRangoNumeroM = function(campo, fil){
+              let minimo = parseFloat(campo.minimo);
+              let maximo = parseFloat(campo.maximo);
+              //let minimo = parseFloat($scope.depurar({pe_valor:campo.minimo,pe_sepdec:$locale.NUMBER_FORMATS.DECIMAL_SEP, cant_decimal:0}));
+              //let maximo = parseFloat($scope.depurar({pe_valor:campo.maximo,pe_sepdec:$locale.NUMBER_FORMATS.DECIMAL_SEP, cant_decimal:0}));
+              // let valor = parseFloat(fil.value);
+              fil.decimales = campo.decimales;
+
+               let f = $scope.formatoNumberClienteM(campo, fil);
+
+               /*Validar Rango colocado en el diseñador*/
+               if(f ==true){
+                 let valor =parseFloat($scope.depurarN(fil.value));
+                 if (minimo<=maximo){
+                      if (valor<minimo||valor>maximo){
+                      alertmb("El valor ingresado no se encuentra dentro del rango, mínimo ("+campo.minimo+") máximo ("+campo.maximo+")",1,1,"Aceptar");
+                      fil.value = 0;
+                     }
+                 }else{
+                  alertmb("error en rango",1,1,"Aceptar");
+                }
+              }else{
+                alertmb("Ingrese un número válido",1,1,"Aceptar");
+                fil.value = 0;
+              }
+            }
+
+            $scope.formatoNumberClienteM = function(campo, fil){
+                let sep_decimal = $locale.NUMBER_FORMATS.DECIMAL_SEP
+                let sepDecConcat = sep_decimal == '.'?'\\.':','
+                let sep_miles = $locale.NUMBER_FORMATS.GROUP_SEP
+                let sepMilesConcat = sep_miles == '.'?'\\.':','
+                let cant_entero = campo.maximo.split('.')[0].length //cantidad total de numeros enteros
+                let cant_decimal = campo.decimales
+                let cant_decima_conact = campo.decimales==0?'':`(${sepDecConcat}\\d{1,${campo.decimales}})?`
+                let cant_decima_conact_inv = campo.decimales==0?'':`(${sepMilesConcat}\\d{1,${campo.decimales}})?`
+                //(?!0+${sepDecConcat}00) -->evita inicio con 0
+                let regex = new RegExp(`^-?(?=.*(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+                let regexInv = new RegExp(`^-?(?=.*(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+                //let regex = new RegExp(`^(?=.{1,${cant_entero}}(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+                //let regexInv = new RegExp(`^(?=.{1,${cant_entero}}(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+                let regexFormato = /[0-9\.,]/
+                let regexNumEnetero =  /^([0-9])*$/
+                let regexNumPunto =  /^([0-9\.])*$/
+                let regexNumComa =  /^([0-9,])*$/
+                let expTreEsp = /(\d+)(\d{3})/;
+                let string_decimal = ''
+                let string_entero = '';
+                let regexCero = /^(0+)/
+                console.log(fil.value,regex.test(fil.value))
+                fil.value = ''+fil.value
+
+                /*Se agrega validacion para campos negativos*/
+                let regexNegativo = /^-/;
+                let signo = '';
+                /*Validar si el campo tienen signo negativo*/
+                if(regexNegativo.test(campo.value)){
+                  signo = '-';
+                }
+
+
+                /*Verifica si el campo no cumple con el formato de la configuracion del ambiente*/
+                if(!regex.test(fil.value)){ //si no cumple se debe realizar la modificaciín para llevarlo al formato.
+
+                  if(regexFormato.test(fil.value)){//verifico q el valor contenga numeros puntos y coma
+                      //console.log(fil.value, 'si esta dentro del formato')
+            /*-----------------------------------------------------------Numero enteros para tranformar----------------------------------------*/
+                      if(regexNumEnetero.test(fil.value)){//verificar si es solo numero
+                           string_entero = fil.value;
+                          for(let i=0;i<cant_decimal;i++){
+                            string_decimal +='0'
+                          }
+                          if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                              string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                              if(string_entero == ''){
+                                string_entero = '0'
+                              }
+                          }
+                          while (expTreEsp.test(string_entero)) {
+                             string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                            }
+
+                            string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                            fil.value = string_entero+string_decimal
+            /*-------------------------------------------------------Numero enteros con punto para tranformar--------------------------------------------*/
+                      }else if(regexNumPunto.test(fil.value)){ //Si el campo tiene nuemro y punto
+                         if(sep_decimal == '.'){
+                           string_entero = fil.value.split('.')[0]
+                           string_decimal = parseFloat('0.'+fil.value.split('.')[1]).toFixed(cant_decimal).split('.')[1]
+                         }else{
+                           if(fil.value.split('.').length >= 2 && fil.value.split('.')[fil.value.split('.').length-1].length == 0){
+                             //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales si la cantidad de nomeros es = 0 entonces se le agregan 2 decimales
+                               for(let i = 0; i<fil.value.split('.').length-1;i++){
+                                 string_entero += fil.value.split('.')[i]
+                               }
+                               for(let i=0;i<cant_decimal;i++){
+                                 string_decimal +='0'
+                               }
+                           }else if(fil.value.split('.').length >= 2){
+                             //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales y redondearla a la cantidad correcta dependiendo de numero de decimales
+                             for(let i = 0; i<fil.value.split('.').length-1;i++){
+                               string_entero += fil.value.split('.')[i]
+                             }
+                             string_decimal = parseFloat('0.'+fil.value.split('.')[fil.value.split('.').length-1]).toFixed(cant_decimal).split('.')[1]
+                           }
+
+                         }
+                         if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                             string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                             if(string_entero == ''){
+                               string_entero = '0'
+                             }
+                         }
+                         while (expTreEsp.test(string_entero)) {
+                            string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                           }
+
+                           string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                           fil.value = string_entero+string_decimal
+            /*-----------------------------------------------------------Numero enteros con coma para tranformar----------------------------------------*/
+                        }else if(regexNumComa.test(fil.value)){ //Si el campo tiene nuemro y es coma
+                          if(sep_decimal == ','){
+                            string_entero = fil.value.split(',')[0]
+                            string_decimal = parseFloat('0.'+fil.value.split(',')[1]).toFixed(cant_decimal).split('.')[1]
+                          }else{
+                            if(fil.value.split(',').length >= 2 && fil.value.split(',')[fil.value.split(',').length-1].length == 0){
+                              //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales si la cantidad de nomeros es = 0 entonces se le agregan 2 decimales
+                                for(let i = 0; i<fil.value.split(',').length-1;i++){
+                                  string_entero += fil.value.split(',')[i]
+                                }
+                                for(let i=0;i<cant_decimal;i++){
+                                  string_decimal +='0'
+                                }
+                            }else if(fil.value.split(',').length >= 2){
+                              //verificamos si el valor tiene mas de un punto para convertir los valores despues del ultimo punto en decimales y redondearla a la cantidad correcta dependiendo de numero de decimales
+                              for(let i = 0; i<fil.value.split(',').length-1;i++){
+                                string_entero += fil.value.split(',')[i]
+                              }
+                              string_decimal = parseFloat('0.'+fil.value.split(',')[fil.value.split(',').length-1]).toFixed(cant_decimal).split('.')[1]
+                            }
+
+                          }
+                          if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                              string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                              if(string_entero == ''){
+                                string_entero = '0'
+                              }
+                          }
+                          while (expTreEsp.test(string_entero)) {
+                             string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                            }
+
+                            string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                            fil.value = string_entero+string_decimal
+            /*------------------------------------------------------------------------------Verificar separadores invertidos-----------------------------------------------------------*/
+                      }else if(regexInv.test(fil.value)){
+                              string_entero = fil.value.split(sep_miles)[0].replaceAll(sep_decimal, sep_miles) //se asigna el separador de miles porq en este caso es el decimales
+                              if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                                  string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                              }
+                              if(cant_decimal > 0){
+                                string_decimal = fil.value.split(sep_miles)[1] //se asigna el separador de decimal porq en este caso es el miles
+                              }else{
+                                string_decimal = ''
+                              }
+                              string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                              fil.value = string_entero+string_decimal
+                              console.log('La nomenclatura inversa')
+            /*-----------------------------------------------------------------------------Ninguna de las anteriores-----------------------------------------------------------*/
+                      }else{
+
+
+                        string_entero = fil.value.split(sep_decimal)[0].replace(/[^0-9]/g, '')
+                        if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                            string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                        }
+                        if(cant_decimal > 0){
+                          string_decimal = parseFloat('0.'+fil.value.split(sep_decimal)[1]).toFixed(cant_decimal).split('.')[1]
+                        }else{
+                          string_decimal = ''
+                        }
+                        if(string_entero.substring(0,1) == '0' && string_entero.length > 1){
+                            string_entero = string_entero.split(sep_decimal)[0].replace(regexCero, '')
+                            if(string_entero == ''){
+                              string_entero = '0'
+                            }
+                        }
+
+                        while (expTreEsp.test(string_entero)) {
+                           string_entero = string_entero.replace(expTreEsp, '$1' + sep_miles + '$2');
+                          }
+
+                        string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
+                        fil.value = signo+string_entero+string_decimal
+                        console.log('Ninguna de las anteriores')
+                      }
+                      return true;
+                  }else{
+
+                    if(cant_decimal == 0 || fil.value == ''){
+                        fil.value = 0;
+                        return true;
+                    }else{
+                      fil.value = 0;
+                      alertmb("Ingrese un número válido",1,1,"Aceptar");
+                    }
+
+                  }
+                }else{
+                  console.log(fil.value,'Si posee el formato configurado por manejo cliente')
+                  return true;
+                }
+
+              }
+            /*Buscar la manera de cambiar*/
+
             $scope.asignarValorAng = function(campo, valor, index){
               let flag = false;
               let cantGrupos = $scope.docData.FORMA.GRUPO_CAMPOS;
@@ -1825,8 +2091,9 @@
                           cantGrupos[x].CAMPO[y].value=valor;
                           cantGrupos[x].CAMPO[y].change=true;
                           flag = true;
-                          if(cantGrupos[x].CAMPO[y].tipo == 'N' && $scope.stringToBoolean(cantGrupos[x].CAMPO[y].lectura) && !$scope.stringToBoolean(cantGrupos[x].CAMPO[y].escritura) ){ //aplica solo para campos lectura
-                            $scope.formatoNumberCliente(cantGrupos[x].CAMPO[y]);
+                          //if(cantGrupos[x].CAMPO[y].tipo == 'N' && $scope.stringToBoolean(cantGrupos[x].CAMPO[y].lectura) && !$scope.stringToBoolean(cantGrupos[x].CAMPO[y].escritura) ){ //aplica solo para campos lectura
+                          if(cantGrupos[x].CAMPO[y].tipo == 'N'){
+                            //$scope.formatoNumberCliente(cantGrupos[x].CAMPO[y]);
                             $scope.validarRangoNumero(cantGrupos[x].CAMPO[y]);
                           }
                         }
@@ -2390,8 +2657,8 @@
               let cant_decima_conact = campo.decimales==0?'':`(${sepDecConcat}\\d{1,${campo.decimales}})?`
               let cant_decima_conact_inv = campo.decimales==0?'':`(${sepMilesConcat}\\d{1,${campo.decimales}})?`
               //(?!0+${sepDecConcat}00) -->evita inicio con 0
-              let regex = new RegExp(`^(?=.*(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
-              let regexInv = new RegExp(`^(?=.*(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
+              let regex = new RegExp(`^-?(?=.*(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
+              let regexInv = new RegExp(`^-?(?=.*(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
               //let regex = new RegExp(`^(?=.{1,${cant_entero}}(${sepDecConcat}|$))(?!0(?!${sepDecConcat}))\\d{1,3}(${sepMilesConcat}\\d{3})*${cant_decima_conact}$`)
               //let regexInv = new RegExp(`^(?=.{1,${cant_entero}}(${sepMilesConcat}|$))(?!0(?!${sepMilesConcat}))\\d{1,3}(${sepDecConcat}\\d{3})*${cant_decima_conact_inv}$`) //validacion invertida
               let regexFormato = /[0-9\.,]/
@@ -2404,6 +2671,16 @@
               let regexCero = /^(0+)/
               console.log(fil.value,regex.test(fil.value))
               fil.value = ''+fil.value
+
+              /*Se agrega validacion para campos negativos*/
+              let regexNegativo = /^-/;
+              let signo = '';
+              /*Validar si el campo tienen signo negativo*/
+              if(regexNegativo.test(campo.value)){
+                signo = '-';
+              }
+
+
               /*Verifica si el campo no cumple con el formato de la configuracion del ambiente*/
               if(!regex.test(fil.value)){ //si no cumple se debe realizar la modificaciín para llevarlo al formato.
 
@@ -2536,7 +2813,7 @@
                         }
 
                       string_decimal = cant_decimal==0?'':sep_decimal+string_decimal
-                      fil.value = string_entero+string_decimal
+                      fil.value = signo+string_entero+string_decimal
                       console.log('Ninguna de las anteriores')
                     }
                     return true;
@@ -2662,16 +2939,16 @@
         	arrayDoc.push(formatMiles);
         	arrayDoc.push(formatDecimal);
         	arrayDoc.push(idioma);
-            $window.localStorage['ctxAmb'] = JSON.stringify(arrayDoc);
+            $window.sessionStorage['ctxAmb'] = JSON.stringify(arrayDoc);
         }
 
         function getCtxAmb() {
-        	var arrayDoc = JSON.parse($window.localStorage['ctxAmb']);
+        	var arrayDoc = JSON.parse($window.sessionStorage['ctxAmb']);
             return arrayDoc;
         }
 
         function delCtxAmb() {
-        	 $window.localStorage.removeItem('ctxAmb');
+        	 $window.sessionStorage.removeItem('ctxAmb');
         }
 
         function saveCtxOpenDoc(nuDoc,nuInst,wfa,read,name) {
@@ -2681,7 +2958,7 @@
         	arrayDoc.push(wfa);
         	arrayDoc.push(read);
         	arrayDoc.push(name);
-            $window.localStorage['ctxDoc'] = JSON.stringify(arrayDoc);
+            $window.sessionStorage['ctxDoc'] = JSON.stringify(arrayDoc);
         }
 
         function putNewDocument(){
@@ -2689,20 +2966,20 @@
           if(arrayDoc[1]==0){
             arrayDoc[1]=1
           }
-          $window.localStorage['ctxDoc'] = JSON.stringify(arrayDoc);
+          $window.sessionStorage['ctxDoc'] = JSON.stringify(arrayDoc);
         }
 
         function getCtxOpenDoc() {
-        	var arrayDoc = JSON.parse($window.localStorage['ctxDoc']);
+        	var arrayDoc = JSON.parse($window.sessionStorage['ctxDoc']);
             return arrayDoc;
         }
 
         function delCtxOpenDoc() {
-        	 $window.localStorage.removeItem('ctxDoc');
+        	 $window.sessionStorage.removeItem('ctxDoc');
         }
 
         function isOpenDoc() {
-            var ctx = $window.localStorage['ctxDoc'];
+            var ctx = $window.sessionStorage['ctxDoc'];
             if (ctx) {
                 return true;
             } else {
