@@ -1081,7 +1081,7 @@
 	                   });
 	            };
 
-              $scope.openAnexoConsultoriaModal = function(matriz, sec, sufijo, dirvir, dirfis,colruta, colver){
+              $scope.openAnexoConsultoriaModal = function(matriz, sec, sufijo, dirvir, dirfis,colruta, colver, sdoc = 0){
                 var modalInstance = $modal.open({
                     templateUrl: 'app/views/templates/modalUploadConsultoria.html?'+random,
                     keyboard: false,
@@ -1115,6 +1115,9 @@
                       },
                       tamanoAnexo: function(){
                         return $rootScope.tamanoAnexo;
+                      },
+                      sdoc: function(){
+                        return sdoc;
                       }
                     }
                   });
@@ -3342,7 +3345,7 @@ var ModalSendController = function($scope, $modalInstance, processEngine, sendOb
 
     };
 };
-var ModalUploadAnexoConsultoria = function($scope, $modalInstance, FileUploader, nudoc, sufijo, dirvir, dirfis, sec, colruta, matriz, colver,tamanoAnexo, processEngine) {
+var ModalUploadAnexoConsultoria = function($scope, $modalInstance, FileUploader, nudoc, sufijo, dirvir, dirfis, sec, colruta, matriz, colver,tamanoAnexo, sdoc, processEngine) {
 
   var uploader = $scope.uploader = new FileUploader({});
 
@@ -3363,7 +3366,8 @@ var ModalUploadAnexoConsultoria = function($scope, $modalInstance, FileUploader,
         sufijo : sufijo,
         directorioVir : dirvir,
         directorioFis : dirfis,
-        secuencia : sec
+        secuencia : sec,
+        sdoc:sdoc
       });
         //item.withCredentials = true;
         console.info('onBeforeUploadItem', item);

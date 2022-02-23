@@ -5,12 +5,13 @@ function AnexoArchivo(
     colBotAnex,//columna donde se muestra el boton para anexar
     colBotCons,//columna donde se muestra boton para consultar el archivo
     colRuta,//columna donde se guarda la ruta
-    sufijo//sufijo
+    sufijo,//sufijo
+    sdoc =0
 ){
       let fila = obtener_valor("fil"+matriz)
       let sec = fila;
       for(x=1;x<=fila;x++){
-            valor = '<a href=javascript:abrir_ventana("'+ matriz + '","' + x + '","' + sufijo + '",' + colBotCons + ',' + colRuta  + ',"'+dirvir+'","'+dirfis+'");><i class="fa fa-paperclip" style="color:black"></i></a>';
+            valor = '<a href=javascript:abrir_ventana("'+ matriz + '","' + x + '","' + sufijo + '",' + colBotCons + ',' + colRuta  + ',"'+dirvir+'","'+dirfis+'",'+sdoc+');><i class="fa fa-paperclip" style="color:black"></i></a>';
             asignar_valorM( matriz , valor , x , colBotAnex);
 
 
@@ -22,7 +23,7 @@ function AnexoArchivo(
       return true;
 }
 
-function abrir_ventana(matriz,sec,sufijo,colver,colruta,dirvir,dirfis){
+function abrir_ventana(matriz,sec,sufijo,colver,colruta,dirvir,dirfis, sdoc){
   console.log("ventana");
 
   let interpretar = sufijo.match(/\{([^{}]*[^{}]*)\}/g);
@@ -40,7 +41,7 @@ function abrir_ventana(matriz,sec,sufijo,colver,colruta,dirvir,dirfis){
     return false;
   }
 
-  angular.element($('[name=\"documentForm\"]')).scope().openAnexoConsultoriaModal(matriz, sec, sufijo, obtener_valor(dirvir), obtener_valor(dirfis),colruta, colver);
+  angular.element($('[name=\"documentForm\"]')).scope().openAnexoConsultoriaModal(matriz, sec, sufijo, obtener_valor(dirvir), obtener_valor(dirfis),colruta, colver, sdoc);
 //  asignar_valorM(matriz,"<a href=javascript:abrir_archivo(" + sec + ",'"+ matriz +"'," +  colruta +  ") ><i class='fa fa-file' style='color:black'></i>",sec,colver);
 }
 
