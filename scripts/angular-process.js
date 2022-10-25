@@ -108,7 +108,8 @@
         self.delWarning = delWarning;
         self.getCodeWarning = getCodeWarning;
         self.codeWarning = codeWarning;
-
+        self.userExt = userExt;
+        self.getUserExt = getUserExt;
         activate();
 
         function activate() {
@@ -139,6 +140,19 @@
 
         function numReq(numReq) {
             $window.sessionStorage['numReq'] = numReq;
+        }
+
+        function userExt(numReq) {
+            $window.sessionStorage['userExt'] = numReq;
+        }
+
+        function getUserExt() {
+        	var num = $window.sessionStorage['userExt'];
+        	if (num){
+        		return num;
+        	}else{
+        		return 0;
+        	}
         }
 
         function getNumReq() {

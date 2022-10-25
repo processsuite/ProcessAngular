@@ -181,6 +181,17 @@
                     controllerAs: 'vm'
                 }
             }
+        }).state('root.loginExt', {
+            cache: false,
+            url: 'loginExt/{hashUser}/{ambiente}',
+            views:{
+                'login@root':{
+                    templateUrl: 'app/views/sessions/loginExt.html?'+random,
+                    controller: 'LoginExtController',
+                    controllerAs: 'vm'
+                }
+            },
+            params: {'token': ''}
         })
         .state('root.login', {
             cache: false,

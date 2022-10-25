@@ -211,6 +211,7 @@
         }
 
         function activate() {
+          $scope.ticketService.userExt(0);//ingreso por sesion nommal
         	$scope.ticketService.resetListError();
 
             if (!!$state.params.environmentName) {

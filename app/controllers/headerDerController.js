@@ -22,7 +22,7 @@
         vm.goOpenDocument = goOpenDocument;
         vm.openModalCloseDocument = openModalCloseDocument;
         vm.openLink = openLink;
-
+        vm.usrExt = 0;
       /*  $rootScope.fchultconex=''
         $rootScope.ip=''*/
 
@@ -44,6 +44,7 @@
 
         function activate() {
     			if ($scope.ticketService.isAuthed()){
+            vm.usrExt = $scope.ticketService.getUserExt();
     				loadContext();
 
             /*Activacion de monitoreo de actividades en angular*/
