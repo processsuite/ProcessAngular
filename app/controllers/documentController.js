@@ -2378,14 +2378,16 @@
               selectedAjax: '&',
               searchEventAjax: '&',
               generarArchivo: '&',
-			  generarArchivoPDF: '&',
+			        generarArchivoPDF: '&',
               openLink: '&',
               formatoNumero:'&',
               setChangeForm:'&',
               depurar:'&',
               obtenerValorMang:'&',
               registrarCampodependienteLista: '&',
-              refrescarListasDepend:'&'
+              refrescarListasDepend:'&',
+              valorSelect:'&',
+              valorSelectMultiple:'&'
             },
             templateUrl: 'app/views/templates/matrizform.html?'+random,
             //link: function(scope, element, attr) {
@@ -2403,7 +2405,13 @@
                 	field.change =true;
                   $scope.setChangeForm({f:true})
               };
-
+            $scope.valorSelectMultipleM = function(field) {
+                  $scope.valorSelectMultiple({campo:field})
+              };
+              $scope.valorSelectM = function(field) {
+                console.log('matriz select ',field)
+                    $scope.valorSelect({campo:field})
+                };
               $scope.initList = function(list,field) {
                 //let listValue = list.OPCIONES.origen;
 

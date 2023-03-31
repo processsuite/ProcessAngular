@@ -45,7 +45,9 @@
         function activate() {
     			if ($scope.ticketService.isAuthed()){
             vm.usrExt = $scope.ticketService.getUserExt();
-    				loadContext();
+            if('root.main.documentcreate' != $state.current.name && 'root.main.documentopen' != $state.current.name  ){
+    				  loadContext();
+            }      
 
             /*Activacion de monitoreo de actividades en angular*/
               Idle.watch();
